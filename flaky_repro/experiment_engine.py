@@ -7,7 +7,6 @@ def worker_experiment(target_test:str, runs:int, workers_count:list):
     
     for worker in workers_count:
         result = run_parallel_test(target_test, runs, worker)
-        json_experiments(result, runs, "Parallel",target_test, worker)
         
         all_worker_results.append({
             "worker":worker,
