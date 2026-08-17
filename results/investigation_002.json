@@ -1,0 +1,23 @@
+{
+    "test": {
+        "path": "examples/test_timing_flaky.py"
+    },
+    "configuration": {
+        "runs": 10,
+        "mode": "Parallel",
+        "workers": 3
+    },
+    "summary": {
+        "total_runs": 10,
+        "passed": 3,
+        "failed": 7,
+        "failure_rate": 70.0,
+        "classification": "Highly Flaky"
+    },
+    "failure_evidence": {
+        "failing_line": "14",
+        "assertion": "0.06213092803955078 < 0.05",
+        "observed_min": 0.05,
+        "observed_max": 0.1
+    }
+}

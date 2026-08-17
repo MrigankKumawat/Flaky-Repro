@@ -1,0 +1,23 @@
+{
+    "test": {
+        "path": "examples/testing_timing_flaksy.py"
+    },
+    "configuration": {
+        "runs": 10,
+        "mode": "Sequential",
+        "workers": null
+    },
+    "summary": {
+        "total_runs": 10,
+        "passed": 0,
+        "failed": 10,
+        "failure_rate": 100.0,
+        "classification": "Consistently Failing"
+    },
+    "failure_evidence": {
+        "failing_line": "Unknown",
+        "assertion": "No assertion isolated.",
+        "observed_min": null,
+        "observed_max": null
+    }
+}
