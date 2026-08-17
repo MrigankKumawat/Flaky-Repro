@@ -3,7 +3,7 @@ import os
 import re
 import subprocess
 from concurrent.futures import ThreadPoolExecutor, as_completed
-
+import time
 
 def classify_flakiness(failure_rate: float) -> str:
     if failure_rate == 0.0:
@@ -38,8 +38,11 @@ def find_next_investigation_number(
     return f"{prefix}_{next_num:03d}.json"
 
 
-def run_single_test(target_test: str, run_index: int) -> dict:
+def run_single_test(target_test: str, run_index: int, timing_delay = 0) -> dict:
 
+    if timing_delay > 0:
+        time.sleep(timing_delay)
+    
     res = subprocess.run(
         ["pytest", target_test], capture_output=True, text=True
     )
@@ -73,13 +76,13 @@ def run_single_test(target_test: str, run_index: int) -> dict:
     }
 
 
-def run_sequential_test(target_test: str, runs: int):
+def run_sequential_test(target_test: str, runs: int, timing_delay):
     passed = 0
     failed = 0
     failure_evidence = []
 
     for i in range(1, runs + 1):
-        res = run_single_test(target_test, i)
+        res = run_single_test(target_test, i, timing_delay)
         if res["passed"]:
             passed += 1
         else:
@@ -208,7 +211,7 @@ def json_experiments(result, runs, mode, target_test, workers):
             json.dump(parallel, f, indent=4)
 
 
-def run_parallel_test(target_test: str, runs: int, max_workers: int = 4):
+def run_parallel_test(target_test: str, runs: int, max_workers: int = 4, timing_delay: float = 0.0):
 
     passed = 0
     failed = 0
@@ -217,7 +220,7 @@ def run_parallel_test(target_test: str, runs: int, max_workers: int = 4):
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
 
         futures = [
-            executor.submit(run_single_test, target_test, i)
+            executor.submit(run_single_test, target_test, i, timing_delay)
             for i in range(1, runs + 1)
         ]
 
