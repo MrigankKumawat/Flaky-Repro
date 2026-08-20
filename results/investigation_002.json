@@ -1,23 +1,23 @@
 {
     "test": {
-        "path": "examples/test_timing_flaky.py"
+        "path": "examples/test_timing_flaky.py::test_timing_behavior"
     },
     "configuration": {
-        "runs": 10,
+        "runs": 5,
         "mode": "Parallel",
-        "workers": 3
+        "workers": 4
     },
     "summary": {
-        "total_runs": 10,
-        "passed": 3,
-        "failed": 7,
-        "failure_rate": 70.0,
-        "classification": "Highly Flaky"
+        "total_runs": 5,
+        "passed": 0,
+        "failed": 5,
+        "failure_rate": 100.0,
+        "classification": "Consistently Failing"
     },
     "failure_evidence": {
         "failing_line": "14",
-        "assertion": "0.06213092803955078 < 0.05",
-        "observed_min": 0.05,
-        "observed_max": 0.1
+        "assertion": "0.13285160064697266 < 0.05",
+        "observed_min": 0.08,
+        "observed_max": 0.15
     }
 }
