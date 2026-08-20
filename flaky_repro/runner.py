@@ -103,46 +103,6 @@ def run_sequential_test(target_test: str, runs: int, timing_delay):
         "evidence": failure_evidence,
     }
 
-def run_parallel_test(target_test: str, runs: int, max_workers: int = 4, timing_delay: float = 0.0):
-
-    passed = 0
-    failed = 0
-    failure_evidence = []
-
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
-
-        futures = [
-            executor.submit(run_single_test, target_test, i, timing_delay)
-            for i in range(1, runs + 1)
-        ]
-
-        for future in as_completed(futures):
-
-            res = future.result()
-
-            if res["passed"]:
-                passed += 1
-
-            else:
-                failed += 1
-                failure_evidence.append(res["evidence"])
-
-    failure_evidence.sort(key=lambda x: x["run_index"])
-
-    for count, item in enumerate(failure_evidence, start=1):
-        item["failure_count"] = count
-
-    failure_rate = (failed / runs) * 100 if runs > 0 else 0.0
-
-    return {
-        "total_runs": runs,
-        "passed": passed,
-        "failed": failed,
-        "failure_rate": round(failure_rate, 2),
-        "rate_classification": classify_flakiness(failure_rate),
-        "evidence": failure_evidence,
-    }
-
 
 def json_experiments(result, runs, mode, target_test, workers):
     folder = "results"
@@ -250,3 +210,42 @@ def json_experiments(result, runs, mode, target_test, workers):
         with open(filepath, "w", encoding="utf-8") as f:
             json.dump(parallel, f, indent=4)
 
+
+def run_parallel_test(target_test: str, runs: int, max_workers: int = 4, timing_delay: float = 0.0):
+    passed = 0
+    failed = 0
+    failure_evidence = []
+
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+
+        futures = [
+            executor.submit(run_single_test, target_test, i, timing_delay)
+            for i in range(1, runs + 1)
+        ]
+
+        for future in as_completed(futures):
+
+            res = future.result()
+
+            if res["passed"]:
+                passed += 1
+
+            else:
+                failed += 1
+                failure_evidence.append(res["evidence"])
+
+    failure_evidence.sort(key=lambda x: x["run_index"])
+
+    for count, item in enumerate(failure_evidence, start=1):
+        item["failure_count"] = count
+
+    failure_rate = (failed / runs) * 100 if runs > 0 else 0.0
+
+    return {
+        "total_runs": runs,
+        "passed": passed,
+        "failed": failed,
+        "failure_rate": round(failure_rate, 2),
+        "rate_classification": classify_flakiness(failure_rate),
+        "evidence": failure_evidence,
+    }

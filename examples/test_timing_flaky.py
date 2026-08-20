@@ -7,7 +7,7 @@ def test_timing_behavior():
 
     # Simulate an operation with variable execution time
     time.sleep(random.uniform(0.01, 0.08))
-    time.sleep(0.02)
+    time.sleep(0.03)
     elapsed = time.time() - start
 
     # Sometimes the operation will exceed this threshold
