@@ -500,6 +500,8 @@ def analyze_repeated_candidate(
 
         effects.append(compare_effect)
 
+    consistency_analysis = calculate_consistency(effects=effects)
+
 
     total_repetitions = len(failure_rates)
 
@@ -531,281 +533,172 @@ def analyze_repeated_candidate(
                 "range": failure_rate_range
             },
 
-            "effects": effects
+            "effects": effects,
+            "consistency":consistency_analysis
         }
     }
+
+def calculate_consistency(effects:list):
+    if effects is None:
+        return{
+            "total_repetitions": 0,
+            "increased_count": 0,
+            "rate_label":None,
+            "consistency_rate": 0.0
+        }
+    increased_count = 0
+    for effect in effects:
+        effect_failure_rate = effect['comparison']['failure_rate_delta']
+
+        if effect_failure_rate > 0:
+            rate_label = "Increased"
+            increased_count+=1
+        elif effect_failure_rate <= 0:
+            rate_label = "Not increased"
+
+    total_repetitions = len(effects)
+    consistency_rate = (increased_count/total_repetitions) * 100 if total_repetitions !=0.0 else 0.0
+
+    return{
+        "total_repetitions":total_repetitions,
+        "increased_count":increased_count,
+        "rate_label":rate_label,
+        "consistency_rate":consistency_rate
+    }
+
+def confirm_candidate(repeated_analysis):
+    failure_rate_deltas = []
+
+    consistency_rate = repeated_analysis['analysis']['consistency']['consistency_rate']
+    effects = repeated_analysis["analysis"]["effects"]
+
+    for effect in effects:
+        delta = effect["comparison"]["failure_rate_delta"]
+        failure_rate_deltas.append(delta)
+
+    average_effect = sum(failure_rate_deltas) / len(failure_rate_deltas)
+
+    if consistency_rate >= 80 and average_effect > 0:
+        classification = "Confirmed"
+    elif consistency_rate >= 50 and average_effect > 0:
+        classification = "Weak"
+    else:
+        classification = "Rejected"
+
+    return{
+        "classification":classification,
+        "consistency_rate":consistency_rate,
+        "average_effect":round(average_effect, 2),
+    }
+
 
 def main():
 
     print("\n" + "=" * 60)
-    print("       REPEATED CANDIDATE ANALYSIS TEST")
+    print("          CANDIDATE CONFIRMATION TEST")
     print("=" * 60)
 
-    # --------------------------------------------------
-    # BASELINE
-    # --------------------------------------------------
+    def make_analysis(consistency_rate, deltas):
 
-    baseline_result = {
-        "total_runs": 5,
-        "passed": 4,
-        "failed": 1,
-        "failure_rate": 20.0
-    }
+        effects = []
 
-    # --------------------------------------------------
-    # SIMULATED REPEATED RESULT
-    # --------------------------------------------------
+        for delta in deltas:
+            effects.append({
+                "comparison": {
+                    "failure_rate_delta": delta
+                }
+            })
 
-    repeated_result = {
-        "candidate": {
-            "type": "mode",
-            "condition": {
-                "mode": "Parallel",
-                "workers": 8
+        return {
+            "analysis": {
+                "consistency": {
+                    "consistency_rate": consistency_rate
+                },
+                "effects": effects
             }
+        }
+
+    test_cases = [
+
+        # CONFIRMED
+        {
+            "name": "Strong candidate",
+            "input": make_analysis(100.0, [60.0, 80.0, 60.0]),
+            "expected": "Confirmed"
         },
 
-        "repetitions": [
+        # WEAK
+        {
+            "name": "Weak candidate",
+            "input": make_analysis(66.67, [20.0, -5.0, 30.0]),
+            "expected": "Weak"
+        },
 
-            {
-                "run_index": 1,
-                "result": {
-                    "total_runs": 5,
-                    "passed": 1,
-                    "failed": 4,
-                    "failure_rate": 80.0
-                }
-            },
+        # REJECTED
+        {
+            "name": "Rejected candidate",
+            "input": make_analysis(33.33, [20.0, -10.0, -5.0]),
+            "expected": "Rejected"
+        },
 
-            {
-                "run_index": 2,
-                "result": {
-                    "total_runs": 5,
-                    "passed": 0,
-                    "failed": 5,
-                    "failure_rate": 100.0
-                }
-            },
+        # ZERO EFFECT
+        {
+            "name": "No effect",
+            "input": make_analysis(100.0, [0.0, 0.0, 0.0]),
+            "expected": "Rejected"
+        }
+    ]
 
-            {
-                "run_index": 3,
-                "result": {
-                    "total_runs": 5,
-                    "passed": 1,
-                    "failed": 4,
-                    "failure_rate": 80.0
-                }
-            }
-        ]
-    }
+    passed = 0
 
-    print("\n--- BASELINE ---")
+    print()
 
-    print(
-        f"Failure Rate : "
-        f"{baseline_result['failure_rate']}%"
-    )
+    for test in test_cases:
 
-    print("\n--- CANDIDATE ---")
+        result = confirm_candidate(test["input"])
 
-    print(
-        f"Type      : "
-        f"{repeated_result['candidate']['type']}"
-    )
+        actual = result["classification"]
 
-    print(
-        f"Condition : "
-        f"{repeated_result['candidate']['condition']}"
-    )
-
-    # --------------------------------------------------
-    # ANALYSIS
-    # --------------------------------------------------
-
-    print("\n" + "-" * 60)
-    print("RUNNING ANALYSIS")
-    print("-" * 60)
-
-    analysis_result = analyze_repeated_candidate(
-        baseline_result=baseline_result,
-        repeated_result=repeated_result
-    )
-
-    # --------------------------------------------------
-    # DISPLAY FAILURE RATE ANALYSIS
-    # --------------------------------------------------
-
-    print("\n--- FAILURE RATE ANALYSIS ---")
-
-    analysis = analysis_result["analysis"]
-
-    print(
-        f"Total repetitions : "
-        f"{analysis['total_repetitions']}"
-    )
-
-    print(
-        f"Average failure rate : "
-        f"{analysis['failure_rate']['average']}%"
-    )
-
-    print(
-        f"Minimum failure rate : "
-        f"{analysis['failure_rate']['minimum']}%"
-    )
-
-    print(
-        f"Maximum failure rate : "
-        f"{analysis['failure_rate']['maximum']}%"
-    )
-
-    print(
-        f"Failure rate range : "
-        f"{analysis['failure_rate']['range']} pp"
-    )
-
-    # --------------------------------------------------
-    # DISPLAY INDIVIDUAL EFFECTS
-    # --------------------------------------------------
-
-    print("\n--- REPETITION EFFECTS ---")
-
-    for index, effect in enumerate(
-        analysis["effects"],
-        start=1
-    ):
+        if actual == test["expected"]:
+            print(f"PASS | {test['name']}")
+            passed += 1
+        else:
+            print(f"FAIL | {test['name']}")
 
         print(
-            f"\nRepetition {index}"
+            f"   Consistency : "
+            f"{result['consistency_rate']}%"
         )
 
         print(
-            f"Effect : {effect}"
+            f"   Avg Effect  : "
+            f"{result['average_effect']} pp"
         )
 
-    # --------------------------------------------------
-    # VALIDATION
-    # --------------------------------------------------
+        print(
+            f"   Expected    : "
+            f"{test['expected']}"
+        )
 
-    print("\n" + "=" * 60)
-    print("             TEST VALIDATION")
+        print(
+            f"   Actual      : "
+            f"{actual}"
+        )
+
+        print()
+
+    print("=" * 60)
+    print("             TEST SUMMARY")
     print("=" * 60)
 
-    expected_failure_rates = [
-        80.0,
-        100.0,
-        80.0
-    ]
+    print(f"Total tests : {len(test_cases)}")
+    print(f"Passed      : {passed}")
+    print(f"Failed      : {len(test_cases) - passed}")
 
-    expected_average = 86.66666666666667
-    expected_minimum = 80.0
-    expected_maximum = 100.0
-    expected_range = 20.0
-
-    actual_rates = [
-        repetition["result"]["failure_rate"]
-        for repetition
-        in analysis_result["repetitions"]
-    ]
-
-    print(
-        f"Expected failure rates : "
-        f"{expected_failure_rates}"
-    )
-
-    print(
-        f"Actual failure rates   : "
-        f"{actual_rates}"
-    )
-
-    print(
-        f"\nExpected average : "
-        f"{expected_average}"
-    )
-
-    print(
-        f"Actual average   : "
-        f"{analysis['failure_rate']['average']}"
-    )
-
-    print(
-        f"\nExpected minimum : "
-        f"{expected_minimum}"
-    )
-
-    print(
-        f"Actual minimum   : "
-        f"{analysis['failure_rate']['minimum']}"
-    )
-
-    print(
-        f"\nExpected maximum : "
-        f"{expected_maximum}"
-    )
-
-    print(
-        f"Actual maximum   : "
-        f"{analysis['failure_rate']['maximum']}"
-    )
-
-    print(
-        f"\nExpected range : "
-        f"{expected_range}"
-    )
-
-    print(
-        f"Actual range   : "
-        f"{analysis['failure_rate']['range']}"
-    )
-
-    # --------------------------------------------------
-    # FINAL CHECK
-    # --------------------------------------------------
-
-    rates_correct = (
-        actual_rates == expected_failure_rates
-    )
-
-    average_correct = abs(
-        analysis["failure_rate"]["average"]
-        - expected_average
-    ) < 0.001
-
-    minimum_correct = (
-        analysis["failure_rate"]["minimum"]
-        == expected_minimum
-    )
-
-    maximum_correct = (
-        analysis["failure_rate"]["maximum"]
-        == expected_maximum
-    )
-
-    range_correct = (
-        analysis["failure_rate"]["range"]
-        == expected_range
-    )
-
-    effects_correct = (
-        len(analysis["effects"]) == 3
-    )
-
-    if (
-        rates_correct
-        and average_correct
-        and minimum_correct
-        and maximum_correct
-        and range_correct
-        and effects_correct
-    ):
-        print(
-            "\n✅ REPEATED ANALYSIS TEST PASSED"
-        )
-
+    if passed == len(test_cases):
+        print("\n✅ ALL CANDIDATE CONFIRMATION TESTS PASSED")
     else:
-        print(
-            "\n❌ REPEATED ANALYSIS TEST FAILED"
-        )
+        print("\n❌ SOME TESTS FAILED")
 
     print("=" * 60)
 
