@@ -1,0 +1,748 @@
+================================================================================
+      RAW PIPELINE PIPELINE CAPTURE: STABLE CONTROL
+================================================================================
+
+--- CONFIGURATION ---
+Test Target: examples/functional_validation/test_stable_validation.py::test_stable
+Runs: 10
+Investigation mode: Parallel
+Investigation workers: [2, 4, 8]
+Investigation timing delays: [10, 20]
+Repetition workers: 4
+
+--- STDOUT LOGS ---
+
+============================================================
+        DEBUG: CANDIDATE CONFIRMATION DETAILS
+============================================================
+
+
+--- STDERR LOGS ---
+
+
+--- FINAL DICTIONARY RESULT ---
+{
+  "target_test": "examples/functional_validation/test_stable_validation.py::test_stable",
+  "baseline": {
+    "total_runs": 10,
+    "passed": 10,
+    "failed": 0,
+    "failure_rate": 0.0,
+    "rate_classification": "Stable",
+    "evidence": []
+  },
+  "investigation": {
+    "worker_experiment": [
+      {
+        "worker": 2,
+        "result": {
+          "total_runs": 10,
+          "passed": 10,
+          "failed": 0,
+          "failure_rate": 0.0,
+          "rate_classification": "Stable",
+          "evidence": []
+        }
+      },
+      {
+        "worker": 4,
+        "result": {
+          "total_runs": 10,
+          "passed": 10,
+          "failed": 0,
+          "failure_rate": 0.0,
+          "rate_classification": "Stable",
+          "evidence": []
+        }
+      },
+      {
+        "worker": 8,
+        "result": {
+          "total_runs": 10,
+          "passed": 10,
+          "failed": 0,
+          "failure_rate": 0.0,
+          "rate_classification": "Stable",
+          "evidence": []
+        }
+      }
+    ],
+    "timing_experiment": [
+      {
+        "timing_delay": 10,
+        "result": {
+          "total_runs": 10,
+          "passed": 10,
+          "failed": 0,
+          "failure_rate": 0.0,
+          "rate_classification": "Stable",
+          "evidence": []
+        }
+      },
+      {
+        "timing_delay": 20,
+        "result": {
+          "total_runs": 10,
+          "passed": 10,
+          "failed": 0,
+          "failure_rate": 0.0,
+          "rate_classification": "Stable",
+          "evidence": []
+        }
+      }
+    ],
+    "mode_experiment": [
+      {
+        "mode": "Sequential",
+        "workers": 1,
+        "result": {
+          "total_runs": 10,
+          "passed": 10,
+          "failed": 0,
+          "failure_rate": 0.0,
+          "rate_classification": "Stable",
+          "evidence": []
+        }
+      },
+      {
+        "mode": "Parallel",
+        "workers": 4,
+        "result": {
+          "total_runs": 10,
+          "passed": 10,
+          "failed": 0,
+          "failure_rate": 0.0,
+          "rate_classification": "Stable",
+          "evidence": []
+        }
+      }
+    ]
+  },
+  "candidates": {
+    "raw": [
+      {
+        "type": "worker",
+        "condition": {
+          "worker": 2
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 10,
+          "failed": 0,
+          "failure_rate": 0.0,
+          "rate_classification": "Stable",
+          "evidence": []
+        }
+      },
+      {
+        "type": "worker",
+        "condition": {
+          "worker": 4
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 10,
+          "failed": 0,
+          "failure_rate": 0.0,
+          "rate_classification": "Stable",
+          "evidence": []
+        }
+      },
+      {
+        "type": "worker",
+        "condition": {
+          "worker": 8
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 10,
+          "failed": 0,
+          "failure_rate": 0.0,
+          "rate_classification": "Stable",
+          "evidence": []
+        }
+      },
+      {
+        "type": "timing_delay",
+        "condition": {
+          "timing_delay": 10,
+          "mode": "Parallel",
+          "workers": 2
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 10,
+          "failed": 0,
+          "failure_rate": 0.0,
+          "rate_classification": "Stable",
+          "evidence": []
+        }
+      },
+      {
+        "type": "timing_delay",
+        "condition": {
+          "timing_delay": 20,
+          "mode": "Parallel",
+          "workers": 2
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 10,
+          "failed": 0,
+          "failure_rate": 0.0,
+          "rate_classification": "Stable",
+          "evidence": []
+        }
+      },
+      {
+        "type": "mode",
+        "condition": {
+          "mode": "Sequential",
+          "workers": 1
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 10,
+          "failed": 0,
+          "failure_rate": 0.0,
+          "rate_classification": "Stable",
+          "evidence": []
+        }
+      },
+      {
+        "type": "mode",
+        "condition": {
+          "mode": "Parallel",
+          "workers": 4
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 10,
+          "failed": 0,
+          "failure_rate": 0.0,
+          "rate_classification": "Stable",
+          "evidence": []
+        }
+      }
+    ],
+    "validation": [
+      {
+        "candidate": {
+          "type": "worker",
+          "condition": {
+            "worker": 2
+          },
+          "result": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0,
+            "rate_classification": "Stable",
+            "evidence": []
+          }
+        },
+        "validation": {
+          "valid": true,
+          "reason": null
+        }
+      },
+      {
+        "candidate": {
+          "type": "worker",
+          "condition": {
+            "worker": 4
+          },
+          "result": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0,
+            "rate_classification": "Stable",
+            "evidence": []
+          }
+        },
+        "validation": {
+          "valid": true,
+          "reason": null
+        }
+      },
+      {
+        "candidate": {
+          "type": "worker",
+          "condition": {
+            "worker": 8
+          },
+          "result": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0,
+            "rate_classification": "Stable",
+            "evidence": []
+          }
+        },
+        "validation": {
+          "valid": true,
+          "reason": null
+        }
+      },
+      {
+        "candidate": {
+          "type": "timing_delay",
+          "condition": {
+            "timing_delay": 10,
+            "mode": "Parallel",
+            "workers": 2
+          },
+          "result": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0,
+            "rate_classification": "Stable",
+            "evidence": []
+          }
+        },
+        "validation": {
+          "valid": true,
+          "reason": null
+        }
+      },
+      {
+        "candidate": {
+          "type": "timing_delay",
+          "condition": {
+            "timing_delay": 20,
+            "mode": "Parallel",
+            "workers": 2
+          },
+          "result": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0,
+            "rate_classification": "Stable",
+            "evidence": []
+          }
+        },
+        "validation": {
+          "valid": true,
+          "reason": null
+        }
+      },
+      {
+        "candidate": {
+          "type": "mode",
+          "condition": {
+            "mode": "Sequential",
+            "workers": 1
+          },
+          "result": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0,
+            "rate_classification": "Stable",
+            "evidence": []
+          }
+        },
+        "validation": {
+          "valid": true,
+          "reason": null
+        }
+      },
+      {
+        "candidate": {
+          "type": "mode",
+          "condition": {
+            "mode": "Parallel",
+            "workers": 4
+          },
+          "result": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0,
+            "rate_classification": "Stable",
+            "evidence": []
+          }
+        },
+        "validation": {
+          "valid": true,
+          "reason": null
+        }
+      }
+    ],
+    "valid": [
+      {
+        "type": "worker",
+        "condition": {
+          "worker": 2
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 10,
+          "failed": 0,
+          "failure_rate": 0.0,
+          "rate_classification": "Stable",
+          "evidence": []
+        }
+      },
+      {
+        "type": "worker",
+        "condition": {
+          "worker": 4
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 10,
+          "failed": 0,
+          "failure_rate": 0.0,
+          "rate_classification": "Stable",
+          "evidence": []
+        }
+      },
+      {
+        "type": "worker",
+        "condition": {
+          "worker": 8
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 10,
+          "failed": 0,
+          "failure_rate": 0.0,
+          "rate_classification": "Stable",
+          "evidence": []
+        }
+      },
+      {
+        "type": "timing_delay",
+        "condition": {
+          "timing_delay": 10,
+          "mode": "Parallel",
+          "workers": 2
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 10,
+          "failed": 0,
+          "failure_rate": 0.0,
+          "rate_classification": "Stable",
+          "evidence": []
+        }
+      },
+      {
+        "type": "timing_delay",
+        "condition": {
+          "timing_delay": 20,
+          "mode": "Parallel",
+          "workers": 2
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 10,
+          "failed": 0,
+          "failure_rate": 0.0,
+          "rate_classification": "Stable",
+          "evidence": []
+        }
+      },
+      {
+        "type": "mode",
+        "condition": {
+          "mode": "Sequential",
+          "workers": 1
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 10,
+          "failed": 0,
+          "failure_rate": 0.0,
+          "rate_classification": "Stable",
+          "evidence": []
+        }
+      },
+      {
+        "type": "mode",
+        "condition": {
+          "mode": "Parallel",
+          "workers": 4
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 10,
+          "failed": 0,
+          "failure_rate": 0.0,
+          "rate_classification": "Stable",
+          "evidence": []
+        }
+      }
+    ],
+    "prepared": [
+      {
+        "type": "worker",
+        "condition": {
+          "worker": 2
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 10,
+          "failed": 0,
+          "failure_rate": 0.0,
+          "rate_classification": "Stable",
+          "evidence": []
+        },
+        "classification": "NO_SIGNAL",
+        "effect": {
+          "baseline": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0
+          },
+          "experiment": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0
+          },
+          "comparison": {
+            "failure_rate_delta": 0.0,
+            "relative_change": null,
+            "failure_count_delta": 0,
+            "pass_rate_delta": 0.0,
+            "direction": "Unchanged"
+          }
+        }
+      },
+      {
+        "type": "worker",
+        "condition": {
+          "worker": 4
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 10,
+          "failed": 0,
+          "failure_rate": 0.0,
+          "rate_classification": "Stable",
+          "evidence": []
+        },
+        "classification": "NO_SIGNAL",
+        "effect": {
+          "baseline": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0
+          },
+          "experiment": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0
+          },
+          "comparison": {
+            "failure_rate_delta": 0.0,
+            "relative_change": null,
+            "failure_count_delta": 0,
+            "pass_rate_delta": 0.0,
+            "direction": "Unchanged"
+          }
+        }
+      },
+      {
+        "type": "worker",
+        "condition": {
+          "worker": 8
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 10,
+          "failed": 0,
+          "failure_rate": 0.0,
+          "rate_classification": "Stable",
+          "evidence": []
+        },
+        "classification": "NO_SIGNAL",
+        "effect": {
+          "baseline": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0
+          },
+          "experiment": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0
+          },
+          "comparison": {
+            "failure_rate_delta": 0.0,
+            "relative_change": null,
+            "failure_count_delta": 0,
+            "pass_rate_delta": 0.0,
+            "direction": "Unchanged"
+          }
+        }
+      },
+      {
+        "type": "timing_delay",
+        "condition": {
+          "timing_delay": 10,
+          "mode": "Parallel",
+          "workers": 2
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 10,
+          "failed": 0,
+          "failure_rate": 0.0,
+          "rate_classification": "Stable",
+          "evidence": []
+        },
+        "classification": "NO_SIGNAL",
+        "effect": {
+          "baseline": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0
+          },
+          "experiment": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0
+          },
+          "comparison": {
+            "failure_rate_delta": 0.0,
+            "relative_change": null,
+            "failure_count_delta": 0,
+            "pass_rate_delta": 0.0,
+            "direction": "Unchanged"
+          }
+        }
+      },
+      {
+        "type": "timing_delay",
+        "condition": {
+          "timing_delay": 20,
+          "mode": "Parallel",
+          "workers": 2
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 10,
+          "failed": 0,
+          "failure_rate": 0.0,
+          "rate_classification": "Stable",
+          "evidence": []
+        },
+        "classification": "NO_SIGNAL",
+        "effect": {
+          "baseline": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0
+          },
+          "experiment": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0
+          },
+          "comparison": {
+            "failure_rate_delta": 0.0,
+            "relative_change": null,
+            "failure_count_delta": 0,
+            "pass_rate_delta": 0.0,
+            "direction": "Unchanged"
+          }
+        }
+      },
+      {
+        "type": "mode",
+        "condition": {
+          "mode": "Sequential",
+          "workers": 1
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 10,
+          "failed": 0,
+          "failure_rate": 0.0,
+          "rate_classification": "Stable",
+          "evidence": []
+        },
+        "classification": "NO_SIGNAL",
+        "effect": {
+          "baseline": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0
+          },
+          "experiment": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0
+          },
+          "comparison": {
+            "failure_rate_delta": 0.0,
+            "relative_change": null,
+            "failure_count_delta": 0,
+            "pass_rate_delta": 0.0,
+            "direction": "Unchanged"
+          }
+        }
+      },
+      {
+        "type": "mode",
+        "condition": {
+          "mode": "Parallel",
+          "workers": 4
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 10,
+          "failed": 0,
+          "failure_rate": 0.0,
+          "rate_classification": "Stable",
+          "evidence": []
+        },
+        "classification": "NO_SIGNAL",
+        "effect": {
+          "baseline": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0
+          },
+          "experiment": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0
+          },
+          "comparison": {
+            "failure_rate_delta": 0.0,
+            "relative_change": null,
+            "failure_count_delta": 0,
+            "pass_rate_delta": 0.0,
+            "direction": "Unchanged"
+          }
+        }
+      }
+    ],
+    "ranked": [],
+    "top": []
+  },
+  "candidate_confirmations": [],
+  "confirmed_candidates": [],
+  "candidate_reproductions": []
+}

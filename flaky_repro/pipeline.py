@@ -15,17 +15,21 @@ from flaky_repro.reproduction_engine import (
     analyze_reproduction,
     classify_reproduction,
 )
+from flaky_repro.formatting import print_pipeline_result
 
 
 def run_pipeline(
     target_test: str,
-    runs: int,
+    baseline_runs: int,
+    investigation_runs: int,
+    confirmation_runs: int,
+    reproduction_runs: int,
     investigation_mode: str,
     investigation_workers: list,
     investigation_timing_delays: list,
     top_n: int = 3,
-    repeated_runs: int = 3,
-    reproduction_runs: int = 3,
+    confirmation_repetitions: int = 3,
+    reproduction_repetitions: int = 3,
     repetition_mode: str = "Parallel",
     repetition_workers: int = 4,
 ):
@@ -38,19 +42,26 @@ def run_pipeline(
     """
 
     # ---- BASELINE ----------------------------------------------------
-    baseline_result = run_sequential_test(target_test, runs, timing_delay=0)
+    print("\nRunning Baseline...")
+    baseline_result = run_sequential_test(target_test, baseline_runs, timing_delay=0)
 
     # ---- INVESTIGATION -------------------------------------------------
+    print("\nRunning Investigation...")
     investigation_result = run_initial_investigation(
         target_test=target_test,
-        runs=runs,
+        runs=investigation_runs,
         mode=investigation_mode,
         workers_count=investigation_workers,
         timing_delay=investigation_timing_delays,
+        sequential_result=baseline_result
     )
 
     # ---- CANDIDATE PREPARATION -----------------------------------------
-    raw_candidates = normalize_investigation(investigation_result)
+    raw_candidates = normalize_investigation(
+        investigation_result,
+        investigation_mode,
+        investigation_workers[0]
+    )
 
     # ---- CANDIDATE VALIDATION -------------------------------------------
     validation_report = []
@@ -73,12 +84,14 @@ def run_pipeline(
     # ---- REPEATED CANDIDATE ANALYSIS / CONFIRMATION -----------------------
     candidate_confirmations = []
     confirmed_candidates = []
+    if top_candidates:
+        print("\nRunning Candidate Repetitions...")
     for candidate in top_candidates:
         repeated_result = run_candidate_repetitions(
             candidate,
             target_test,
-            runs,
-            repeated_runs,
+            confirmation_runs,
+            confirmation_repetitions,
             repetition_mode,
             repetition_workers,
         )
@@ -95,33 +108,19 @@ def run_pipeline(
 
         if confirmation["classification"] == "Confirmed":
             confirmed_candidates.append(confirmation_record)
-    print("\n" + "=" * 60)
-    print("        DEBUG: CANDIDATE CONFIRMATION DETAILS")
-    print("=" * 60)
-
-    for record in candidate_confirmations:
-
-        print("\n" + "-" * 60)
-
-        print("CANDIDATE:")
-        print(record["candidate"])
-
-        print("\nREPEATED ANALYSIS:")
-        print(record["repeated_analysis"])
-
-        print("\nCONFIRMATION:")
-        print(record["confirmation"])
     # ---- REPRODUCTION / REPRODUCTION ANALYSIS / CLASSIFICATION -------------
     # Only candidates that were CONFIRMED get reproduced.
     candidate_reproductions = []
+    if confirmed_candidates:
+        print("\nRunning Reproductions...")
     for confirmation_record in confirmed_candidates:
         candidate = confirmation_record["candidate"]
 
         reproduction_result = run_reproduction(
             candidate,
             target_test,
-            runs,
             reproduction_runs,
+            reproduction_repetitions,
             repetition_mode,
             repetition_workers,
         )
@@ -155,11 +154,14 @@ def run_pipeline(
     
 def main():
 
-    target_test = "examples/test_timing_flaky.py::test_timing_behavior"
+    target_test = "examples/functional_validation/test_worker_validation.py::test_worker_sensitive"
 
     result = run_pipeline(
         target_test=target_test,
-        runs=5,
+        baseline_runs=20,
+        investigation_runs=20,
+        confirmation_runs=20,
+        reproduction_runs=40,
 
         investigation_mode="Parallel",
         investigation_workers=[2, 4, 8],
@@ -167,69 +169,14 @@ def main():
 
         top_n=3,
 
-        repeated_runs=3,
-        reproduction_runs=3,
+        confirmation_repetitions=3,
+        reproduction_repetitions=3,
 
         repetition_mode="Parallel",
         repetition_workers=4,
     )
 
-    print("\n" + "=" * 60)
-    print("             FLAKY-REPRO PIPELINE TEST")
-    print("=" * 60)
-
-    print("\n--- TEST ---")
-    print(f"Target : {result['target_test']}")
-
-    print("\n--- BASELINE ---")
-    print(result["baseline"])
-
-    print("\n--- CANDIDATES ---")
-    print(f"Raw       : {len(result['candidates']['raw'])}")
-    print(f"Valid     : {len(result['candidates']['valid'])}")
-    print(f"Ranked    : {len(result['candidates']['ranked'])}")
-    print(f"Top       : {len(result['candidates']['top'])}")
-
-    print("\n--- CONFIRMATIONS ---")
-
-    for record in result["candidate_confirmations"]:
-
-        candidate = record["candidate"]
-        confirmation = record["confirmation"]
-
-        print(
-            f"{candidate['type']} "
-            f"{candidate['condition']} "
-            f"→ {confirmation['classification']}"
-        )
-
-    print("\n--- CONFIRMED CANDIDATES ---")
-
-    for record in result["confirmed_candidates"]:
-
-        candidate = record["candidate"]
-
-        print(
-            f"{candidate['type']} "
-            f"{candidate['condition']}"
-        )
-
-    print("\n--- REPRODUCTIONS ---")
-
-    for record in result["candidate_reproductions"]:
-
-        candidate = record["candidate"]
-        classification = record["reproduction_classification"]
-
-        print(
-            f"{candidate['type']} "
-            f"{candidate['condition']} "
-            f"→ {classification['classification']}"
-        )
-
-    print("\n" + "=" * 60)
-    print("           PIPELINE TEST COMPLETE")
-    print("=" * 60)
+    print_pipeline_result(result)
 
 if __name__ == "__main__":
     main()

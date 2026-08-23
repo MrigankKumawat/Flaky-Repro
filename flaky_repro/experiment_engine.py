@@ -16,39 +16,82 @@ def worker_experiment(target_test:str, runs:int, workers_count:list):
         
     return all_worker_results
         
-def timing_experiment(target_test:str, runs:int, mode: str, workers_count:list, timing_values:list):
+def timing_experiment(
+    target_test: str,
+    runs: int,
+    mode: str,
+    workers_count: int,
+    timing_values: list
+):
     all_timing_results = []
+
     for time_value in timing_values:
-        delay = time_value/1000
-        
+        delay = time_value / 1000
+
         if mode == "Sequential":
-            result = run_sequential_test(target_test, runs, delay)
+            result = run_sequential_test(
+                target_test,
+                runs,
+                delay
+            )
+
         elif mode == "Parallel":
-            result = run_parallel_test(target_test, runs, workers_count, delay)
-            
+            result = run_parallel_test(
+                target_test,
+                runs,
+                workers_count,
+                delay
+            )
+
+        else:
+            raise ValueError(
+                f"Invalid execution mode: {mode}"
+            )
+
         all_timing_results.append({
-            "timing_delay":time_value,
-            "result":result
+            "timing_delay": time_value,
+            "result": result
         })
-    
+
     return all_timing_results
         
-def mode_experiment(target_test:str, runs:int, workers_count:int):
-    result_sequential = run_sequential_test(target_test, runs, timing_delay=0)
-    result_parallel = run_parallel_test(target_test, runs, workers_count, timing_delay=0)
-    
-    return [
-        {
-            "mode":"Sequential",
-            "workers":1,
-            "result":result_sequential
-        },
-        {
-            "mode":"Parallel",
-            "workers":workers_count,
-            "result":result_parallel
-        }
-    ]    
+def mode_experiment(
+    target_test: str,
+    runs: int,
+    workers_count: int,
+    sequential_result=None,
+    parallel_result=None
+):
+    results = []
+
+    if sequential_result is None or sequential_result.get("total_runs") != runs:
+        sequential_result = run_sequential_test(
+            target_test,
+            runs,
+            timing_delay=0
+        )
+
+    results.append({
+        "mode": "Sequential",
+        "workers": 1,
+        "result": sequential_result
+    })
+
+    if parallel_result is None or parallel_result.get("total_runs") != runs:
+        parallel_result = run_parallel_test(
+            target_test,
+            runs,
+            workers_count,
+            timing_delay=0
+        )
+
+    results.append({
+        "mode": "Parallel",
+        "workers": workers_count,
+        "result": parallel_result
+    })
+
+    return results
         
 def run_initial_investigation(
     target_test: str,
@@ -56,6 +99,7 @@ def run_initial_investigation(
     mode: str,
     workers_count: list,
     timing_delay: list,
+    sequential_result=None
 ):
 
     # 1. Worker Experiment
@@ -65,22 +109,30 @@ def run_initial_investigation(
         workers_count=workers_count
     )
 
-    # 2. Timing Delay Experiment
+    # 2. Timing Experiment
     timing_delay_investigation = timing_experiment(
         target_test=target_test,
         runs=runs,
         mode=mode,
-        workers_count=4,
+        workers_count=workers_count[0],
         timing_values=timing_delay
     )
 
     # 3. Mode Experiment
+    parallel_4_result = None
+
+    for experiment in worker_experiment_investigation:
+        if experiment["worker"] == 4:
+            parallel_4_result = experiment["result"]
+            break
+
     mode_investigation = mode_experiment(
         target_test=target_test,
         runs=runs,
-        workers_count=4
+        workers_count=4,
+        sequential_result=sequential_result,
+        parallel_result=parallel_4_result
     )
-
     return {
         "worker_experiment": worker_experiment_investigation,
         "timing_experiment": timing_delay_investigation,

@@ -7,43 +7,54 @@ from flaky_repro.runner import run_parallel_test
 # from flaky_repro.experiment_engine import mode_experiment
 import numbers
 
-def normalize_investigation(investigation_results:dict)->list:
+def normalize_investigation(
+    investigation_results: dict,
+    investigation_mode: str,
+    investigation_workers: int
+) -> list:
+
     candidates = []
-    
+
+    # ------------------------------------------------------------
     # 1. Worker Experiment
+    # ------------------------------------------------------------
     for exp in investigation_results.get("worker_experiment", []):
         candidates.append({
-            "type":"worker",
-            "condition":{
-                "worker":exp['worker'],
+            "type": "worker",
+            "condition": {
+                "worker": exp["worker"]
             },
-            "result":exp['result']
+            "result": exp["result"]
         })
-        
+
+    # ------------------------------------------------------------
     # 2. Timing Delay Experiment
+    # ------------------------------------------------------------
     for exp in investigation_results.get("timing_experiment", []):
         candidates.append({
-            "type":"timing_delay",
-            "condition":{
-                "timing_delay":exp['timing_delay']
+            "type": "timing_delay",
+            "condition": {
+                "timing_delay": exp["timing_delay"],
+                "mode": investigation_mode,
+                "workers": investigation_workers
             },
-            "result":exp['result']
+            "result": exp["result"]
         })
-    
-    
+
+    # ------------------------------------------------------------
     # 3. Mode Experiment
+    # ------------------------------------------------------------
     for exp in investigation_results.get("mode_experiment", []):
         candidates.append({
-            "type":"mode",
-            "condition":{
-                "mode":exp['mode'],
-                "workers":exp['workers']
+            "type": "mode",
+            "condition": {
+                "mode": exp["mode"],
+                "workers": exp["workers"]
             },
-            "result":exp['result']
+            "result": exp["result"]
         })
-        
-    return candidates
 
+    return candidates
 
 def validate_candidate(candidate: dict):
 
@@ -179,15 +190,14 @@ def validate_candidate(candidate: dict):
 def classify_failure_behavior(failure_rate):
     if failure_rate is None:
         return "Failure rate don't exist"
-    
-    if failure_rate == 0:
+
+    if failure_rate <= 0:
         return "Consistently Passing"
-    
-    if failure_rate >=1 and failure_rate <= 99:
+
+    if failure_rate < 100:
         return "Intermittent"
-    
-    if failure_rate == 100:
-        return "Consistently Failing"
+
+    return "Consistently Failing"
     
     
 def calculate_candidate_effect(baseline_result, candidate):
@@ -230,9 +240,14 @@ def classify_candidate(baseline_result, candidate):
         if candidate_behavior == "Consistently Failing":
             return {"classification": "NO_SIGNAL"}
 
-        if candidate_behavior in ("Intermittent", "Consistently Passing"):
+        if candidate_failure_rate < baseline_failure_rate:
+            return {"classification": "NO_SIGNAL"}
+
+        if candidate_failure_rate > baseline_failure_rate:
             return {"classification": "WEAK"}
 
+        return {"classification": "NO_SIGNAL"}
+    
     return {"classification": "NO_SIGNAL"}
 
 def prepare_candidates(baseline_result, candidates):
@@ -303,10 +318,10 @@ def rank_candidates(candidates):
         )
 
         # Magnitude of the observed effect
-        effect_magnitude = abs(
-            failure_rate_delta
+        effect_magnitude = max(
+            failure_rate_delta,
+            0
         )
-
         # Final score
         score = base_score + effect_magnitude
 
@@ -484,21 +499,31 @@ def analyze_repeated_candidate(
     effects = []
 
     for repeat in repetitions:
+        run_index = repeat["run_index"]
+        experiment_result = repeat["result"]
 
-        result = repeat["result"]
+        if isinstance(experiment_result, list):
+            if not experiment_result:
+                continue
 
-        # Failure rate
+            result = experiment_result[0]["result"]
+
+        else:
+            result = experiment_result
+
         failure_rate = result["failure_rate"]
 
         failure_rates.append(failure_rate)
 
-        # Compare against baseline
         compare_effect = compare_results(
             baseline_result,
             result
         )
 
-        effects.append(compare_effect)
+        effects.append({
+            "run_index": run_index,
+            "comparison": compare_effect
+        })
 
     consistency_analysis = calculate_consistency(effects=effects)
 
@@ -538,45 +563,99 @@ def analyze_repeated_candidate(
         }
     }
 
-def calculate_consistency(effects:list):
-    if effects is None:
-        return{
+def calculate_consistency(effects: list):
+    if not effects:
+        return {
             "total_repetitions": 0,
             "increased_count": 0,
-            "rate_label":None,
+            "rate_label": None,
             "consistency_rate": 0.0
         }
-    increased_count = 0
-    for effect in effects:
-        effect_failure_rate = effect['comparison']['failure_rate_delta']
 
-        if effect_failure_rate > 0:
-            rate_label = "Increased"
-            increased_count+=1
-        elif effect_failure_rate <= 0:
-            rate_label = "Not increased"
+    increased_count = 0
+
+    for effect in effects:
+        comparison = effect.get("comparison", {})
+        comparison_data = comparison.get("comparison", {})
+
+        failure_rate_delta = comparison_data.get(
+            "failure_rate_delta",
+            0.0
+        )
+
+        if failure_rate_delta > 0:
+            increased_count += 1
 
     total_repetitions = len(effects)
-    consistency_rate = (increased_count/total_repetitions) * 100 if total_repetitions !=0.0 else 0.0
 
-    return{
-        "total_repetitions":total_repetitions,
-        "increased_count":increased_count,
-        "rate_label":rate_label,
-        "consistency_rate":consistency_rate
+    consistency_rate = (
+        (increased_count / total_repetitions) * 100
+    )
+
+    if increased_count == total_repetitions:
+        rate_label = "Increased"
+
+    elif increased_count == 0:
+        rate_label = "Not increased"
+
+    else:
+        rate_label = "Mixed"
+
+    return {
+        "total_repetitions": total_repetitions,
+        "increased_count": increased_count,
+        "rate_label": rate_label,
+        "consistency_rate": round(consistency_rate, 2)
     }
 
 def confirm_candidate(repeated_analysis):
+    analysis = repeated_analysis.get("analysis")
+
+    if not analysis:
+        return {
+            "classification": "Rejected",
+            "consistency_rate": 0.0,
+            "average_effect": 0.0
+        }
+
+    consistency = analysis.get("consistency")
+
+    if not consistency:
+        return {
+            "classification": "Rejected",
+            "consistency_rate": 0.0,
+            "average_effect": 0.0
+        }
+
+    consistency_rate = consistency.get("consistency_rate", 0.0)
+
+    effects = analysis.get("effects", [])
+
     failure_rate_deltas = []
 
-    consistency_rate = repeated_analysis['analysis']['consistency']['consistency_rate']
-    effects = repeated_analysis["analysis"]["effects"]
+    failure_rate_deltas = []
 
     for effect in effects:
-        delta = effect["comparison"]["failure_rate_delta"]
+        comparison = effect.get("comparison", {})
+        comparison_data = comparison.get("comparison", {})
+
+        delta = comparison_data.get(
+            "failure_rate_delta",
+            0.0
+        )
+
         failure_rate_deltas.append(delta)
 
-    average_effect = sum(failure_rate_deltas) / len(failure_rate_deltas)
+    if not failure_rate_deltas:
+        return {
+            "classification": "Rejected",
+            "consistency_rate": consistency_rate,
+            "average_effect": 0.0
+        }
+
+    average_effect = (
+        sum(failure_rate_deltas) / len(failure_rate_deltas)
+    )
 
     if consistency_rate >= 80 and average_effect > 0:
         classification = "Confirmed"
@@ -585,12 +664,11 @@ def confirm_candidate(repeated_analysis):
     else:
         classification = "Rejected"
 
-    return{
-        "classification":classification,
-        "consistency_rate":consistency_rate,
-        "average_effect":round(average_effect, 2),
+    return {
+        "classification": classification,
+        "consistency_rate": consistency_rate,
+        "average_effect": round(average_effect, 2)
     }
-
 
 def main():
 

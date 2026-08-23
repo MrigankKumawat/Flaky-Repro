@@ -1,0 +1,5344 @@
+================================================================================
+      RAW PIPELINE PIPELINE CAPTURE: MODE SENSITIVE
+================================================================================
+
+--- CONFIGURATION ---
+Test Target: examples/functional_validation/test_mode_validation.py::test_mode_sensitive
+Runs: 10
+Investigation mode: Parallel
+Investigation workers: [2, 4, 8]
+Investigation timing delays: [10, 20]
+Repetition workers: 4
+
+--- STDOUT LOGS ---
+
+============================================================
+        DEBUG: CANDIDATE CONFIRMATION DETAILS
+============================================================
+
+------------------------------------------------------------
+CANDIDATE:
+{'type': 'worker', 'condition': {'worker': 8}, 'result': {'total_runs': 10, 'passed': 6, 'failed': 4, 'failure_rate': 40.0, 'rate_classification': 'Flaky/Moderate', 'evidence': [{'run_index': 1, 'line': '50', 'assertion': 'assert 8 <= 1\nassert False', 'error_type': 'TestFailure', 'stderr': None, 'failure_count': 1}, {'run_index': 2, 'line': '50', 'assertion': 'assert 2 <= 1\nassert False', 'error_type': 'TestFailure', 'stderr': None, 'failure_count': 2}, {'run_index': 3, 'line': '50', 'assertion': 'assert 4 <= 1\nassert False', 'error_type': 'TestFailure', 'stderr': None, 'failure_count': 3}, {'run_index': 7, 'line': '50', 'assertion': 'assert 6 <= 1\nassert False', 'error_type': 'TestFailure', 'stderr': None, 'failure_count': 4}]}, 'classification': 'STRONG', 'effect': {'baseline': {'total_runs': 10, 'passed': 10, 'failed': 0, 'failure_rate': 0.0}, 'experiment': {'total_runs': 10, 'passed': 6, 'failed': 4, 'failure_rate': 40.0}, 'comparison': {'failure_rate_delta': 40.0, 'relative_change': None, 'failure_count_delta': 4, 'pass_rate_delta': -40.0, 'direction': 'Increased'}}, 'effect_magnitude': 40.0, 'score': 140.0, 'rank': 1}
+
+REPEATED ANALYSIS:
+{'candidate': {'type': 'worker', 'condition': {'worker': 8}}, 'repetitions': [{'run_index': 1, 'result': {'total_runs': 10, 'passed': 6, 'failed': 4, 'failure_rate': 40.0, 'rate_classification': 'Flaky/Moderate', 'evidence': [{'run_index': 1, 'line': '50', 'assertion': 'assert 3 <= 1\nassert False', 'error_type': 'TestFailure', 'stderr': None, 'failure_count': 1}, {'run_index': 4, 'line': '50', 'assertion': 'assert 7 <= 1\nassert False', 'error_type': 'TestFailure', 'stderr': None, 'failure_count': 2}, {'run_index': 6, 'line': '50', 'assertion': 'assert 5 <= 1\nassert False', 'error_type': 'TestFailure', 'stderr': None, 'failure_count': 3}, {'run_index': 8, 'line': '50', 'assertion': 'assert 7 <= 1\nassert False', 'error_type': 'TestFailure', 'stderr': None, 'failure_count': 4}]}}, {'run_index': 2, 'result': {'total_runs': 10, 'passed': 6, 'failed': 4, 'failure_rate': 40.0, 'rate_classification': 'Flaky/Moderate', 'evidence': [{'run_index': 1, 'line': '50', 'assertion': 'assert 6 <= 1\nassert False', 'error_type': 'TestFailure', 'stderr': None, 'failure_count': 1}, {'run_index': 2, 'line': '50', 'assertion': 'assert 5 <= 1\nassert False', 'error_type': 'TestFailure', 'stderr': None, 'failure_count': 2}, {'run_index': 4, 'line': '50', 'assertion': 'assert 3 <= 1\nassert False', 'error_type': 'TestFailure', 'stderr': None, 'failure_count': 3}, {'run_index': 9, 'line': '50', 'assertion': 'assert 2 <= 1\nassert False', 'error_type': 'TestFailure', 'stderr': None, 'failure_count': 4}]}}, {'run_index': 3, 'result': {'total_runs': 10, 'passed': 7, 'failed': 3, 'failure_rate': 30.0, 'rate_classification': 'Flaky/Moderate', 'evidence': [{'run_index': 3, 'line': '50', 'assertion': 'assert 6 <= 1\nassert False', 'error_type': 'TestFailure', 'stderr': None, 'failure_count': 1}, {'run_index': 4, 'line': '50', 'assertion': 'assert 2 <= 1\nassert False', 'error_type': 'TestFailure', 'stderr': None, 'failure_count': 2}, {'run_index': 7, 'line': '50', 'assertion': 'assert 4 <= 1\nassert False', 'error_type': 'TestFailure', 'stderr': None, 'failure_count': 3}]}}], 'analysis': {'total_repetitions': 3, 'failure_rate': {'average': 36.67, 'minimum': 30.0, 'maximum': 40.0, 'range': 10.0}, 'effects': [{'run_index': 1, 'comparison': {'baseline': {'total_runs': 10, 'passed': 10, 'failed': 0, 'failure_rate': 0.0}, 'experiment': {'total_runs': 10, 'passed': 6, 'failed': 4, 'failure_rate': 40.0}, 'comparison': {'failure_rate_delta': 40.0, 'relative_change': None, 'failure_count_delta': 4, 'pass_rate_delta': -40.0, 'direction': 'Increased'}}}, {'run_index': 2, 'comparison': {'baseline': {'total_runs': 10, 'passed': 10, 'failed': 0, 'failure_rate': 0.0}, 'experiment': {'total_runs': 10, 'passed': 6, 'failed': 4, 'failure_rate': 40.0}, 'comparison': {'failure_rate_delta': 40.0, 'relative_change': None, 'failure_count_delta': 4, 'pass_rate_delta': -40.0, 'direction': 'Increased'}}}, {'run_index': 3, 'comparison': {'baseline': {'total_runs': 10, 'passed': 10, 'failed': 0, 'failure_rate': 0.0}, 'experiment': {'total_runs': 10, 'passed': 7, 'failed': 3, 'failure_rate': 30.0}, 'comparison': {'failure_rate_delta': 30.0, 'relative_change': None, 'failure_count_delta': 3, 'pass_rate_delta': -30.0, 'direction': 'Increased'}}}], 'consistency': {'total_repetitions': 3, 'increased_count': 3, 'rate_label': 'Increased', 'consistency_rate': 100.0}}}
+
+CONFIRMATION:
+{'classification': 'Confirmed', 'consistency_rate': 100.0, 'average_effect': 36.67}
+
+------------------------------------------------------------
+CANDIDATE:
+{'type': 'worker', 'condition': {'worker': 4}, 'result': {'total_runs': 10, 'passed': 8, 'failed': 2, 'failure_rate': 20.0, 'rate_classification': 'Low Flakiness', 'evidence': [{'run_index': 6, 'line': '50', 'assertion': 'assert 2 <= 1\nassert False', 'error_type': 'TestFailure', 'stderr': None, 'failure_count': 1}, {'run_index': 10, 'line': '50', 'assertion': 'assert 2 <= 1\nassert False', 'error_type': 'TestFailure', 'stderr': None, 'failure_count': 2}]}, 'classification': 'STRONG', 'effect': {'baseline': {'total_runs': 10, 'passed': 10, 'failed': 0, 'failure_rate': 0.0}, 'experiment': {'total_runs': 10, 'passed': 8, 'failed': 2, 'failure_rate': 20.0}, 'comparison': {'failure_rate_delta': 20.0, 'relative_change': None, 'failure_count_delta': 2, 'pass_rate_delta': -20.0, 'direction': 'Increased'}}, 'effect_magnitude': 20.0, 'score': 120.0, 'rank': 2}
+
+REPEATED ANALYSIS:
+{'candidate': {'type': 'worker', 'condition': {'worker': 4}}, 'repetitions': [{'run_index': 1, 'result': {'total_runs': 10, 'passed': 7, 'failed': 3, 'failure_rate': 30.0, 'rate_classification': 'Flaky/Moderate', 'evidence': [{'run_index': 3, 'line': '50', 'assertion': 'assert 3 <= 1\nassert False', 'error_type': 'TestFailure', 'stderr': None, 'failure_count': 1}, {'run_index': 5, 'line': '50', 'assertion': 'assert 3 <= 1\nassert False', 'error_type': 'TestFailure', 'stderr': None, 'failure_count': 2}, {'run_index': 10, 'line': '50', 'assertion': 'assert 2 <= 1\nassert False', 'error_type': 'TestFailure', 'stderr': None, 'failure_count': 3}]}}, {'run_index': 2, 'result': {'total_runs': 10, 'passed': 6, 'failed': 4, 'failure_rate': 40.0, 'rate_classification': 'Flaky/Moderate', 'evidence': [{'run_index': 2, 'line': '50', 'assertion': 'assert 4 <= 1\nassert False', 'error_type': 'TestFailure', 'stderr': None, 'failure_count': 1}, {'run_index': 3, 'line': '50', 'assertion': 'assert 2 <= 1\nassert False', 'error_type': 'TestFailure', 'stderr': None, 'failure_count': 2}, {'run_index': 6, 'line': '50', 'assertion': 'assert 2 <= 1\nassert False', 'error_type': 'TestFailure', 'stderr': None, 'failure_count': 3}, {'run_index': 8, 'line': '50', 'assertion': 'assert 2 <= 1\nassert False', 'error_type': 'TestFailure', 'stderr': None, 'failure_count': 4}]}}, {'run_index': 3, 'result': {'total_runs': 10, 'passed': 6, 'failed': 4, 'failure_rate': 40.0, 'rate_classification': 'Flaky/Moderate', 'evidence': [{'run_index': 2, 'line': '50', 'assertion': 'assert 3 <= 1\nassert False', 'error_type': 'TestFailure', 'stderr': None, 'failure_count': 1}, {'run_index': 3, 'line': '50', 'assertion': 'assert 3 <= 1\nassert False', 'error_type': 'TestFailure', 'stderr': None, 'failure_count': 2}, {'run_index': 7, 'line': '50', 'assertion': 'assert 2 <= 1\nassert False', 'error_type': 'TestFailure', 'stderr': None, 'failure_count': 3}, {'run_index': 10, 'line': '50', 'assertion': 'assert 2 <= 1\nassert False', 'error_type': 'TestFailure', 'stderr': None, 'failure_count': 4}]}}], 'analysis': {'total_repetitions': 3, 'failure_rate': {'average': 36.67, 'minimum': 30.0, 'maximum': 40.0, 'range': 10.0}, 'effects': [{'run_index': 1, 'comparison': {'baseline': {'total_runs': 10, 'passed': 10, 'failed': 0, 'failure_rate': 0.0}, 'experiment': {'total_runs': 10, 'passed': 7, 'failed': 3, 'failure_rate': 30.0}, 'comparison': {'failure_rate_delta': 30.0, 'relative_change': None, 'failure_count_delta': 3, 'pass_rate_delta': -30.0, 'direction': 'Increased'}}}, {'run_index': 2, 'comparison': {'baseline': {'total_runs': 10, 'passed': 10, 'failed': 0, 'failure_rate': 0.0}, 'experiment': {'total_runs': 10, 'passed': 6, 'failed': 4, 'failure_rate': 40.0}, 'comparison': {'failure_rate_delta': 40.0, 'relative_change': None, 'failure_count_delta': 4, 'pass_rate_delta': -40.0, 'direction': 'Increased'}}}, {'run_index': 3, 'comparison': {'baseline': {'total_runs': 10, 'passed': 10, 'failed': 0, 'failure_rate': 0.0}, 'experiment': {'total_runs': 10, 'passed': 6, 'failed': 4, 'failure_rate': 40.0}, 'comparison': {'failure_rate_delta': 40.0, 'relative_change': None, 'failure_count_delta': 4, 'pass_rate_delta': -40.0, 'direction': 'Increased'}}}], 'consistency': {'total_repetitions': 3, 'increased_count': 3, 'rate_label': 'Increased', 'consistency_rate': 100.0}}}
+
+CONFIRMATION:
+{'classification': 'Confirmed', 'consistency_rate': 100.0, 'average_effect': 36.67}
+
+------------------------------------------------------------
+CANDIDATE:
+{'type': 'mode', 'condition': {'mode': 'Parallel', 'workers': 4}, 'result': {'total_runs': 10, 'passed': 8, 'failed': 2, 'failure_rate': 20.0, 'rate_classification': 'Low Flakiness', 'evidence': [{'run_index': 6, 'line': '50', 'assertion': 'assert 2 <= 1\nassert False', 'error_type': 'TestFailure', 'stderr': None, 'failure_count': 1}, {'run_index': 10, 'line': '50', 'assertion': 'assert 2 <= 1\nassert False', 'error_type': 'TestFailure', 'stderr': None, 'failure_count': 2}]}, 'classification': 'STRONG', 'effect': {'baseline': {'total_runs': 10, 'passed': 10, 'failed': 0, 'failure_rate': 0.0}, 'experiment': {'total_runs': 10, 'passed': 8, 'failed': 2, 'failure_rate': 20.0}, 'comparison': {'failure_rate_delta': 20.0, 'relative_change': None, 'failure_count_delta': 2, 'pass_rate_delta': -20.0, 'direction': 'Increased'}}, 'effect_magnitude': 20.0, 'score': 120.0, 'rank': 3}
+
+REPEATED ANALYSIS:
+{'candidate': {'type': 'mode', 'condition': {'mode': 'Parallel', 'workers': 4}}, 'repetitions': [{'run_index': 1, 'result': {'total_runs': 10, 'passed': 7, 'failed': 3, 'failure_rate': 30.0, 'rate_classification': 'Flaky/Moderate', 'evidence': [{'run_index': 3, 'line': '50', 'assertion': 'assert 3 <= 1\nassert False', 'error_type': 'TestFailure', 'stderr': None, 'failure_count': 1}, {'run_index': 5, 'line': '50', 'assertion': 'assert 3 <= 1\nassert False', 'error_type': 'TestFailure', 'stderr': None, 'failure_count': 2}, {'run_index': 9, 'line': '50', 'assertion': 'assert 2 <= 1\nassert False', 'error_type': 'TestFailure', 'stderr': None, 'failure_count': 3}]}}, {'run_index': 2, 'result': {'total_runs': 10, 'passed': 6, 'failed': 4, 'failure_rate': 40.0, 'rate_classification': 'Flaky/Moderate', 'evidence': [{'run_index': 3, 'line': '50', 'assertion': 'assert 4 <= 1\nassert False', 'error_type': 'TestFailure', 'stderr': None, 'failure_count': 1}, {'run_index': 4, 'line': '50', 'assertion': 'assert 2 <= 1\nassert False', 'error_type': 'TestFailure', 'stderr': None, 'failure_count': 2}, {'run_index': 6, 'line': '50', 'assertion': 'assert 2 <= 1\nassert False', 'error_type': 'TestFailure', 'stderr': None, 'failure_count': 3}, {'run_index': 7, 'line': '50', 'assertion': 'assert 2 <= 1\nassert False', 'error_type': 'TestFailure', 'stderr': None, 'failure_count': 4}]}}, {'run_index': 3, 'result': {'total_runs': 10, 'passed': 6, 'failed': 4, 'failure_rate': 40.0, 'rate_classification': 'Flaky/Moderate', 'evidence': [{'run_index': 1, 'line': '50', 'assertion': 'assert 2 <= 1\nassert False', 'error_type': 'TestFailure', 'stderr': None, 'failure_count': 1}, {'run_index': 3, 'line': '50', 'assertion': 'assert 4 <= 1\nassert False', 'error_type': 'TestFailure', 'stderr': None, 'failure_count': 2}, {'run_index': 5, 'line': '50', 'assertion': 'assert 2 <= 1\nassert False', 'error_type': 'TestFailure', 'stderr': None, 'failure_count': 3}, {'run_index': 7, 'line': '50', 'assertion': 'assert 2 <= 1\nassert False', 'error_type': 'TestFailure', 'stderr': None, 'failure_count': 4}]}}], 'analysis': {'total_repetitions': 3, 'failure_rate': {'average': 36.67, 'minimum': 30.0, 'maximum': 40.0, 'range': 10.0}, 'effects': [{'run_index': 1, 'comparison': {'baseline': {'total_runs': 10, 'passed': 10, 'failed': 0, 'failure_rate': 0.0}, 'experiment': {'total_runs': 10, 'passed': 7, 'failed': 3, 'failure_rate': 30.0}, 'comparison': {'failure_rate_delta': 30.0, 'relative_change': None, 'failure_count_delta': 3, 'pass_rate_delta': -30.0, 'direction': 'Increased'}}}, {'run_index': 2, 'comparison': {'baseline': {'total_runs': 10, 'passed': 10, 'failed': 0, 'failure_rate': 0.0}, 'experiment': {'total_runs': 10, 'passed': 6, 'failed': 4, 'failure_rate': 40.0}, 'comparison': {'failure_rate_delta': 40.0, 'relative_change': None, 'failure_count_delta': 4, 'pass_rate_delta': -40.0, 'direction': 'Increased'}}}, {'run_index': 3, 'comparison': {'baseline': {'total_runs': 10, 'passed': 10, 'failed': 0, 'failure_rate': 0.0}, 'experiment': {'total_runs': 10, 'passed': 6, 'failed': 4, 'failure_rate': 40.0}, 'comparison': {'failure_rate_delta': 40.0, 'relative_change': None, 'failure_count_delta': 4, 'pass_rate_delta': -40.0, 'direction': 'Increased'}}}], 'consistency': {'total_repetitions': 3, 'increased_count': 3, 'rate_label': 'Increased', 'consistency_rate': 100.0}}}
+
+CONFIRMATION:
+{'classification': 'Confirmed', 'consistency_rate': 100.0, 'average_effect': 36.67}
+
+
+--- STDERR LOGS ---
+
+
+--- FINAL DICTIONARY RESULT ---
+{
+  "target_test": "examples/functional_validation/test_mode_validation.py::test_mode_sensitive",
+  "baseline": {
+    "total_runs": 10,
+    "passed": 10,
+    "failed": 0,
+    "failure_rate": 0.0,
+    "rate_classification": "Stable",
+    "evidence": []
+  },
+  "investigation": {
+    "worker_experiment": [
+      {
+        "worker": 2,
+        "result": {
+          "total_runs": 10,
+          "passed": 9,
+          "failed": 1,
+          "failure_rate": 10.0,
+          "rate_classification": "Low Flakiness",
+          "evidence": [
+            {
+              "run_index": 2,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 1
+            }
+          ]
+        }
+      },
+      {
+        "worker": 4,
+        "result": {
+          "total_runs": 10,
+          "passed": 8,
+          "failed": 2,
+          "failure_rate": 20.0,
+          "rate_classification": "Low Flakiness",
+          "evidence": [
+            {
+              "run_index": 6,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 1
+            },
+            {
+              "run_index": 10,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 2
+            }
+          ]
+        }
+      },
+      {
+        "worker": 8,
+        "result": {
+          "total_runs": 10,
+          "passed": 6,
+          "failed": 4,
+          "failure_rate": 40.0,
+          "rate_classification": "Flaky/Moderate",
+          "evidence": [
+            {
+              "run_index": 1,
+              "line": "50",
+              "assertion": "assert 8 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 1
+            },
+            {
+              "run_index": 2,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 2
+            },
+            {
+              "run_index": 3,
+              "line": "50",
+              "assertion": "assert 4 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 3
+            },
+            {
+              "run_index": 7,
+              "line": "50",
+              "assertion": "assert 6 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 4
+            }
+          ]
+        }
+      }
+    ],
+    "timing_experiment": [
+      {
+        "timing_delay": 10,
+        "result": {
+          "total_runs": 10,
+          "passed": 9,
+          "failed": 1,
+          "failure_rate": 10.0,
+          "rate_classification": "Low Flakiness",
+          "evidence": [
+            {
+              "run_index": 2,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 1
+            }
+          ]
+        }
+      },
+      {
+        "timing_delay": 20,
+        "result": {
+          "total_runs": 10,
+          "passed": 9,
+          "failed": 1,
+          "failure_rate": 10.0,
+          "rate_classification": "Low Flakiness",
+          "evidence": [
+            {
+              "run_index": 2,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 1
+            }
+          ]
+        }
+      }
+    ],
+    "mode_experiment": [
+      {
+        "mode": "Sequential",
+        "workers": 1,
+        "result": {
+          "total_runs": 10,
+          "passed": 10,
+          "failed": 0,
+          "failure_rate": 0.0,
+          "rate_classification": "Stable",
+          "evidence": []
+        }
+      },
+      {
+        "mode": "Parallel",
+        "workers": 4,
+        "result": {
+          "total_runs": 10,
+          "passed": 8,
+          "failed": 2,
+          "failure_rate": 20.0,
+          "rate_classification": "Low Flakiness",
+          "evidence": [
+            {
+              "run_index": 6,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 1
+            },
+            {
+              "run_index": 10,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 2
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "candidates": {
+    "raw": [
+      {
+        "type": "worker",
+        "condition": {
+          "worker": 2
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 9,
+          "failed": 1,
+          "failure_rate": 10.0,
+          "rate_classification": "Low Flakiness",
+          "evidence": [
+            {
+              "run_index": 2,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 1
+            }
+          ]
+        }
+      },
+      {
+        "type": "worker",
+        "condition": {
+          "worker": 4
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 8,
+          "failed": 2,
+          "failure_rate": 20.0,
+          "rate_classification": "Low Flakiness",
+          "evidence": [
+            {
+              "run_index": 6,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 1
+            },
+            {
+              "run_index": 10,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 2
+            }
+          ]
+        }
+      },
+      {
+        "type": "worker",
+        "condition": {
+          "worker": 8
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 6,
+          "failed": 4,
+          "failure_rate": 40.0,
+          "rate_classification": "Flaky/Moderate",
+          "evidence": [
+            {
+              "run_index": 1,
+              "line": "50",
+              "assertion": "assert 8 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 1
+            },
+            {
+              "run_index": 2,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 2
+            },
+            {
+              "run_index": 3,
+              "line": "50",
+              "assertion": "assert 4 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 3
+            },
+            {
+              "run_index": 7,
+              "line": "50",
+              "assertion": "assert 6 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 4
+            }
+          ]
+        }
+      },
+      {
+        "type": "timing_delay",
+        "condition": {
+          "timing_delay": 10,
+          "mode": "Parallel",
+          "workers": 2
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 9,
+          "failed": 1,
+          "failure_rate": 10.0,
+          "rate_classification": "Low Flakiness",
+          "evidence": [
+            {
+              "run_index": 2,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 1
+            }
+          ]
+        }
+      },
+      {
+        "type": "timing_delay",
+        "condition": {
+          "timing_delay": 20,
+          "mode": "Parallel",
+          "workers": 2
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 9,
+          "failed": 1,
+          "failure_rate": 10.0,
+          "rate_classification": "Low Flakiness",
+          "evidence": [
+            {
+              "run_index": 2,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 1
+            }
+          ]
+        }
+      },
+      {
+        "type": "mode",
+        "condition": {
+          "mode": "Sequential",
+          "workers": 1
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 10,
+          "failed": 0,
+          "failure_rate": 0.0,
+          "rate_classification": "Stable",
+          "evidence": []
+        }
+      },
+      {
+        "type": "mode",
+        "condition": {
+          "mode": "Parallel",
+          "workers": 4
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 8,
+          "failed": 2,
+          "failure_rate": 20.0,
+          "rate_classification": "Low Flakiness",
+          "evidence": [
+            {
+              "run_index": 6,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 1
+            },
+            {
+              "run_index": 10,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 2
+            }
+          ]
+        }
+      }
+    ],
+    "validation": [
+      {
+        "candidate": {
+          "type": "worker",
+          "condition": {
+            "worker": 2
+          },
+          "result": {
+            "total_runs": 10,
+            "passed": 9,
+            "failed": 1,
+            "failure_rate": 10.0,
+            "rate_classification": "Low Flakiness",
+            "evidence": [
+              {
+                "run_index": 2,
+                "line": "50",
+                "assertion": "assert 2 <= 1\nassert False",
+                "error_type": "TestFailure",
+                "stderr": null,
+                "failure_count": 1
+              }
+            ]
+          }
+        },
+        "validation": {
+          "valid": true,
+          "reason": null
+        }
+      },
+      {
+        "candidate": {
+          "type": "worker",
+          "condition": {
+            "worker": 4
+          },
+          "result": {
+            "total_runs": 10,
+            "passed": 8,
+            "failed": 2,
+            "failure_rate": 20.0,
+            "rate_classification": "Low Flakiness",
+            "evidence": [
+              {
+                "run_index": 6,
+                "line": "50",
+                "assertion": "assert 2 <= 1\nassert False",
+                "error_type": "TestFailure",
+                "stderr": null,
+                "failure_count": 1
+              },
+              {
+                "run_index": 10,
+                "line": "50",
+                "assertion": "assert 2 <= 1\nassert False",
+                "error_type": "TestFailure",
+                "stderr": null,
+                "failure_count": 2
+              }
+            ]
+          }
+        },
+        "validation": {
+          "valid": true,
+          "reason": null
+        }
+      },
+      {
+        "candidate": {
+          "type": "worker",
+          "condition": {
+            "worker": 8
+          },
+          "result": {
+            "total_runs": 10,
+            "passed": 6,
+            "failed": 4,
+            "failure_rate": 40.0,
+            "rate_classification": "Flaky/Moderate",
+            "evidence": [
+              {
+                "run_index": 1,
+                "line": "50",
+                "assertion": "assert 8 <= 1\nassert False",
+                "error_type": "TestFailure",
+                "stderr": null,
+                "failure_count": 1
+              },
+              {
+                "run_index": 2,
+                "line": "50",
+                "assertion": "assert 2 <= 1\nassert False",
+                "error_type": "TestFailure",
+                "stderr": null,
+                "failure_count": 2
+              },
+              {
+                "run_index": 3,
+                "line": "50",
+                "assertion": "assert 4 <= 1\nassert False",
+                "error_type": "TestFailure",
+                "stderr": null,
+                "failure_count": 3
+              },
+              {
+                "run_index": 7,
+                "line": "50",
+                "assertion": "assert 6 <= 1\nassert False",
+                "error_type": "TestFailure",
+                "stderr": null,
+                "failure_count": 4
+              }
+            ]
+          }
+        },
+        "validation": {
+          "valid": true,
+          "reason": null
+        }
+      },
+      {
+        "candidate": {
+          "type": "timing_delay",
+          "condition": {
+            "timing_delay": 10,
+            "mode": "Parallel",
+            "workers": 2
+          },
+          "result": {
+            "total_runs": 10,
+            "passed": 9,
+            "failed": 1,
+            "failure_rate": 10.0,
+            "rate_classification": "Low Flakiness",
+            "evidence": [
+              {
+                "run_index": 2,
+                "line": "50",
+                "assertion": "assert 2 <= 1\nassert False",
+                "error_type": "TestFailure",
+                "stderr": null,
+                "failure_count": 1
+              }
+            ]
+          }
+        },
+        "validation": {
+          "valid": true,
+          "reason": null
+        }
+      },
+      {
+        "candidate": {
+          "type": "timing_delay",
+          "condition": {
+            "timing_delay": 20,
+            "mode": "Parallel",
+            "workers": 2
+          },
+          "result": {
+            "total_runs": 10,
+            "passed": 9,
+            "failed": 1,
+            "failure_rate": 10.0,
+            "rate_classification": "Low Flakiness",
+            "evidence": [
+              {
+                "run_index": 2,
+                "line": "50",
+                "assertion": "assert 2 <= 1\nassert False",
+                "error_type": "TestFailure",
+                "stderr": null,
+                "failure_count": 1
+              }
+            ]
+          }
+        },
+        "validation": {
+          "valid": true,
+          "reason": null
+        }
+      },
+      {
+        "candidate": {
+          "type": "mode",
+          "condition": {
+            "mode": "Sequential",
+            "workers": 1
+          },
+          "result": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0,
+            "rate_classification": "Stable",
+            "evidence": []
+          }
+        },
+        "validation": {
+          "valid": true,
+          "reason": null
+        }
+      },
+      {
+        "candidate": {
+          "type": "mode",
+          "condition": {
+            "mode": "Parallel",
+            "workers": 4
+          },
+          "result": {
+            "total_runs": 10,
+            "passed": 8,
+            "failed": 2,
+            "failure_rate": 20.0,
+            "rate_classification": "Low Flakiness",
+            "evidence": [
+              {
+                "run_index": 6,
+                "line": "50",
+                "assertion": "assert 2 <= 1\nassert False",
+                "error_type": "TestFailure",
+                "stderr": null,
+                "failure_count": 1
+              },
+              {
+                "run_index": 10,
+                "line": "50",
+                "assertion": "assert 2 <= 1\nassert False",
+                "error_type": "TestFailure",
+                "stderr": null,
+                "failure_count": 2
+              }
+            ]
+          }
+        },
+        "validation": {
+          "valid": true,
+          "reason": null
+        }
+      }
+    ],
+    "valid": [
+      {
+        "type": "worker",
+        "condition": {
+          "worker": 2
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 9,
+          "failed": 1,
+          "failure_rate": 10.0,
+          "rate_classification": "Low Flakiness",
+          "evidence": [
+            {
+              "run_index": 2,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 1
+            }
+          ]
+        }
+      },
+      {
+        "type": "worker",
+        "condition": {
+          "worker": 4
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 8,
+          "failed": 2,
+          "failure_rate": 20.0,
+          "rate_classification": "Low Flakiness",
+          "evidence": [
+            {
+              "run_index": 6,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 1
+            },
+            {
+              "run_index": 10,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 2
+            }
+          ]
+        }
+      },
+      {
+        "type": "worker",
+        "condition": {
+          "worker": 8
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 6,
+          "failed": 4,
+          "failure_rate": 40.0,
+          "rate_classification": "Flaky/Moderate",
+          "evidence": [
+            {
+              "run_index": 1,
+              "line": "50",
+              "assertion": "assert 8 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 1
+            },
+            {
+              "run_index": 2,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 2
+            },
+            {
+              "run_index": 3,
+              "line": "50",
+              "assertion": "assert 4 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 3
+            },
+            {
+              "run_index": 7,
+              "line": "50",
+              "assertion": "assert 6 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 4
+            }
+          ]
+        }
+      },
+      {
+        "type": "timing_delay",
+        "condition": {
+          "timing_delay": 10,
+          "mode": "Parallel",
+          "workers": 2
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 9,
+          "failed": 1,
+          "failure_rate": 10.0,
+          "rate_classification": "Low Flakiness",
+          "evidence": [
+            {
+              "run_index": 2,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 1
+            }
+          ]
+        }
+      },
+      {
+        "type": "timing_delay",
+        "condition": {
+          "timing_delay": 20,
+          "mode": "Parallel",
+          "workers": 2
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 9,
+          "failed": 1,
+          "failure_rate": 10.0,
+          "rate_classification": "Low Flakiness",
+          "evidence": [
+            {
+              "run_index": 2,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 1
+            }
+          ]
+        }
+      },
+      {
+        "type": "mode",
+        "condition": {
+          "mode": "Sequential",
+          "workers": 1
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 10,
+          "failed": 0,
+          "failure_rate": 0.0,
+          "rate_classification": "Stable",
+          "evidence": []
+        }
+      },
+      {
+        "type": "mode",
+        "condition": {
+          "mode": "Parallel",
+          "workers": 4
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 8,
+          "failed": 2,
+          "failure_rate": 20.0,
+          "rate_classification": "Low Flakiness",
+          "evidence": [
+            {
+              "run_index": 6,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 1
+            },
+            {
+              "run_index": 10,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 2
+            }
+          ]
+        }
+      }
+    ],
+    "prepared": [
+      {
+        "type": "worker",
+        "condition": {
+          "worker": 2
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 9,
+          "failed": 1,
+          "failure_rate": 10.0,
+          "rate_classification": "Low Flakiness",
+          "evidence": [
+            {
+              "run_index": 2,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 1
+            }
+          ]
+        },
+        "classification": "STRONG",
+        "effect": {
+          "baseline": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0
+          },
+          "experiment": {
+            "total_runs": 10,
+            "passed": 9,
+            "failed": 1,
+            "failure_rate": 10.0
+          },
+          "comparison": {
+            "failure_rate_delta": 10.0,
+            "relative_change": null,
+            "failure_count_delta": 1,
+            "pass_rate_delta": -10.0,
+            "direction": "Increased"
+          }
+        }
+      },
+      {
+        "type": "worker",
+        "condition": {
+          "worker": 4
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 8,
+          "failed": 2,
+          "failure_rate": 20.0,
+          "rate_classification": "Low Flakiness",
+          "evidence": [
+            {
+              "run_index": 6,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 1
+            },
+            {
+              "run_index": 10,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 2
+            }
+          ]
+        },
+        "classification": "STRONG",
+        "effect": {
+          "baseline": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0
+          },
+          "experiment": {
+            "total_runs": 10,
+            "passed": 8,
+            "failed": 2,
+            "failure_rate": 20.0
+          },
+          "comparison": {
+            "failure_rate_delta": 20.0,
+            "relative_change": null,
+            "failure_count_delta": 2,
+            "pass_rate_delta": -20.0,
+            "direction": "Increased"
+          }
+        }
+      },
+      {
+        "type": "worker",
+        "condition": {
+          "worker": 8
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 6,
+          "failed": 4,
+          "failure_rate": 40.0,
+          "rate_classification": "Flaky/Moderate",
+          "evidence": [
+            {
+              "run_index": 1,
+              "line": "50",
+              "assertion": "assert 8 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 1
+            },
+            {
+              "run_index": 2,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 2
+            },
+            {
+              "run_index": 3,
+              "line": "50",
+              "assertion": "assert 4 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 3
+            },
+            {
+              "run_index": 7,
+              "line": "50",
+              "assertion": "assert 6 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 4
+            }
+          ]
+        },
+        "classification": "STRONG",
+        "effect": {
+          "baseline": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0
+          },
+          "experiment": {
+            "total_runs": 10,
+            "passed": 6,
+            "failed": 4,
+            "failure_rate": 40.0
+          },
+          "comparison": {
+            "failure_rate_delta": 40.0,
+            "relative_change": null,
+            "failure_count_delta": 4,
+            "pass_rate_delta": -40.0,
+            "direction": "Increased"
+          }
+        }
+      },
+      {
+        "type": "timing_delay",
+        "condition": {
+          "timing_delay": 10,
+          "mode": "Parallel",
+          "workers": 2
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 9,
+          "failed": 1,
+          "failure_rate": 10.0,
+          "rate_classification": "Low Flakiness",
+          "evidence": [
+            {
+              "run_index": 2,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 1
+            }
+          ]
+        },
+        "classification": "STRONG",
+        "effect": {
+          "baseline": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0
+          },
+          "experiment": {
+            "total_runs": 10,
+            "passed": 9,
+            "failed": 1,
+            "failure_rate": 10.0
+          },
+          "comparison": {
+            "failure_rate_delta": 10.0,
+            "relative_change": null,
+            "failure_count_delta": 1,
+            "pass_rate_delta": -10.0,
+            "direction": "Increased"
+          }
+        }
+      },
+      {
+        "type": "timing_delay",
+        "condition": {
+          "timing_delay": 20,
+          "mode": "Parallel",
+          "workers": 2
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 9,
+          "failed": 1,
+          "failure_rate": 10.0,
+          "rate_classification": "Low Flakiness",
+          "evidence": [
+            {
+              "run_index": 2,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 1
+            }
+          ]
+        },
+        "classification": "STRONG",
+        "effect": {
+          "baseline": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0
+          },
+          "experiment": {
+            "total_runs": 10,
+            "passed": 9,
+            "failed": 1,
+            "failure_rate": 10.0
+          },
+          "comparison": {
+            "failure_rate_delta": 10.0,
+            "relative_change": null,
+            "failure_count_delta": 1,
+            "pass_rate_delta": -10.0,
+            "direction": "Increased"
+          }
+        }
+      },
+      {
+        "type": "mode",
+        "condition": {
+          "mode": "Sequential",
+          "workers": 1
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 10,
+          "failed": 0,
+          "failure_rate": 0.0,
+          "rate_classification": "Stable",
+          "evidence": []
+        },
+        "classification": "NO_SIGNAL",
+        "effect": {
+          "baseline": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0
+          },
+          "experiment": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0
+          },
+          "comparison": {
+            "failure_rate_delta": 0.0,
+            "relative_change": null,
+            "failure_count_delta": 0,
+            "pass_rate_delta": 0.0,
+            "direction": "Unchanged"
+          }
+        }
+      },
+      {
+        "type": "mode",
+        "condition": {
+          "mode": "Parallel",
+          "workers": 4
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 8,
+          "failed": 2,
+          "failure_rate": 20.0,
+          "rate_classification": "Low Flakiness",
+          "evidence": [
+            {
+              "run_index": 6,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 1
+            },
+            {
+              "run_index": 10,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 2
+            }
+          ]
+        },
+        "classification": "STRONG",
+        "effect": {
+          "baseline": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0
+          },
+          "experiment": {
+            "total_runs": 10,
+            "passed": 8,
+            "failed": 2,
+            "failure_rate": 20.0
+          },
+          "comparison": {
+            "failure_rate_delta": 20.0,
+            "relative_change": null,
+            "failure_count_delta": 2,
+            "pass_rate_delta": -20.0,
+            "direction": "Increased"
+          }
+        }
+      }
+    ],
+    "ranked": [
+      {
+        "type": "worker",
+        "condition": {
+          "worker": 8
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 6,
+          "failed": 4,
+          "failure_rate": 40.0,
+          "rate_classification": "Flaky/Moderate",
+          "evidence": [
+            {
+              "run_index": 1,
+              "line": "50",
+              "assertion": "assert 8 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 1
+            },
+            {
+              "run_index": 2,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 2
+            },
+            {
+              "run_index": 3,
+              "line": "50",
+              "assertion": "assert 4 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 3
+            },
+            {
+              "run_index": 7,
+              "line": "50",
+              "assertion": "assert 6 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 4
+            }
+          ]
+        },
+        "classification": "STRONG",
+        "effect": {
+          "baseline": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0
+          },
+          "experiment": {
+            "total_runs": 10,
+            "passed": 6,
+            "failed": 4,
+            "failure_rate": 40.0
+          },
+          "comparison": {
+            "failure_rate_delta": 40.0,
+            "relative_change": null,
+            "failure_count_delta": 4,
+            "pass_rate_delta": -40.0,
+            "direction": "Increased"
+          }
+        },
+        "effect_magnitude": 40.0,
+        "score": 140.0,
+        "rank": 1
+      },
+      {
+        "type": "worker",
+        "condition": {
+          "worker": 4
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 8,
+          "failed": 2,
+          "failure_rate": 20.0,
+          "rate_classification": "Low Flakiness",
+          "evidence": [
+            {
+              "run_index": 6,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 1
+            },
+            {
+              "run_index": 10,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 2
+            }
+          ]
+        },
+        "classification": "STRONG",
+        "effect": {
+          "baseline": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0
+          },
+          "experiment": {
+            "total_runs": 10,
+            "passed": 8,
+            "failed": 2,
+            "failure_rate": 20.0
+          },
+          "comparison": {
+            "failure_rate_delta": 20.0,
+            "relative_change": null,
+            "failure_count_delta": 2,
+            "pass_rate_delta": -20.0,
+            "direction": "Increased"
+          }
+        },
+        "effect_magnitude": 20.0,
+        "score": 120.0,
+        "rank": 2
+      },
+      {
+        "type": "mode",
+        "condition": {
+          "mode": "Parallel",
+          "workers": 4
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 8,
+          "failed": 2,
+          "failure_rate": 20.0,
+          "rate_classification": "Low Flakiness",
+          "evidence": [
+            {
+              "run_index": 6,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 1
+            },
+            {
+              "run_index": 10,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 2
+            }
+          ]
+        },
+        "classification": "STRONG",
+        "effect": {
+          "baseline": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0
+          },
+          "experiment": {
+            "total_runs": 10,
+            "passed": 8,
+            "failed": 2,
+            "failure_rate": 20.0
+          },
+          "comparison": {
+            "failure_rate_delta": 20.0,
+            "relative_change": null,
+            "failure_count_delta": 2,
+            "pass_rate_delta": -20.0,
+            "direction": "Increased"
+          }
+        },
+        "effect_magnitude": 20.0,
+        "score": 120.0,
+        "rank": 3
+      },
+      {
+        "type": "worker",
+        "condition": {
+          "worker": 2
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 9,
+          "failed": 1,
+          "failure_rate": 10.0,
+          "rate_classification": "Low Flakiness",
+          "evidence": [
+            {
+              "run_index": 2,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 1
+            }
+          ]
+        },
+        "classification": "STRONG",
+        "effect": {
+          "baseline": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0
+          },
+          "experiment": {
+            "total_runs": 10,
+            "passed": 9,
+            "failed": 1,
+            "failure_rate": 10.0
+          },
+          "comparison": {
+            "failure_rate_delta": 10.0,
+            "relative_change": null,
+            "failure_count_delta": 1,
+            "pass_rate_delta": -10.0,
+            "direction": "Increased"
+          }
+        },
+        "effect_magnitude": 10.0,
+        "score": 110.0,
+        "rank": 4
+      },
+      {
+        "type": "timing_delay",
+        "condition": {
+          "timing_delay": 10,
+          "mode": "Parallel",
+          "workers": 2
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 9,
+          "failed": 1,
+          "failure_rate": 10.0,
+          "rate_classification": "Low Flakiness",
+          "evidence": [
+            {
+              "run_index": 2,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 1
+            }
+          ]
+        },
+        "classification": "STRONG",
+        "effect": {
+          "baseline": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0
+          },
+          "experiment": {
+            "total_runs": 10,
+            "passed": 9,
+            "failed": 1,
+            "failure_rate": 10.0
+          },
+          "comparison": {
+            "failure_rate_delta": 10.0,
+            "relative_change": null,
+            "failure_count_delta": 1,
+            "pass_rate_delta": -10.0,
+            "direction": "Increased"
+          }
+        },
+        "effect_magnitude": 10.0,
+        "score": 110.0,
+        "rank": 5
+      },
+      {
+        "type": "timing_delay",
+        "condition": {
+          "timing_delay": 20,
+          "mode": "Parallel",
+          "workers": 2
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 9,
+          "failed": 1,
+          "failure_rate": 10.0,
+          "rate_classification": "Low Flakiness",
+          "evidence": [
+            {
+              "run_index": 2,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 1
+            }
+          ]
+        },
+        "classification": "STRONG",
+        "effect": {
+          "baseline": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0
+          },
+          "experiment": {
+            "total_runs": 10,
+            "passed": 9,
+            "failed": 1,
+            "failure_rate": 10.0
+          },
+          "comparison": {
+            "failure_rate_delta": 10.0,
+            "relative_change": null,
+            "failure_count_delta": 1,
+            "pass_rate_delta": -10.0,
+            "direction": "Increased"
+          }
+        },
+        "effect_magnitude": 10.0,
+        "score": 110.0,
+        "rank": 6
+      }
+    ],
+    "top": [
+      {
+        "type": "worker",
+        "condition": {
+          "worker": 8
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 6,
+          "failed": 4,
+          "failure_rate": 40.0,
+          "rate_classification": "Flaky/Moderate",
+          "evidence": [
+            {
+              "run_index": 1,
+              "line": "50",
+              "assertion": "assert 8 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 1
+            },
+            {
+              "run_index": 2,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 2
+            },
+            {
+              "run_index": 3,
+              "line": "50",
+              "assertion": "assert 4 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 3
+            },
+            {
+              "run_index": 7,
+              "line": "50",
+              "assertion": "assert 6 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 4
+            }
+          ]
+        },
+        "classification": "STRONG",
+        "effect": {
+          "baseline": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0
+          },
+          "experiment": {
+            "total_runs": 10,
+            "passed": 6,
+            "failed": 4,
+            "failure_rate": 40.0
+          },
+          "comparison": {
+            "failure_rate_delta": 40.0,
+            "relative_change": null,
+            "failure_count_delta": 4,
+            "pass_rate_delta": -40.0,
+            "direction": "Increased"
+          }
+        },
+        "effect_magnitude": 40.0,
+        "score": 140.0,
+        "rank": 1
+      },
+      {
+        "type": "worker",
+        "condition": {
+          "worker": 4
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 8,
+          "failed": 2,
+          "failure_rate": 20.0,
+          "rate_classification": "Low Flakiness",
+          "evidence": [
+            {
+              "run_index": 6,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 1
+            },
+            {
+              "run_index": 10,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 2
+            }
+          ]
+        },
+        "classification": "STRONG",
+        "effect": {
+          "baseline": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0
+          },
+          "experiment": {
+            "total_runs": 10,
+            "passed": 8,
+            "failed": 2,
+            "failure_rate": 20.0
+          },
+          "comparison": {
+            "failure_rate_delta": 20.0,
+            "relative_change": null,
+            "failure_count_delta": 2,
+            "pass_rate_delta": -20.0,
+            "direction": "Increased"
+          }
+        },
+        "effect_magnitude": 20.0,
+        "score": 120.0,
+        "rank": 2
+      },
+      {
+        "type": "mode",
+        "condition": {
+          "mode": "Parallel",
+          "workers": 4
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 8,
+          "failed": 2,
+          "failure_rate": 20.0,
+          "rate_classification": "Low Flakiness",
+          "evidence": [
+            {
+              "run_index": 6,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 1
+            },
+            {
+              "run_index": 10,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 2
+            }
+          ]
+        },
+        "classification": "STRONG",
+        "effect": {
+          "baseline": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0
+          },
+          "experiment": {
+            "total_runs": 10,
+            "passed": 8,
+            "failed": 2,
+            "failure_rate": 20.0
+          },
+          "comparison": {
+            "failure_rate_delta": 20.0,
+            "relative_change": null,
+            "failure_count_delta": 2,
+            "pass_rate_delta": -20.0,
+            "direction": "Increased"
+          }
+        },
+        "effect_magnitude": 20.0,
+        "score": 120.0,
+        "rank": 3
+      }
+    ]
+  },
+  "candidate_confirmations": [
+    {
+      "candidate": {
+        "type": "worker",
+        "condition": {
+          "worker": 8
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 6,
+          "failed": 4,
+          "failure_rate": 40.0,
+          "rate_classification": "Flaky/Moderate",
+          "evidence": [
+            {
+              "run_index": 1,
+              "line": "50",
+              "assertion": "assert 8 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 1
+            },
+            {
+              "run_index": 2,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 2
+            },
+            {
+              "run_index": 3,
+              "line": "50",
+              "assertion": "assert 4 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 3
+            },
+            {
+              "run_index": 7,
+              "line": "50",
+              "assertion": "assert 6 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 4
+            }
+          ]
+        },
+        "classification": "STRONG",
+        "effect": {
+          "baseline": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0
+          },
+          "experiment": {
+            "total_runs": 10,
+            "passed": 6,
+            "failed": 4,
+            "failure_rate": 40.0
+          },
+          "comparison": {
+            "failure_rate_delta": 40.0,
+            "relative_change": null,
+            "failure_count_delta": 4,
+            "pass_rate_delta": -40.0,
+            "direction": "Increased"
+          }
+        },
+        "effect_magnitude": 40.0,
+        "score": 140.0,
+        "rank": 1
+      },
+      "repeated_result": {
+        "candidate": {
+          "type": "worker",
+          "condition": {
+            "worker": 8
+          }
+        },
+        "repetitions": [
+          {
+            "run_index": 1,
+            "result": {
+              "total_runs": 10,
+              "passed": 6,
+              "failed": 4,
+              "failure_rate": 40.0,
+              "rate_classification": "Flaky/Moderate",
+              "evidence": [
+                {
+                  "run_index": 1,
+                  "line": "50",
+                  "assertion": "assert 3 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 1
+                },
+                {
+                  "run_index": 4,
+                  "line": "50",
+                  "assertion": "assert 7 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 2
+                },
+                {
+                  "run_index": 6,
+                  "line": "50",
+                  "assertion": "assert 5 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 3
+                },
+                {
+                  "run_index": 8,
+                  "line": "50",
+                  "assertion": "assert 7 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 4
+                }
+              ]
+            }
+          },
+          {
+            "run_index": 2,
+            "result": {
+              "total_runs": 10,
+              "passed": 6,
+              "failed": 4,
+              "failure_rate": 40.0,
+              "rate_classification": "Flaky/Moderate",
+              "evidence": [
+                {
+                  "run_index": 1,
+                  "line": "50",
+                  "assertion": "assert 6 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 1
+                },
+                {
+                  "run_index": 2,
+                  "line": "50",
+                  "assertion": "assert 5 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 2
+                },
+                {
+                  "run_index": 4,
+                  "line": "50",
+                  "assertion": "assert 3 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 3
+                },
+                {
+                  "run_index": 9,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 4
+                }
+              ]
+            }
+          },
+          {
+            "run_index": 3,
+            "result": {
+              "total_runs": 10,
+              "passed": 7,
+              "failed": 3,
+              "failure_rate": 30.0,
+              "rate_classification": "Flaky/Moderate",
+              "evidence": [
+                {
+                  "run_index": 3,
+                  "line": "50",
+                  "assertion": "assert 6 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 1
+                },
+                {
+                  "run_index": 4,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 2
+                },
+                {
+                  "run_index": 7,
+                  "line": "50",
+                  "assertion": "assert 4 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 3
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "repeated_analysis": {
+        "candidate": {
+          "type": "worker",
+          "condition": {
+            "worker": 8
+          }
+        },
+        "repetitions": [
+          {
+            "run_index": 1,
+            "result": {
+              "total_runs": 10,
+              "passed": 6,
+              "failed": 4,
+              "failure_rate": 40.0,
+              "rate_classification": "Flaky/Moderate",
+              "evidence": [
+                {
+                  "run_index": 1,
+                  "line": "50",
+                  "assertion": "assert 3 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 1
+                },
+                {
+                  "run_index": 4,
+                  "line": "50",
+                  "assertion": "assert 7 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 2
+                },
+                {
+                  "run_index": 6,
+                  "line": "50",
+                  "assertion": "assert 5 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 3
+                },
+                {
+                  "run_index": 8,
+                  "line": "50",
+                  "assertion": "assert 7 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 4
+                }
+              ]
+            }
+          },
+          {
+            "run_index": 2,
+            "result": {
+              "total_runs": 10,
+              "passed": 6,
+              "failed": 4,
+              "failure_rate": 40.0,
+              "rate_classification": "Flaky/Moderate",
+              "evidence": [
+                {
+                  "run_index": 1,
+                  "line": "50",
+                  "assertion": "assert 6 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 1
+                },
+                {
+                  "run_index": 2,
+                  "line": "50",
+                  "assertion": "assert 5 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 2
+                },
+                {
+                  "run_index": 4,
+                  "line": "50",
+                  "assertion": "assert 3 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 3
+                },
+                {
+                  "run_index": 9,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 4
+                }
+              ]
+            }
+          },
+          {
+            "run_index": 3,
+            "result": {
+              "total_runs": 10,
+              "passed": 7,
+              "failed": 3,
+              "failure_rate": 30.0,
+              "rate_classification": "Flaky/Moderate",
+              "evidence": [
+                {
+                  "run_index": 3,
+                  "line": "50",
+                  "assertion": "assert 6 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 1
+                },
+                {
+                  "run_index": 4,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 2
+                },
+                {
+                  "run_index": 7,
+                  "line": "50",
+                  "assertion": "assert 4 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 3
+                }
+              ]
+            }
+          }
+        ],
+        "analysis": {
+          "total_repetitions": 3,
+          "failure_rate": {
+            "average": 36.67,
+            "minimum": 30.0,
+            "maximum": 40.0,
+            "range": 10.0
+          },
+          "effects": [
+            {
+              "run_index": 1,
+              "comparison": {
+                "baseline": {
+                  "total_runs": 10,
+                  "passed": 10,
+                  "failed": 0,
+                  "failure_rate": 0.0
+                },
+                "experiment": {
+                  "total_runs": 10,
+                  "passed": 6,
+                  "failed": 4,
+                  "failure_rate": 40.0
+                },
+                "comparison": {
+                  "failure_rate_delta": 40.0,
+                  "relative_change": null,
+                  "failure_count_delta": 4,
+                  "pass_rate_delta": -40.0,
+                  "direction": "Increased"
+                }
+              }
+            },
+            {
+              "run_index": 2,
+              "comparison": {
+                "baseline": {
+                  "total_runs": 10,
+                  "passed": 10,
+                  "failed": 0,
+                  "failure_rate": 0.0
+                },
+                "experiment": {
+                  "total_runs": 10,
+                  "passed": 6,
+                  "failed": 4,
+                  "failure_rate": 40.0
+                },
+                "comparison": {
+                  "failure_rate_delta": 40.0,
+                  "relative_change": null,
+                  "failure_count_delta": 4,
+                  "pass_rate_delta": -40.0,
+                  "direction": "Increased"
+                }
+              }
+            },
+            {
+              "run_index": 3,
+              "comparison": {
+                "baseline": {
+                  "total_runs": 10,
+                  "passed": 10,
+                  "failed": 0,
+                  "failure_rate": 0.0
+                },
+                "experiment": {
+                  "total_runs": 10,
+                  "passed": 7,
+                  "failed": 3,
+                  "failure_rate": 30.0
+                },
+                "comparison": {
+                  "failure_rate_delta": 30.0,
+                  "relative_change": null,
+                  "failure_count_delta": 3,
+                  "pass_rate_delta": -30.0,
+                  "direction": "Increased"
+                }
+              }
+            }
+          ],
+          "consistency": {
+            "total_repetitions": 3,
+            "increased_count": 3,
+            "rate_label": "Increased",
+            "consistency_rate": 100.0
+          }
+        }
+      },
+      "confirmation": {
+        "classification": "Confirmed",
+        "consistency_rate": 100.0,
+        "average_effect": 36.67
+      }
+    },
+    {
+      "candidate": {
+        "type": "worker",
+        "condition": {
+          "worker": 4
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 8,
+          "failed": 2,
+          "failure_rate": 20.0,
+          "rate_classification": "Low Flakiness",
+          "evidence": [
+            {
+              "run_index": 6,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 1
+            },
+            {
+              "run_index": 10,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 2
+            }
+          ]
+        },
+        "classification": "STRONG",
+        "effect": {
+          "baseline": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0
+          },
+          "experiment": {
+            "total_runs": 10,
+            "passed": 8,
+            "failed": 2,
+            "failure_rate": 20.0
+          },
+          "comparison": {
+            "failure_rate_delta": 20.0,
+            "relative_change": null,
+            "failure_count_delta": 2,
+            "pass_rate_delta": -20.0,
+            "direction": "Increased"
+          }
+        },
+        "effect_magnitude": 20.0,
+        "score": 120.0,
+        "rank": 2
+      },
+      "repeated_result": {
+        "candidate": {
+          "type": "worker",
+          "condition": {
+            "worker": 4
+          }
+        },
+        "repetitions": [
+          {
+            "run_index": 1,
+            "result": {
+              "total_runs": 10,
+              "passed": 7,
+              "failed": 3,
+              "failure_rate": 30.0,
+              "rate_classification": "Flaky/Moderate",
+              "evidence": [
+                {
+                  "run_index": 3,
+                  "line": "50",
+                  "assertion": "assert 3 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 1
+                },
+                {
+                  "run_index": 5,
+                  "line": "50",
+                  "assertion": "assert 3 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 2
+                },
+                {
+                  "run_index": 10,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 3
+                }
+              ]
+            }
+          },
+          {
+            "run_index": 2,
+            "result": {
+              "total_runs": 10,
+              "passed": 6,
+              "failed": 4,
+              "failure_rate": 40.0,
+              "rate_classification": "Flaky/Moderate",
+              "evidence": [
+                {
+                  "run_index": 2,
+                  "line": "50",
+                  "assertion": "assert 4 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 1
+                },
+                {
+                  "run_index": 3,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 2
+                },
+                {
+                  "run_index": 6,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 3
+                },
+                {
+                  "run_index": 8,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 4
+                }
+              ]
+            }
+          },
+          {
+            "run_index": 3,
+            "result": {
+              "total_runs": 10,
+              "passed": 6,
+              "failed": 4,
+              "failure_rate": 40.0,
+              "rate_classification": "Flaky/Moderate",
+              "evidence": [
+                {
+                  "run_index": 2,
+                  "line": "50",
+                  "assertion": "assert 3 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 1
+                },
+                {
+                  "run_index": 3,
+                  "line": "50",
+                  "assertion": "assert 3 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 2
+                },
+                {
+                  "run_index": 7,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 3
+                },
+                {
+                  "run_index": 10,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 4
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "repeated_analysis": {
+        "candidate": {
+          "type": "worker",
+          "condition": {
+            "worker": 4
+          }
+        },
+        "repetitions": [
+          {
+            "run_index": 1,
+            "result": {
+              "total_runs": 10,
+              "passed": 7,
+              "failed": 3,
+              "failure_rate": 30.0,
+              "rate_classification": "Flaky/Moderate",
+              "evidence": [
+                {
+                  "run_index": 3,
+                  "line": "50",
+                  "assertion": "assert 3 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 1
+                },
+                {
+                  "run_index": 5,
+                  "line": "50",
+                  "assertion": "assert 3 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 2
+                },
+                {
+                  "run_index": 10,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 3
+                }
+              ]
+            }
+          },
+          {
+            "run_index": 2,
+            "result": {
+              "total_runs": 10,
+              "passed": 6,
+              "failed": 4,
+              "failure_rate": 40.0,
+              "rate_classification": "Flaky/Moderate",
+              "evidence": [
+                {
+                  "run_index": 2,
+                  "line": "50",
+                  "assertion": "assert 4 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 1
+                },
+                {
+                  "run_index": 3,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 2
+                },
+                {
+                  "run_index": 6,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 3
+                },
+                {
+                  "run_index": 8,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 4
+                }
+              ]
+            }
+          },
+          {
+            "run_index": 3,
+            "result": {
+              "total_runs": 10,
+              "passed": 6,
+              "failed": 4,
+              "failure_rate": 40.0,
+              "rate_classification": "Flaky/Moderate",
+              "evidence": [
+                {
+                  "run_index": 2,
+                  "line": "50",
+                  "assertion": "assert 3 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 1
+                },
+                {
+                  "run_index": 3,
+                  "line": "50",
+                  "assertion": "assert 3 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 2
+                },
+                {
+                  "run_index": 7,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 3
+                },
+                {
+                  "run_index": 10,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 4
+                }
+              ]
+            }
+          }
+        ],
+        "analysis": {
+          "total_repetitions": 3,
+          "failure_rate": {
+            "average": 36.67,
+            "minimum": 30.0,
+            "maximum": 40.0,
+            "range": 10.0
+          },
+          "effects": [
+            {
+              "run_index": 1,
+              "comparison": {
+                "baseline": {
+                  "total_runs": 10,
+                  "passed": 10,
+                  "failed": 0,
+                  "failure_rate": 0.0
+                },
+                "experiment": {
+                  "total_runs": 10,
+                  "passed": 7,
+                  "failed": 3,
+                  "failure_rate": 30.0
+                },
+                "comparison": {
+                  "failure_rate_delta": 30.0,
+                  "relative_change": null,
+                  "failure_count_delta": 3,
+                  "pass_rate_delta": -30.0,
+                  "direction": "Increased"
+                }
+              }
+            },
+            {
+              "run_index": 2,
+              "comparison": {
+                "baseline": {
+                  "total_runs": 10,
+                  "passed": 10,
+                  "failed": 0,
+                  "failure_rate": 0.0
+                },
+                "experiment": {
+                  "total_runs": 10,
+                  "passed": 6,
+                  "failed": 4,
+                  "failure_rate": 40.0
+                },
+                "comparison": {
+                  "failure_rate_delta": 40.0,
+                  "relative_change": null,
+                  "failure_count_delta": 4,
+                  "pass_rate_delta": -40.0,
+                  "direction": "Increased"
+                }
+              }
+            },
+            {
+              "run_index": 3,
+              "comparison": {
+                "baseline": {
+                  "total_runs": 10,
+                  "passed": 10,
+                  "failed": 0,
+                  "failure_rate": 0.0
+                },
+                "experiment": {
+                  "total_runs": 10,
+                  "passed": 6,
+                  "failed": 4,
+                  "failure_rate": 40.0
+                },
+                "comparison": {
+                  "failure_rate_delta": 40.0,
+                  "relative_change": null,
+                  "failure_count_delta": 4,
+                  "pass_rate_delta": -40.0,
+                  "direction": "Increased"
+                }
+              }
+            }
+          ],
+          "consistency": {
+            "total_repetitions": 3,
+            "increased_count": 3,
+            "rate_label": "Increased",
+            "consistency_rate": 100.0
+          }
+        }
+      },
+      "confirmation": {
+        "classification": "Confirmed",
+        "consistency_rate": 100.0,
+        "average_effect": 36.67
+      }
+    },
+    {
+      "candidate": {
+        "type": "mode",
+        "condition": {
+          "mode": "Parallel",
+          "workers": 4
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 8,
+          "failed": 2,
+          "failure_rate": 20.0,
+          "rate_classification": "Low Flakiness",
+          "evidence": [
+            {
+              "run_index": 6,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 1
+            },
+            {
+              "run_index": 10,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 2
+            }
+          ]
+        },
+        "classification": "STRONG",
+        "effect": {
+          "baseline": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0
+          },
+          "experiment": {
+            "total_runs": 10,
+            "passed": 8,
+            "failed": 2,
+            "failure_rate": 20.0
+          },
+          "comparison": {
+            "failure_rate_delta": 20.0,
+            "relative_change": null,
+            "failure_count_delta": 2,
+            "pass_rate_delta": -20.0,
+            "direction": "Increased"
+          }
+        },
+        "effect_magnitude": 20.0,
+        "score": 120.0,
+        "rank": 3
+      },
+      "repeated_result": {
+        "candidate": {
+          "type": "mode",
+          "condition": {
+            "mode": "Parallel",
+            "workers": 4
+          }
+        },
+        "repetitions": [
+          {
+            "run_index": 1,
+            "result": {
+              "total_runs": 10,
+              "passed": 7,
+              "failed": 3,
+              "failure_rate": 30.0,
+              "rate_classification": "Flaky/Moderate",
+              "evidence": [
+                {
+                  "run_index": 3,
+                  "line": "50",
+                  "assertion": "assert 3 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 1
+                },
+                {
+                  "run_index": 5,
+                  "line": "50",
+                  "assertion": "assert 3 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 2
+                },
+                {
+                  "run_index": 9,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 3
+                }
+              ]
+            }
+          },
+          {
+            "run_index": 2,
+            "result": {
+              "total_runs": 10,
+              "passed": 6,
+              "failed": 4,
+              "failure_rate": 40.0,
+              "rate_classification": "Flaky/Moderate",
+              "evidence": [
+                {
+                  "run_index": 3,
+                  "line": "50",
+                  "assertion": "assert 4 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 1
+                },
+                {
+                  "run_index": 4,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 2
+                },
+                {
+                  "run_index": 6,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 3
+                },
+                {
+                  "run_index": 7,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 4
+                }
+              ]
+            }
+          },
+          {
+            "run_index": 3,
+            "result": {
+              "total_runs": 10,
+              "passed": 6,
+              "failed": 4,
+              "failure_rate": 40.0,
+              "rate_classification": "Flaky/Moderate",
+              "evidence": [
+                {
+                  "run_index": 1,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 1
+                },
+                {
+                  "run_index": 3,
+                  "line": "50",
+                  "assertion": "assert 4 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 2
+                },
+                {
+                  "run_index": 5,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 3
+                },
+                {
+                  "run_index": 7,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 4
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "repeated_analysis": {
+        "candidate": {
+          "type": "mode",
+          "condition": {
+            "mode": "Parallel",
+            "workers": 4
+          }
+        },
+        "repetitions": [
+          {
+            "run_index": 1,
+            "result": {
+              "total_runs": 10,
+              "passed": 7,
+              "failed": 3,
+              "failure_rate": 30.0,
+              "rate_classification": "Flaky/Moderate",
+              "evidence": [
+                {
+                  "run_index": 3,
+                  "line": "50",
+                  "assertion": "assert 3 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 1
+                },
+                {
+                  "run_index": 5,
+                  "line": "50",
+                  "assertion": "assert 3 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 2
+                },
+                {
+                  "run_index": 9,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 3
+                }
+              ]
+            }
+          },
+          {
+            "run_index": 2,
+            "result": {
+              "total_runs": 10,
+              "passed": 6,
+              "failed": 4,
+              "failure_rate": 40.0,
+              "rate_classification": "Flaky/Moderate",
+              "evidence": [
+                {
+                  "run_index": 3,
+                  "line": "50",
+                  "assertion": "assert 4 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 1
+                },
+                {
+                  "run_index": 4,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 2
+                },
+                {
+                  "run_index": 6,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 3
+                },
+                {
+                  "run_index": 7,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 4
+                }
+              ]
+            }
+          },
+          {
+            "run_index": 3,
+            "result": {
+              "total_runs": 10,
+              "passed": 6,
+              "failed": 4,
+              "failure_rate": 40.0,
+              "rate_classification": "Flaky/Moderate",
+              "evidence": [
+                {
+                  "run_index": 1,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 1
+                },
+                {
+                  "run_index": 3,
+                  "line": "50",
+                  "assertion": "assert 4 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 2
+                },
+                {
+                  "run_index": 5,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 3
+                },
+                {
+                  "run_index": 7,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 4
+                }
+              ]
+            }
+          }
+        ],
+        "analysis": {
+          "total_repetitions": 3,
+          "failure_rate": {
+            "average": 36.67,
+            "minimum": 30.0,
+            "maximum": 40.0,
+            "range": 10.0
+          },
+          "effects": [
+            {
+              "run_index": 1,
+              "comparison": {
+                "baseline": {
+                  "total_runs": 10,
+                  "passed": 10,
+                  "failed": 0,
+                  "failure_rate": 0.0
+                },
+                "experiment": {
+                  "total_runs": 10,
+                  "passed": 7,
+                  "failed": 3,
+                  "failure_rate": 30.0
+                },
+                "comparison": {
+                  "failure_rate_delta": 30.0,
+                  "relative_change": null,
+                  "failure_count_delta": 3,
+                  "pass_rate_delta": -30.0,
+                  "direction": "Increased"
+                }
+              }
+            },
+            {
+              "run_index": 2,
+              "comparison": {
+                "baseline": {
+                  "total_runs": 10,
+                  "passed": 10,
+                  "failed": 0,
+                  "failure_rate": 0.0
+                },
+                "experiment": {
+                  "total_runs": 10,
+                  "passed": 6,
+                  "failed": 4,
+                  "failure_rate": 40.0
+                },
+                "comparison": {
+                  "failure_rate_delta": 40.0,
+                  "relative_change": null,
+                  "failure_count_delta": 4,
+                  "pass_rate_delta": -40.0,
+                  "direction": "Increased"
+                }
+              }
+            },
+            {
+              "run_index": 3,
+              "comparison": {
+                "baseline": {
+                  "total_runs": 10,
+                  "passed": 10,
+                  "failed": 0,
+                  "failure_rate": 0.0
+                },
+                "experiment": {
+                  "total_runs": 10,
+                  "passed": 6,
+                  "failed": 4,
+                  "failure_rate": 40.0
+                },
+                "comparison": {
+                  "failure_rate_delta": 40.0,
+                  "relative_change": null,
+                  "failure_count_delta": 4,
+                  "pass_rate_delta": -40.0,
+                  "direction": "Increased"
+                }
+              }
+            }
+          ],
+          "consistency": {
+            "total_repetitions": 3,
+            "increased_count": 3,
+            "rate_label": "Increased",
+            "consistency_rate": 100.0
+          }
+        }
+      },
+      "confirmation": {
+        "classification": "Confirmed",
+        "consistency_rate": 100.0,
+        "average_effect": 36.67
+      }
+    }
+  ],
+  "confirmed_candidates": [
+    {
+      "candidate": {
+        "type": "worker",
+        "condition": {
+          "worker": 8
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 6,
+          "failed": 4,
+          "failure_rate": 40.0,
+          "rate_classification": "Flaky/Moderate",
+          "evidence": [
+            {
+              "run_index": 1,
+              "line": "50",
+              "assertion": "assert 8 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 1
+            },
+            {
+              "run_index": 2,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 2
+            },
+            {
+              "run_index": 3,
+              "line": "50",
+              "assertion": "assert 4 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 3
+            },
+            {
+              "run_index": 7,
+              "line": "50",
+              "assertion": "assert 6 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 4
+            }
+          ]
+        },
+        "classification": "STRONG",
+        "effect": {
+          "baseline": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0
+          },
+          "experiment": {
+            "total_runs": 10,
+            "passed": 6,
+            "failed": 4,
+            "failure_rate": 40.0
+          },
+          "comparison": {
+            "failure_rate_delta": 40.0,
+            "relative_change": null,
+            "failure_count_delta": 4,
+            "pass_rate_delta": -40.0,
+            "direction": "Increased"
+          }
+        },
+        "effect_magnitude": 40.0,
+        "score": 140.0,
+        "rank": 1
+      },
+      "repeated_result": {
+        "candidate": {
+          "type": "worker",
+          "condition": {
+            "worker": 8
+          }
+        },
+        "repetitions": [
+          {
+            "run_index": 1,
+            "result": {
+              "total_runs": 10,
+              "passed": 6,
+              "failed": 4,
+              "failure_rate": 40.0,
+              "rate_classification": "Flaky/Moderate",
+              "evidence": [
+                {
+                  "run_index": 1,
+                  "line": "50",
+                  "assertion": "assert 3 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 1
+                },
+                {
+                  "run_index": 4,
+                  "line": "50",
+                  "assertion": "assert 7 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 2
+                },
+                {
+                  "run_index": 6,
+                  "line": "50",
+                  "assertion": "assert 5 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 3
+                },
+                {
+                  "run_index": 8,
+                  "line": "50",
+                  "assertion": "assert 7 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 4
+                }
+              ]
+            }
+          },
+          {
+            "run_index": 2,
+            "result": {
+              "total_runs": 10,
+              "passed": 6,
+              "failed": 4,
+              "failure_rate": 40.0,
+              "rate_classification": "Flaky/Moderate",
+              "evidence": [
+                {
+                  "run_index": 1,
+                  "line": "50",
+                  "assertion": "assert 6 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 1
+                },
+                {
+                  "run_index": 2,
+                  "line": "50",
+                  "assertion": "assert 5 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 2
+                },
+                {
+                  "run_index": 4,
+                  "line": "50",
+                  "assertion": "assert 3 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 3
+                },
+                {
+                  "run_index": 9,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 4
+                }
+              ]
+            }
+          },
+          {
+            "run_index": 3,
+            "result": {
+              "total_runs": 10,
+              "passed": 7,
+              "failed": 3,
+              "failure_rate": 30.0,
+              "rate_classification": "Flaky/Moderate",
+              "evidence": [
+                {
+                  "run_index": 3,
+                  "line": "50",
+                  "assertion": "assert 6 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 1
+                },
+                {
+                  "run_index": 4,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 2
+                },
+                {
+                  "run_index": 7,
+                  "line": "50",
+                  "assertion": "assert 4 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 3
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "repeated_analysis": {
+        "candidate": {
+          "type": "worker",
+          "condition": {
+            "worker": 8
+          }
+        },
+        "repetitions": [
+          {
+            "run_index": 1,
+            "result": {
+              "total_runs": 10,
+              "passed": 6,
+              "failed": 4,
+              "failure_rate": 40.0,
+              "rate_classification": "Flaky/Moderate",
+              "evidence": [
+                {
+                  "run_index": 1,
+                  "line": "50",
+                  "assertion": "assert 3 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 1
+                },
+                {
+                  "run_index": 4,
+                  "line": "50",
+                  "assertion": "assert 7 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 2
+                },
+                {
+                  "run_index": 6,
+                  "line": "50",
+                  "assertion": "assert 5 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 3
+                },
+                {
+                  "run_index": 8,
+                  "line": "50",
+                  "assertion": "assert 7 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 4
+                }
+              ]
+            }
+          },
+          {
+            "run_index": 2,
+            "result": {
+              "total_runs": 10,
+              "passed": 6,
+              "failed": 4,
+              "failure_rate": 40.0,
+              "rate_classification": "Flaky/Moderate",
+              "evidence": [
+                {
+                  "run_index": 1,
+                  "line": "50",
+                  "assertion": "assert 6 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 1
+                },
+                {
+                  "run_index": 2,
+                  "line": "50",
+                  "assertion": "assert 5 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 2
+                },
+                {
+                  "run_index": 4,
+                  "line": "50",
+                  "assertion": "assert 3 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 3
+                },
+                {
+                  "run_index": 9,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 4
+                }
+              ]
+            }
+          },
+          {
+            "run_index": 3,
+            "result": {
+              "total_runs": 10,
+              "passed": 7,
+              "failed": 3,
+              "failure_rate": 30.0,
+              "rate_classification": "Flaky/Moderate",
+              "evidence": [
+                {
+                  "run_index": 3,
+                  "line": "50",
+                  "assertion": "assert 6 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 1
+                },
+                {
+                  "run_index": 4,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 2
+                },
+                {
+                  "run_index": 7,
+                  "line": "50",
+                  "assertion": "assert 4 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 3
+                }
+              ]
+            }
+          }
+        ],
+        "analysis": {
+          "total_repetitions": 3,
+          "failure_rate": {
+            "average": 36.67,
+            "minimum": 30.0,
+            "maximum": 40.0,
+            "range": 10.0
+          },
+          "effects": [
+            {
+              "run_index": 1,
+              "comparison": {
+                "baseline": {
+                  "total_runs": 10,
+                  "passed": 10,
+                  "failed": 0,
+                  "failure_rate": 0.0
+                },
+                "experiment": {
+                  "total_runs": 10,
+                  "passed": 6,
+                  "failed": 4,
+                  "failure_rate": 40.0
+                },
+                "comparison": {
+                  "failure_rate_delta": 40.0,
+                  "relative_change": null,
+                  "failure_count_delta": 4,
+                  "pass_rate_delta": -40.0,
+                  "direction": "Increased"
+                }
+              }
+            },
+            {
+              "run_index": 2,
+              "comparison": {
+                "baseline": {
+                  "total_runs": 10,
+                  "passed": 10,
+                  "failed": 0,
+                  "failure_rate": 0.0
+                },
+                "experiment": {
+                  "total_runs": 10,
+                  "passed": 6,
+                  "failed": 4,
+                  "failure_rate": 40.0
+                },
+                "comparison": {
+                  "failure_rate_delta": 40.0,
+                  "relative_change": null,
+                  "failure_count_delta": 4,
+                  "pass_rate_delta": -40.0,
+                  "direction": "Increased"
+                }
+              }
+            },
+            {
+              "run_index": 3,
+              "comparison": {
+                "baseline": {
+                  "total_runs": 10,
+                  "passed": 10,
+                  "failed": 0,
+                  "failure_rate": 0.0
+                },
+                "experiment": {
+                  "total_runs": 10,
+                  "passed": 7,
+                  "failed": 3,
+                  "failure_rate": 30.0
+                },
+                "comparison": {
+                  "failure_rate_delta": 30.0,
+                  "relative_change": null,
+                  "failure_count_delta": 3,
+                  "pass_rate_delta": -30.0,
+                  "direction": "Increased"
+                }
+              }
+            }
+          ],
+          "consistency": {
+            "total_repetitions": 3,
+            "increased_count": 3,
+            "rate_label": "Increased",
+            "consistency_rate": 100.0
+          }
+        }
+      },
+      "confirmation": {
+        "classification": "Confirmed",
+        "consistency_rate": 100.0,
+        "average_effect": 36.67
+      }
+    },
+    {
+      "candidate": {
+        "type": "worker",
+        "condition": {
+          "worker": 4
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 8,
+          "failed": 2,
+          "failure_rate": 20.0,
+          "rate_classification": "Low Flakiness",
+          "evidence": [
+            {
+              "run_index": 6,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 1
+            },
+            {
+              "run_index": 10,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 2
+            }
+          ]
+        },
+        "classification": "STRONG",
+        "effect": {
+          "baseline": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0
+          },
+          "experiment": {
+            "total_runs": 10,
+            "passed": 8,
+            "failed": 2,
+            "failure_rate": 20.0
+          },
+          "comparison": {
+            "failure_rate_delta": 20.0,
+            "relative_change": null,
+            "failure_count_delta": 2,
+            "pass_rate_delta": -20.0,
+            "direction": "Increased"
+          }
+        },
+        "effect_magnitude": 20.0,
+        "score": 120.0,
+        "rank": 2
+      },
+      "repeated_result": {
+        "candidate": {
+          "type": "worker",
+          "condition": {
+            "worker": 4
+          }
+        },
+        "repetitions": [
+          {
+            "run_index": 1,
+            "result": {
+              "total_runs": 10,
+              "passed": 7,
+              "failed": 3,
+              "failure_rate": 30.0,
+              "rate_classification": "Flaky/Moderate",
+              "evidence": [
+                {
+                  "run_index": 3,
+                  "line": "50",
+                  "assertion": "assert 3 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 1
+                },
+                {
+                  "run_index": 5,
+                  "line": "50",
+                  "assertion": "assert 3 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 2
+                },
+                {
+                  "run_index": 10,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 3
+                }
+              ]
+            }
+          },
+          {
+            "run_index": 2,
+            "result": {
+              "total_runs": 10,
+              "passed": 6,
+              "failed": 4,
+              "failure_rate": 40.0,
+              "rate_classification": "Flaky/Moderate",
+              "evidence": [
+                {
+                  "run_index": 2,
+                  "line": "50",
+                  "assertion": "assert 4 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 1
+                },
+                {
+                  "run_index": 3,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 2
+                },
+                {
+                  "run_index": 6,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 3
+                },
+                {
+                  "run_index": 8,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 4
+                }
+              ]
+            }
+          },
+          {
+            "run_index": 3,
+            "result": {
+              "total_runs": 10,
+              "passed": 6,
+              "failed": 4,
+              "failure_rate": 40.0,
+              "rate_classification": "Flaky/Moderate",
+              "evidence": [
+                {
+                  "run_index": 2,
+                  "line": "50",
+                  "assertion": "assert 3 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 1
+                },
+                {
+                  "run_index": 3,
+                  "line": "50",
+                  "assertion": "assert 3 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 2
+                },
+                {
+                  "run_index": 7,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 3
+                },
+                {
+                  "run_index": 10,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 4
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "repeated_analysis": {
+        "candidate": {
+          "type": "worker",
+          "condition": {
+            "worker": 4
+          }
+        },
+        "repetitions": [
+          {
+            "run_index": 1,
+            "result": {
+              "total_runs": 10,
+              "passed": 7,
+              "failed": 3,
+              "failure_rate": 30.0,
+              "rate_classification": "Flaky/Moderate",
+              "evidence": [
+                {
+                  "run_index": 3,
+                  "line": "50",
+                  "assertion": "assert 3 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 1
+                },
+                {
+                  "run_index": 5,
+                  "line": "50",
+                  "assertion": "assert 3 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 2
+                },
+                {
+                  "run_index": 10,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 3
+                }
+              ]
+            }
+          },
+          {
+            "run_index": 2,
+            "result": {
+              "total_runs": 10,
+              "passed": 6,
+              "failed": 4,
+              "failure_rate": 40.0,
+              "rate_classification": "Flaky/Moderate",
+              "evidence": [
+                {
+                  "run_index": 2,
+                  "line": "50",
+                  "assertion": "assert 4 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 1
+                },
+                {
+                  "run_index": 3,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 2
+                },
+                {
+                  "run_index": 6,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 3
+                },
+                {
+                  "run_index": 8,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 4
+                }
+              ]
+            }
+          },
+          {
+            "run_index": 3,
+            "result": {
+              "total_runs": 10,
+              "passed": 6,
+              "failed": 4,
+              "failure_rate": 40.0,
+              "rate_classification": "Flaky/Moderate",
+              "evidence": [
+                {
+                  "run_index": 2,
+                  "line": "50",
+                  "assertion": "assert 3 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 1
+                },
+                {
+                  "run_index": 3,
+                  "line": "50",
+                  "assertion": "assert 3 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 2
+                },
+                {
+                  "run_index": 7,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 3
+                },
+                {
+                  "run_index": 10,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 4
+                }
+              ]
+            }
+          }
+        ],
+        "analysis": {
+          "total_repetitions": 3,
+          "failure_rate": {
+            "average": 36.67,
+            "minimum": 30.0,
+            "maximum": 40.0,
+            "range": 10.0
+          },
+          "effects": [
+            {
+              "run_index": 1,
+              "comparison": {
+                "baseline": {
+                  "total_runs": 10,
+                  "passed": 10,
+                  "failed": 0,
+                  "failure_rate": 0.0
+                },
+                "experiment": {
+                  "total_runs": 10,
+                  "passed": 7,
+                  "failed": 3,
+                  "failure_rate": 30.0
+                },
+                "comparison": {
+                  "failure_rate_delta": 30.0,
+                  "relative_change": null,
+                  "failure_count_delta": 3,
+                  "pass_rate_delta": -30.0,
+                  "direction": "Increased"
+                }
+              }
+            },
+            {
+              "run_index": 2,
+              "comparison": {
+                "baseline": {
+                  "total_runs": 10,
+                  "passed": 10,
+                  "failed": 0,
+                  "failure_rate": 0.0
+                },
+                "experiment": {
+                  "total_runs": 10,
+                  "passed": 6,
+                  "failed": 4,
+                  "failure_rate": 40.0
+                },
+                "comparison": {
+                  "failure_rate_delta": 40.0,
+                  "relative_change": null,
+                  "failure_count_delta": 4,
+                  "pass_rate_delta": -40.0,
+                  "direction": "Increased"
+                }
+              }
+            },
+            {
+              "run_index": 3,
+              "comparison": {
+                "baseline": {
+                  "total_runs": 10,
+                  "passed": 10,
+                  "failed": 0,
+                  "failure_rate": 0.0
+                },
+                "experiment": {
+                  "total_runs": 10,
+                  "passed": 6,
+                  "failed": 4,
+                  "failure_rate": 40.0
+                },
+                "comparison": {
+                  "failure_rate_delta": 40.0,
+                  "relative_change": null,
+                  "failure_count_delta": 4,
+                  "pass_rate_delta": -40.0,
+                  "direction": "Increased"
+                }
+              }
+            }
+          ],
+          "consistency": {
+            "total_repetitions": 3,
+            "increased_count": 3,
+            "rate_label": "Increased",
+            "consistency_rate": 100.0
+          }
+        }
+      },
+      "confirmation": {
+        "classification": "Confirmed",
+        "consistency_rate": 100.0,
+        "average_effect": 36.67
+      }
+    },
+    {
+      "candidate": {
+        "type": "mode",
+        "condition": {
+          "mode": "Parallel",
+          "workers": 4
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 8,
+          "failed": 2,
+          "failure_rate": 20.0,
+          "rate_classification": "Low Flakiness",
+          "evidence": [
+            {
+              "run_index": 6,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 1
+            },
+            {
+              "run_index": 10,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 2
+            }
+          ]
+        },
+        "classification": "STRONG",
+        "effect": {
+          "baseline": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0
+          },
+          "experiment": {
+            "total_runs": 10,
+            "passed": 8,
+            "failed": 2,
+            "failure_rate": 20.0
+          },
+          "comparison": {
+            "failure_rate_delta": 20.0,
+            "relative_change": null,
+            "failure_count_delta": 2,
+            "pass_rate_delta": -20.0,
+            "direction": "Increased"
+          }
+        },
+        "effect_magnitude": 20.0,
+        "score": 120.0,
+        "rank": 3
+      },
+      "repeated_result": {
+        "candidate": {
+          "type": "mode",
+          "condition": {
+            "mode": "Parallel",
+            "workers": 4
+          }
+        },
+        "repetitions": [
+          {
+            "run_index": 1,
+            "result": {
+              "total_runs": 10,
+              "passed": 7,
+              "failed": 3,
+              "failure_rate": 30.0,
+              "rate_classification": "Flaky/Moderate",
+              "evidence": [
+                {
+                  "run_index": 3,
+                  "line": "50",
+                  "assertion": "assert 3 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 1
+                },
+                {
+                  "run_index": 5,
+                  "line": "50",
+                  "assertion": "assert 3 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 2
+                },
+                {
+                  "run_index": 9,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 3
+                }
+              ]
+            }
+          },
+          {
+            "run_index": 2,
+            "result": {
+              "total_runs": 10,
+              "passed": 6,
+              "failed": 4,
+              "failure_rate": 40.0,
+              "rate_classification": "Flaky/Moderate",
+              "evidence": [
+                {
+                  "run_index": 3,
+                  "line": "50",
+                  "assertion": "assert 4 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 1
+                },
+                {
+                  "run_index": 4,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 2
+                },
+                {
+                  "run_index": 6,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 3
+                },
+                {
+                  "run_index": 7,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 4
+                }
+              ]
+            }
+          },
+          {
+            "run_index": 3,
+            "result": {
+              "total_runs": 10,
+              "passed": 6,
+              "failed": 4,
+              "failure_rate": 40.0,
+              "rate_classification": "Flaky/Moderate",
+              "evidence": [
+                {
+                  "run_index": 1,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 1
+                },
+                {
+                  "run_index": 3,
+                  "line": "50",
+                  "assertion": "assert 4 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 2
+                },
+                {
+                  "run_index": 5,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 3
+                },
+                {
+                  "run_index": 7,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 4
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "repeated_analysis": {
+        "candidate": {
+          "type": "mode",
+          "condition": {
+            "mode": "Parallel",
+            "workers": 4
+          }
+        },
+        "repetitions": [
+          {
+            "run_index": 1,
+            "result": {
+              "total_runs": 10,
+              "passed": 7,
+              "failed": 3,
+              "failure_rate": 30.0,
+              "rate_classification": "Flaky/Moderate",
+              "evidence": [
+                {
+                  "run_index": 3,
+                  "line": "50",
+                  "assertion": "assert 3 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 1
+                },
+                {
+                  "run_index": 5,
+                  "line": "50",
+                  "assertion": "assert 3 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 2
+                },
+                {
+                  "run_index": 9,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 3
+                }
+              ]
+            }
+          },
+          {
+            "run_index": 2,
+            "result": {
+              "total_runs": 10,
+              "passed": 6,
+              "failed": 4,
+              "failure_rate": 40.0,
+              "rate_classification": "Flaky/Moderate",
+              "evidence": [
+                {
+                  "run_index": 3,
+                  "line": "50",
+                  "assertion": "assert 4 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 1
+                },
+                {
+                  "run_index": 4,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 2
+                },
+                {
+                  "run_index": 6,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 3
+                },
+                {
+                  "run_index": 7,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 4
+                }
+              ]
+            }
+          },
+          {
+            "run_index": 3,
+            "result": {
+              "total_runs": 10,
+              "passed": 6,
+              "failed": 4,
+              "failure_rate": 40.0,
+              "rate_classification": "Flaky/Moderate",
+              "evidence": [
+                {
+                  "run_index": 1,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 1
+                },
+                {
+                  "run_index": 3,
+                  "line": "50",
+                  "assertion": "assert 4 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 2
+                },
+                {
+                  "run_index": 5,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 3
+                },
+                {
+                  "run_index": 7,
+                  "line": "50",
+                  "assertion": "assert 2 <= 1\nassert False",
+                  "error_type": "TestFailure",
+                  "stderr": null,
+                  "failure_count": 4
+                }
+              ]
+            }
+          }
+        ],
+        "analysis": {
+          "total_repetitions": 3,
+          "failure_rate": {
+            "average": 36.67,
+            "minimum": 30.0,
+            "maximum": 40.0,
+            "range": 10.0
+          },
+          "effects": [
+            {
+              "run_index": 1,
+              "comparison": {
+                "baseline": {
+                  "total_runs": 10,
+                  "passed": 10,
+                  "failed": 0,
+                  "failure_rate": 0.0
+                },
+                "experiment": {
+                  "total_runs": 10,
+                  "passed": 7,
+                  "failed": 3,
+                  "failure_rate": 30.0
+                },
+                "comparison": {
+                  "failure_rate_delta": 30.0,
+                  "relative_change": null,
+                  "failure_count_delta": 3,
+                  "pass_rate_delta": -30.0,
+                  "direction": "Increased"
+                }
+              }
+            },
+            {
+              "run_index": 2,
+              "comparison": {
+                "baseline": {
+                  "total_runs": 10,
+                  "passed": 10,
+                  "failed": 0,
+                  "failure_rate": 0.0
+                },
+                "experiment": {
+                  "total_runs": 10,
+                  "passed": 6,
+                  "failed": 4,
+                  "failure_rate": 40.0
+                },
+                "comparison": {
+                  "failure_rate_delta": 40.0,
+                  "relative_change": null,
+                  "failure_count_delta": 4,
+                  "pass_rate_delta": -40.0,
+                  "direction": "Increased"
+                }
+              }
+            },
+            {
+              "run_index": 3,
+              "comparison": {
+                "baseline": {
+                  "total_runs": 10,
+                  "passed": 10,
+                  "failed": 0,
+                  "failure_rate": 0.0
+                },
+                "experiment": {
+                  "total_runs": 10,
+                  "passed": 6,
+                  "failed": 4,
+                  "failure_rate": 40.0
+                },
+                "comparison": {
+                  "failure_rate_delta": 40.0,
+                  "relative_change": null,
+                  "failure_count_delta": 4,
+                  "pass_rate_delta": -40.0,
+                  "direction": "Increased"
+                }
+              }
+            }
+          ],
+          "consistency": {
+            "total_repetitions": 3,
+            "increased_count": 3,
+            "rate_label": "Increased",
+            "consistency_rate": 100.0
+          }
+        }
+      },
+      "confirmation": {
+        "classification": "Confirmed",
+        "consistency_rate": 100.0,
+        "average_effect": 36.67
+      }
+    }
+  ],
+  "candidate_reproductions": [
+    {
+      "candidate": {
+        "type": "worker",
+        "condition": {
+          "worker": 8
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 6,
+          "failed": 4,
+          "failure_rate": 40.0,
+          "rate_classification": "Flaky/Moderate",
+          "evidence": [
+            {
+              "run_index": 1,
+              "line": "50",
+              "assertion": "assert 8 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 1
+            },
+            {
+              "run_index": 2,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 2
+            },
+            {
+              "run_index": 3,
+              "line": "50",
+              "assertion": "assert 4 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 3
+            },
+            {
+              "run_index": 7,
+              "line": "50",
+              "assertion": "assert 6 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 4
+            }
+          ]
+        },
+        "classification": "STRONG",
+        "effect": {
+          "baseline": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0
+          },
+          "experiment": {
+            "total_runs": 10,
+            "passed": 6,
+            "failed": 4,
+            "failure_rate": 40.0
+          },
+          "comparison": {
+            "failure_rate_delta": 40.0,
+            "relative_change": null,
+            "failure_count_delta": 4,
+            "pass_rate_delta": -40.0,
+            "direction": "Increased"
+          }
+        },
+        "effect_magnitude": 40.0,
+        "score": 140.0,
+        "rank": 1
+      },
+      "reproduction_result": {
+        "candidate": {
+          "type": "worker",
+          "condition": {
+            "worker": 8
+          }
+        },
+        "reproduction_runs": [
+          {
+            "run_index": 1,
+            "result": [
+              {
+                "worker": 8,
+                "result": {
+                  "total_runs": 10,
+                  "passed": 6,
+                  "failed": 4,
+                  "failure_rate": 40.0,
+                  "rate_classification": "Flaky/Moderate",
+                  "evidence": [
+                    {
+                      "run_index": 1,
+                      "line": "50",
+                      "assertion": "assert 5 <= 1\nassert False",
+                      "error_type": "TestFailure",
+                      "stderr": null,
+                      "failure_count": 1
+                    },
+                    {
+                      "run_index": 5,
+                      "line": "50",
+                      "assertion": "assert 3 <= 1\nassert False",
+                      "error_type": "TestFailure",
+                      "stderr": null,
+                      "failure_count": 2
+                    },
+                    {
+                      "run_index": 6,
+                      "line": "50",
+                      "assertion": "assert 7 <= 1\nassert False",
+                      "error_type": "TestFailure",
+                      "stderr": null,
+                      "failure_count": 3
+                    },
+                    {
+                      "run_index": 9,
+                      "line": "50",
+                      "assertion": "assert 2 <= 1\nassert False",
+                      "error_type": "TestFailure",
+                      "stderr": null,
+                      "failure_count": 4
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "run_index": 2,
+            "result": [
+              {
+                "worker": 8,
+                "result": {
+                  "total_runs": 10,
+                  "passed": 5,
+                  "failed": 5,
+                  "failure_rate": 50.0,
+                  "rate_classification": "Flaky/Moderate",
+                  "evidence": [
+                    {
+                      "run_index": 1,
+                      "line": "50",
+                      "assertion": "assert 2 <= 1\nassert False",
+                      "error_type": "TestFailure",
+                      "stderr": null,
+                      "failure_count": 1
+                    },
+                    {
+                      "run_index": 5,
+                      "line": "50",
+                      "assertion": "assert 4 <= 1\nassert False",
+                      "error_type": "TestFailure",
+                      "stderr": null,
+                      "failure_count": 2
+                    },
+                    {
+                      "run_index": 6,
+                      "line": "50",
+                      "assertion": "assert 4 <= 1\nassert False",
+                      "error_type": "TestFailure",
+                      "stderr": null,
+                      "failure_count": 3
+                    },
+                    {
+                      "run_index": 7,
+                      "line": "50",
+                      "assertion": "assert 6 <= 1\nassert False",
+                      "error_type": "TestFailure",
+                      "stderr": null,
+                      "failure_count": 4
+                    },
+                    {
+                      "run_index": 9,
+                      "line": "50",
+                      "assertion": "assert 2 <= 1\nassert False",
+                      "error_type": "TestFailure",
+                      "stderr": null,
+                      "failure_count": 5
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "run_index": 3,
+            "result": [
+              {
+                "worker": 8,
+                "result": {
+                  "total_runs": 10,
+                  "passed": 6,
+                  "failed": 4,
+                  "failure_rate": 40.0,
+                  "rate_classification": "Flaky/Moderate",
+                  "evidence": [
+                    {
+                      "run_index": 3,
+                      "line": "50",
+                      "assertion": "assert 5 <= 1\nassert False",
+                      "error_type": "TestFailure",
+                      "stderr": null,
+                      "failure_count": 1
+                    },
+                    {
+                      "run_index": 5,
+                      "line": "50",
+                      "assertion": "assert 7 <= 1\nassert False",
+                      "error_type": "TestFailure",
+                      "stderr": null,
+                      "failure_count": 2
+                    },
+                    {
+                      "run_index": 7,
+                      "line": "50",
+                      "assertion": "assert 3 <= 1\nassert False",
+                      "error_type": "TestFailure",
+                      "stderr": null,
+                      "failure_count": 3
+                    },
+                    {
+                      "run_index": 9,
+                      "line": "50",
+                      "assertion": "assert 2 <= 1\nassert False",
+                      "error_type": "TestFailure",
+                      "stderr": null,
+                      "failure_count": 4
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "reproduction_analysis": {
+        "candidate": {
+          "type": "worker",
+          "condition": {
+            "worker": 8
+          }
+        },
+        "reproduction": {
+          "total_repetitions": 3,
+          "failure_rate": {
+            "average": 43.33,
+            "minimum": 40.0,
+            "maximum": 50.0,
+            "range": 10.0
+          },
+          "effects": [
+            {
+              "repetition": 1,
+              "effect": {
+                "baseline": {
+                  "total_runs": 10,
+                  "passed": 10,
+                  "failed": 0,
+                  "failure_rate": 0.0
+                },
+                "experiment": {
+                  "total_runs": 10,
+                  "passed": 6,
+                  "failed": 4,
+                  "failure_rate": 40.0
+                },
+                "comparison": {
+                  "failure_rate_delta": 40.0,
+                  "relative_change": null,
+                  "failure_count_delta": 4,
+                  "pass_rate_delta": -40.0,
+                  "direction": "Increased"
+                }
+              }
+            },
+            {
+              "repetition": 2,
+              "effect": {
+                "baseline": {
+                  "total_runs": 10,
+                  "passed": 10,
+                  "failed": 0,
+                  "failure_rate": 0.0
+                },
+                "experiment": {
+                  "total_runs": 10,
+                  "passed": 5,
+                  "failed": 5,
+                  "failure_rate": 50.0
+                },
+                "comparison": {
+                  "failure_rate_delta": 50.0,
+                  "relative_change": null,
+                  "failure_count_delta": 5,
+                  "pass_rate_delta": -50.0,
+                  "direction": "Increased"
+                }
+              }
+            },
+            {
+              "repetition": 3,
+              "effect": {
+                "baseline": {
+                  "total_runs": 10,
+                  "passed": 10,
+                  "failed": 0,
+                  "failure_rate": 0.0
+                },
+                "experiment": {
+                  "total_runs": 10,
+                  "passed": 6,
+                  "failed": 4,
+                  "failure_rate": 40.0
+                },
+                "comparison": {
+                  "failure_rate_delta": 40.0,
+                  "relative_change": null,
+                  "failure_count_delta": 4,
+                  "pass_rate_delta": -40.0,
+                  "direction": "Increased"
+                }
+              }
+            }
+          ],
+          "consistency": {
+            "total_repetitions": 3,
+            "increased_count": 0,
+            "rate_label": "Not increased",
+            "consistency_rate": 0.0
+          }
+        }
+      },
+      "reproduction_classification": {
+        "candidate": {
+          "type": "worker",
+          "condition": {
+            "worker": 8
+          }
+        },
+        "classification": "NOT_REPRODUCED",
+        "consistency_rate": 0.0,
+        "average_effect": 43.33,
+        "total_repetitions": 3
+      }
+    },
+    {
+      "candidate": {
+        "type": "worker",
+        "condition": {
+          "worker": 4
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 8,
+          "failed": 2,
+          "failure_rate": 20.0,
+          "rate_classification": "Low Flakiness",
+          "evidence": [
+            {
+              "run_index": 6,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 1
+            },
+            {
+              "run_index": 10,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 2
+            }
+          ]
+        },
+        "classification": "STRONG",
+        "effect": {
+          "baseline": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0
+          },
+          "experiment": {
+            "total_runs": 10,
+            "passed": 8,
+            "failed": 2,
+            "failure_rate": 20.0
+          },
+          "comparison": {
+            "failure_rate_delta": 20.0,
+            "relative_change": null,
+            "failure_count_delta": 2,
+            "pass_rate_delta": -20.0,
+            "direction": "Increased"
+          }
+        },
+        "effect_magnitude": 20.0,
+        "score": 120.0,
+        "rank": 2
+      },
+      "reproduction_result": {
+        "candidate": {
+          "type": "worker",
+          "condition": {
+            "worker": 4
+          }
+        },
+        "reproduction_runs": [
+          {
+            "run_index": 1,
+            "result": [
+              {
+                "worker": 4,
+                "result": {
+                  "total_runs": 10,
+                  "passed": 7,
+                  "failed": 3,
+                  "failure_rate": 30.0,
+                  "rate_classification": "Flaky/Moderate",
+                  "evidence": [
+                    {
+                      "run_index": 4,
+                      "line": "50",
+                      "assertion": "assert 3 <= 1\nassert False",
+                      "error_type": "TestFailure",
+                      "stderr": null,
+                      "failure_count": 1
+                    },
+                    {
+                      "run_index": 5,
+                      "line": "50",
+                      "assertion": "assert 3 <= 1\nassert False",
+                      "error_type": "TestFailure",
+                      "stderr": null,
+                      "failure_count": 2
+                    },
+                    {
+                      "run_index": 10,
+                      "line": "50",
+                      "assertion": "assert 2 <= 1\nassert False",
+                      "error_type": "TestFailure",
+                      "stderr": null,
+                      "failure_count": 3
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "run_index": 2,
+            "result": [
+              {
+                "worker": 4,
+                "result": {
+                  "total_runs": 10,
+                  "passed": 7,
+                  "failed": 3,
+                  "failure_rate": 30.0,
+                  "rate_classification": "Flaky/Moderate",
+                  "evidence": [
+                    {
+                      "run_index": 4,
+                      "line": "50",
+                      "assertion": "assert 2 <= 1\nassert False",
+                      "error_type": "TestFailure",
+                      "stderr": null,
+                      "failure_count": 1
+                    },
+                    {
+                      "run_index": 6,
+                      "line": "50",
+                      "assertion": "assert 3 <= 1\nassert False",
+                      "error_type": "TestFailure",
+                      "stderr": null,
+                      "failure_count": 2
+                    },
+                    {
+                      "run_index": 9,
+                      "line": "50",
+                      "assertion": "assert 2 <= 1\nassert False",
+                      "error_type": "TestFailure",
+                      "stderr": null,
+                      "failure_count": 3
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "run_index": 3,
+            "result": [
+              {
+                "worker": 4,
+                "result": {
+                  "total_runs": 10,
+                  "passed": 6,
+                  "failed": 4,
+                  "failure_rate": 40.0,
+                  "rate_classification": "Flaky/Moderate",
+                  "evidence": [
+                    {
+                      "run_index": 2,
+                      "line": "50",
+                      "assertion": "assert 2 <= 1\nassert False",
+                      "error_type": "TestFailure",
+                      "stderr": null,
+                      "failure_count": 1
+                    },
+                    {
+                      "run_index": 4,
+                      "line": "50",
+                      "assertion": "assert 4 <= 1\nassert False",
+                      "error_type": "TestFailure",
+                      "stderr": null,
+                      "failure_count": 2
+                    },
+                    {
+                      "run_index": 5,
+                      "line": "50",
+                      "assertion": "assert 2 <= 1\nassert False",
+                      "error_type": "TestFailure",
+                      "stderr": null,
+                      "failure_count": 3
+                    },
+                    {
+                      "run_index": 8,
+                      "line": "50",
+                      "assertion": "assert 2 <= 1\nassert False",
+                      "error_type": "TestFailure",
+                      "stderr": null,
+                      "failure_count": 4
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "reproduction_analysis": {
+        "candidate": {
+          "type": "worker",
+          "condition": {
+            "worker": 4
+          }
+        },
+        "reproduction": {
+          "total_repetitions": 3,
+          "failure_rate": {
+            "average": 33.33,
+            "minimum": 30.0,
+            "maximum": 40.0,
+            "range": 10.0
+          },
+          "effects": [
+            {
+              "repetition": 1,
+              "effect": {
+                "baseline": {
+                  "total_runs": 10,
+                  "passed": 10,
+                  "failed": 0,
+                  "failure_rate": 0.0
+                },
+                "experiment": {
+                  "total_runs": 10,
+                  "passed": 7,
+                  "failed": 3,
+                  "failure_rate": 30.0
+                },
+                "comparison": {
+                  "failure_rate_delta": 30.0,
+                  "relative_change": null,
+                  "failure_count_delta": 3,
+                  "pass_rate_delta": -30.0,
+                  "direction": "Increased"
+                }
+              }
+            },
+            {
+              "repetition": 2,
+              "effect": {
+                "baseline": {
+                  "total_runs": 10,
+                  "passed": 10,
+                  "failed": 0,
+                  "failure_rate": 0.0
+                },
+                "experiment": {
+                  "total_runs": 10,
+                  "passed": 7,
+                  "failed": 3,
+                  "failure_rate": 30.0
+                },
+                "comparison": {
+                  "failure_rate_delta": 30.0,
+                  "relative_change": null,
+                  "failure_count_delta": 3,
+                  "pass_rate_delta": -30.0,
+                  "direction": "Increased"
+                }
+              }
+            },
+            {
+              "repetition": 3,
+              "effect": {
+                "baseline": {
+                  "total_runs": 10,
+                  "passed": 10,
+                  "failed": 0,
+                  "failure_rate": 0.0
+                },
+                "experiment": {
+                  "total_runs": 10,
+                  "passed": 6,
+                  "failed": 4,
+                  "failure_rate": 40.0
+                },
+                "comparison": {
+                  "failure_rate_delta": 40.0,
+                  "relative_change": null,
+                  "failure_count_delta": 4,
+                  "pass_rate_delta": -40.0,
+                  "direction": "Increased"
+                }
+              }
+            }
+          ],
+          "consistency": {
+            "total_repetitions": 3,
+            "increased_count": 0,
+            "rate_label": "Not increased",
+            "consistency_rate": 0.0
+          }
+        }
+      },
+      "reproduction_classification": {
+        "candidate": {
+          "type": "worker",
+          "condition": {
+            "worker": 4
+          }
+        },
+        "classification": "NOT_REPRODUCED",
+        "consistency_rate": 0.0,
+        "average_effect": 33.33,
+        "total_repetitions": 3
+      }
+    },
+    {
+      "candidate": {
+        "type": "mode",
+        "condition": {
+          "mode": "Parallel",
+          "workers": 4
+        },
+        "result": {
+          "total_runs": 10,
+          "passed": 8,
+          "failed": 2,
+          "failure_rate": 20.0,
+          "rate_classification": "Low Flakiness",
+          "evidence": [
+            {
+              "run_index": 6,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 1
+            },
+            {
+              "run_index": 10,
+              "line": "50",
+              "assertion": "assert 2 <= 1\nassert False",
+              "error_type": "TestFailure",
+              "stderr": null,
+              "failure_count": 2
+            }
+          ]
+        },
+        "classification": "STRONG",
+        "effect": {
+          "baseline": {
+            "total_runs": 10,
+            "passed": 10,
+            "failed": 0,
+            "failure_rate": 0.0
+          },
+          "experiment": {
+            "total_runs": 10,
+            "passed": 8,
+            "failed": 2,
+            "failure_rate": 20.0
+          },
+          "comparison": {
+            "failure_rate_delta": 20.0,
+            "relative_change": null,
+            "failure_count_delta": 2,
+            "pass_rate_delta": -20.0,
+            "direction": "Increased"
+          }
+        },
+        "effect_magnitude": 20.0,
+        "score": 120.0,
+        "rank": 3
+      },
+      "reproduction_result": {
+        "candidate": {
+          "type": "mode",
+          "condition": {
+            "mode": "Parallel",
+            "workers": 4
+          }
+        },
+        "reproduction_runs": [
+          {
+            "run_index": 1,
+            "result": [
+              {
+                "mode": "Sequential",
+                "workers": 1,
+                "result": {
+                  "total_runs": 10,
+                  "passed": 10,
+                  "failed": 0,
+                  "failure_rate": 0.0,
+                  "rate_classification": "Stable",
+                  "evidence": []
+                }
+              },
+              {
+                "mode": "Parallel",
+                "workers": 4,
+                "result": {
+                  "total_runs": 10,
+                  "passed": 6,
+                  "failed": 4,
+                  "failure_rate": 40.0,
+                  "rate_classification": "Flaky/Moderate",
+                  "evidence": [
+                    {
+                      "run_index": 2,
+                      "line": "50",
+                      "assertion": "assert 2 <= 1\nassert False",
+                      "error_type": "TestFailure",
+                      "stderr": null,
+                      "failure_count": 1
+                    },
+                    {
+                      "run_index": 3,
+                      "line": "50",
+                      "assertion": "assert 4 <= 1\nassert False",
+                      "error_type": "TestFailure",
+                      "stderr": null,
+                      "failure_count": 2
+                    },
+                    {
+                      "run_index": 5,
+                      "line": "50",
+                      "assertion": "assert 2 <= 1\nassert False",
+                      "error_type": "TestFailure",
+                      "stderr": null,
+                      "failure_count": 3
+                    },
+                    {
+                      "run_index": 8,
+                      "line": "50",
+                      "assertion": "assert 2 <= 1\nassert False",
+                      "error_type": "TestFailure",
+                      "stderr": null,
+                      "failure_count": 4
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "run_index": 2,
+            "result": [
+              {
+                "mode": "Sequential",
+                "workers": 1,
+                "result": {
+                  "total_runs": 10,
+                  "passed": 10,
+                  "failed": 0,
+                  "failure_rate": 0.0,
+                  "rate_classification": "Stable",
+                  "evidence": []
+                }
+              },
+              {
+                "mode": "Parallel",
+                "workers": 4,
+                "result": {
+                  "total_runs": 10,
+                  "passed": 6,
+                  "failed": 4,
+                  "failure_rate": 40.0,
+                  "rate_classification": "Flaky/Moderate",
+                  "evidence": [
+                    {
+                      "run_index": 2,
+                      "line": "50",
+                      "assertion": "assert 2 <= 1\nassert False",
+                      "error_type": "TestFailure",
+                      "stderr": null,
+                      "failure_count": 1
+                    },
+                    {
+                      "run_index": 3,
+                      "line": "50",
+                      "assertion": "assert 2 <= 1\nassert False",
+                      "error_type": "TestFailure",
+                      "stderr": null,
+                      "failure_count": 2
+                    },
+                    {
+                      "run_index": 5,
+                      "line": "50",
+                      "assertion": "assert 2 <= 1\nassert False",
+                      "error_type": "TestFailure",
+                      "stderr": null,
+                      "failure_count": 3
+                    },
+                    {
+                      "run_index": 8,
+                      "line": "50",
+                      "assertion": "assert 2 <= 1\nassert False",
+                      "error_type": "TestFailure",
+                      "stderr": null,
+                      "failure_count": 4
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "run_index": 3,
+            "result": [
+              {
+                "mode": "Sequential",
+                "workers": 1,
+                "result": {
+                  "total_runs": 10,
+                  "passed": 10,
+                  "failed": 0,
+                  "failure_rate": 0.0,
+                  "rate_classification": "Stable",
+                  "evidence": []
+                }
+              },
+              {
+                "mode": "Parallel",
+                "workers": 4,
+                "result": {
+                  "total_runs": 10,
+                  "passed": 7,
+                  "failed": 3,
+                  "failure_rate": 30.0,
+                  "rate_classification": "Flaky/Moderate",
+                  "evidence": [
+                    {
+                      "run_index": 1,
+                      "line": "50",
+                      "assertion": "assert 2 <= 1\nassert False",
+                      "error_type": "TestFailure",
+                      "stderr": null,
+                      "failure_count": 1
+                    },
+                    {
+                      "run_index": 4,
+                      "line": "50",
+                      "assertion": "assert 4 <= 1\nassert False",
+                      "error_type": "TestFailure",
+                      "stderr": null,
+                      "failure_count": 2
+                    },
+                    {
+                      "run_index": 5,
+                      "line": "50",
+                      "assertion": "assert 2 <= 1\nassert False",
+                      "error_type": "TestFailure",
+                      "stderr": null,
+                      "failure_count": 3
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "reproduction_analysis": {
+        "candidate": {
+          "type": "mode",
+          "condition": {
+            "mode": "Parallel",
+            "workers": 4
+          }
+        },
+        "reproduction": {
+          "total_repetitions": 3,
+          "failure_rate": {
+            "average": 36.67,
+            "minimum": 30.0,
+            "maximum": 40.0,
+            "range": 10.0
+          },
+          "effects": [
+            {
+              "repetition": 1,
+              "effect": {
+                "baseline": {
+                  "total_runs": 10,
+                  "passed": 10,
+                  "failed": 0,
+                  "failure_rate": 0.0
+                },
+                "experiment": {
+                  "total_runs": 10,
+                  "passed": 6,
+                  "failed": 4,
+                  "failure_rate": 40.0
+                },
+                "comparison": {
+                  "failure_rate_delta": 40.0,
+                  "relative_change": null,
+                  "failure_count_delta": 4,
+                  "pass_rate_delta": -40.0,
+                  "direction": "Increased"
+                }
+              }
+            },
+            {
+              "repetition": 2,
+              "effect": {
+                "baseline": {
+                  "total_runs": 10,
+                  "passed": 10,
+                  "failed": 0,
+                  "failure_rate": 0.0
+                },
+                "experiment": {
+                  "total_runs": 10,
+                  "passed": 6,
+                  "failed": 4,
+                  "failure_rate": 40.0
+                },
+                "comparison": {
+                  "failure_rate_delta": 40.0,
+                  "relative_change": null,
+                  "failure_count_delta": 4,
+                  "pass_rate_delta": -40.0,
+                  "direction": "Increased"
+                }
+              }
+            },
+            {
+              "repetition": 3,
+              "effect": {
+                "baseline": {
+                  "total_runs": 10,
+                  "passed": 10,
+                  "failed": 0,
+                  "failure_rate": 0.0
+                },
+                "experiment": {
+                  "total_runs": 10,
+                  "passed": 7,
+                  "failed": 3,
+                  "failure_rate": 30.0
+                },
+                "comparison": {
+                  "failure_rate_delta": 30.0,
+                  "relative_change": null,
+                  "failure_count_delta": 3,
+                  "pass_rate_delta": -30.0,
+                  "direction": "Increased"
+                }
+              }
+            }
+          ],
+          "consistency": {
+            "total_repetitions": 3,
+            "increased_count": 0,
+            "rate_label": "Not increased",
+            "consistency_rate": 0.0
+          }
+        }
+      },
+      "reproduction_classification": {
+        "candidate": {
+          "type": "mode",
+          "condition": {
+            "mode": "Parallel",
+            "workers": 4
+          }
+        },
+        "classification": "NOT_REPRODUCED",
+        "consistency_rate": 0.0,
+        "average_effect": 36.67,
+        "total_repetitions": 3
+      }
+    }
+  ]
+}

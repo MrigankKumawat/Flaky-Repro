@@ -34,8 +34,8 @@ def run_reproduction(
             time_exp = timing_experiment(
                 target_test=target_test,
                 runs=runs,
-                mode=mode,
-                workers_count=workers_count,
+                mode=candidate_condition["mode"],
+                workers_count=candidate_condition["workers"],
                 timing_values=[candidate_condition["timing_delay"]]
             )
 
@@ -137,7 +137,7 @@ def analyze_reproduction(
     range_rate = max_rate - min_rate
 
     consistency = calculate_consistency(
-        [item["effect"] for item in effects]
+        [{"comparison": item["effect"]} for item in effects]
     )
 
     return {
@@ -160,43 +160,48 @@ def analyze_reproduction(
         }
     }
     
-def classify_reproduction(
-    reproduction_analysis
-):
-    failure_rate_deltas = []
-    
+def classify_reproduction(reproduction_analysis):
     candidate = reproduction_analysis["candidate"]
     reproduction = reproduction_analysis["reproduction"]
-    consistency_rate = reproduction["consistency"]["consistency_rate"]
-    effects = reproduction["effects"]
-    
-    for effect in effects:
-        delta = effect["effect"]["comparison"]["failure_rate_delta"]
 
-        failure_rate_deltas.append(delta)        
-        
-        average_effect = (
-            sum(failure_rate_deltas) / len(failure_rate_deltas)
-            if failure_rate_deltas
-            else 0.0
-        )
-        
-        if consistency_rate >= 80 and average_effect > 0:
-            classification = "REPRODUCED"
-
-        elif consistency_rate >= 50 and average_effect > 0:
-            classification = "PARTIAL"
-
-        else:
-            classification = "NOT_REPRODUCED"
-        
+    if not reproduction:
         return {
             "candidate": candidate,
-            "classification": classification,
-            "consistency_rate": consistency_rate,
-            "average_effect": round(average_effect, 2),
-            "total_repetitions": len(failure_rate_deltas)
+            "classification": "NOT_REPRODUCED",
+            "consistency_rate": 0.0,
+            "average_effect": 0.0,
+            "total_repetitions": 0
         }
+
+    consistency_rate = reproduction["consistency"]["consistency_rate"]
+    effects = reproduction.get("effects", [])
+
+    failure_rate_deltas = []
+
+    for effect in effects:
+        delta = effect["effect"]["comparison"]["failure_rate_delta"]
+        failure_rate_deltas.append(delta)
+
+    average_effect = (
+        sum(failure_rate_deltas) / len(failure_rate_deltas)
+        if failure_rate_deltas
+        else 0.0
+    )
+
+    if consistency_rate >= 80 and average_effect > 0:
+        classification = "REPRODUCED"
+    elif consistency_rate >= 50 and average_effect > 0:
+        classification = "PARTIAL"
+    else:
+        classification = "NOT_REPRODUCED"
+
+    return {
+        "candidate": candidate,
+        "classification": classification,
+        "consistency_rate": consistency_rate,
+        "average_effect": round(average_effect, 2),
+        "total_repetitions": len(failure_rate_deltas)
+    }
         
 def main():
 

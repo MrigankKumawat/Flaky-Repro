@@ -20,8 +20,18 @@ def compare_results(baseline_results, experiment_results):
 
     failure_count_delta = experiment_failed - baseline_failed
 
-    baseline_pass_rate = baseline_passed/baseline_total_runs * 100
-    experiment_pass_rate = experiment_passed/experiment_total_runs * 100
+    baseline_pass_rate = (
+        baseline_passed / baseline_total_runs * 100
+        if baseline_total_runs > 0
+        else 0.0
+    )
+
+    experiment_pass_rate = (
+        experiment_passed / experiment_total_runs * 100
+        if experiment_total_runs > 0
+        else 0.0
+    )
+
     pass_rate_delta = experiment_pass_rate - baseline_pass_rate
 
     if experiment_failure_rate > baseline_failure_rate:
