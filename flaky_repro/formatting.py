@@ -1,4 +1,3 @@
-
 def format_candidate_condition(candidate):
     if not candidate:
         return "N/A"
@@ -30,10 +29,31 @@ def format_rate(val):
     except (ValueError, TypeError):
         return f"{val}%"
 
+# User-facing display labels for confirmation classifications.
+# "Confirmed" is an internal classification label only; it does not mean
+# root cause has been proven, so it is rendered as evidence-based
+# language here. Underlying classification logic is unchanged.
+CONFIRMATION_DISPLAY_LABELS = {
+    "CONFIRMED": "REPEATEDLY OBSERVED",
+}
+
+def format_confirmation_classification(classification):
+    label = (classification or "Rejected").upper()
+    return CONFIRMATION_DISPLAY_LABELS.get(label, label)
+
 def print_pipeline_result(result):
     print("============================================================")
     print("                        FLAKY-REPRO")
     print("============================================================")
+
+    print("\nWARNING")
+    print("------------------------------------------------------------")
+    print("Flaky-Repro repeatedly executes the target test under")
+    print("multiple configurations.")
+    print("")
+    print("Run it only against tests/environments where repeated")
+    print("execution is safe and side effects are acceptable.")
+    print("------------------------------------------------------------")
 
     # 1. TEST SECTION
     print("\nTEST")
@@ -50,7 +70,7 @@ def print_pipeline_result(result):
     else:
         status = "STABLE"
 
-    # Primary Cause & Condition
+    # Strongest observed condition (evidence-based; not a proven root cause)
     if confirmed:
         top_confirmed = confirmed[0]["candidate"]
         ctype = top_confirmed.get("type")
@@ -83,10 +103,10 @@ def print_pipeline_result(result):
     # 2. RESULT SECTION
     print("\nRESULT")
     print("------------------------------------------------------------")
-    print(f"Status         : {status}")
-    print(f"Primary Cause  : {cause}")
-    print(f"Condition      : {condition_str}")
-    print(f"Reproduction   : {repro_status}")
+    print(f"Status               : {status}")
+    print(f"Strongest Condition  : {cause}")
+    print(f"Condition            : {condition_str}")
+    print(f"Reproduction         : {repro_status}")
 
     # 3. EVIDENCE SECTION
     print("\nEVIDENCE")
@@ -192,7 +212,7 @@ def print_pipeline_result(result):
     # 6. CONFIRMATION SECTION
     print("\nCONFIRMATION")
     print("------------------------------------------------------------")
-    print(f"{'Candidate':<30} {'Classification':<16} {'Consistency':<14} {'Avg Effect':<12}")
+    print(f"{'Candidate':<30} {'Classification':<21} {'Consistency':<14} {'Avg Effect':<12}")
     print("------------------------------------------------------------")
     confirmations = result.get("candidate_confirmations", [])
     for i, record in enumerate(confirmations, 1):
@@ -201,13 +221,13 @@ def print_pipeline_result(result):
         cand_desc = f"#{i} {cand_str}"
         
         confirm = record.get("confirmation", {})
-        classification = confirm.get("classification", "Rejected").upper()
+        classification = format_confirmation_classification(confirm.get("classification", "Rejected"))
         consistency = f"{confirm.get('consistency_rate', 0.0)}%"
         effect = format_pp(confirm.get("average_effect", 0.0))
         
-        print(f"{cand_desc:<30} {classification:<16} {consistency:<14} {effect:<12}")
+        print(f"{cand_desc:<30} {classification:<21} {consistency:<14} {effect:<12}")
     if not confirmations:
-        print(f"{'N/A':<30} {'N/A':<16} {'N/A':<14} {'N/A':<12}")
+        print(f"{'N/A':<30} {'N/A':<21} {'N/A':<14} {'N/A':<12}")
 
     # 7. REPRODUCTION SECTION
     print("\nREPRODUCTION")

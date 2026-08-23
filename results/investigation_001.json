@@ -1,0 +1,23 @@
+{
+    "test": {
+        "path": "examples/functional_validation/test_worker_validation.py::test_worker_sensitive"
+    },
+    "configuration": {
+        "runs": 20,
+        "mode": "Parallel",
+        "workers": 2
+    },
+    "summary": {
+        "total_runs": 20,
+        "passed": 17,
+        "failed": 3,
+        "failure_rate": 15.0,
+        "classification": "Low Flakiness"
+    },
+    "failure_evidence": {
+        "failing_line": "52",
+        "assertion": "assert 2 <= 1\nassert False",
+        "observed_min": 2.0,
+        "observed_max": 2.0
+    }
+}

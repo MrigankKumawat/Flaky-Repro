@@ -56,6 +56,79 @@ def normalize_investigation(
 
     return candidates
 
+def canonicalize_candidate_key(candidate: dict):
+    """
+    Return a key identifying the underlying execution configuration
+    a candidate represents, independent of which experiment type
+    produced it.
+
+    Different candidate types can describe the exact same execution
+    configuration -- e.g. a "worker" candidate for 4 workers and a
+    "mode" candidate for Parallel/4 workers both describe "run in
+    parallel with 4 workers, no timing delay". This key normalizes
+    those to the same tuple so they can be treated as one candidate
+    instead of independent evidence.
+    """
+    ctype = candidate.get("type")
+    cond = candidate.get("condition", {})
+
+    if ctype == "worker":
+        return ("Parallel", cond.get("worker"), 0)
+
+    if ctype == "mode":
+        if cond.get("mode") == "Sequential":
+            return ("Sequential", 1, 0)
+        return ("Parallel", cond.get("workers"), 0)
+
+    if ctype == "timing_delay":
+        return (
+            cond.get("mode", "Parallel"),
+            cond.get("workers"),
+            cond.get("timing_delay"),
+        )
+
+    # Unknown type: fall back to a key unique to this candidate so it
+    # is never accidentally merged with something else.
+    return (ctype, tuple(sorted(cond.items())))
+
+
+# When two candidates canonicalize to the same execution configuration,
+# the one from the type earlier in this list is kept, since it gives the
+# clearest/most specific representation of what was actually varied.
+_CANDIDATE_TYPE_PRIORITY = {"worker": 0, "timing_delay": 1, "mode": 2}
+
+
+def deduplicate_candidates(candidates: list):
+    """
+    Remove candidates that represent the same underlying execution
+    configuration as an earlier candidate.
+
+    This must run BEFORE ranking/confirmation so that duplicate
+    representations of one configuration (e.g. Worker(4 workers) and
+    Mode(Parallel, 4 workers)) are not treated as independent evidence.
+    Genuinely different conditions are never removed.
+    """
+    kept_by_key = {}
+    ordered_keys = []
+
+    for candidate in candidates:
+        key = canonicalize_candidate_key(candidate)
+
+        if key not in kept_by_key:
+            kept_by_key[key] = candidate
+            ordered_keys.append(key)
+            continue
+
+        existing = kept_by_key[key]
+        existing_priority = _CANDIDATE_TYPE_PRIORITY.get(existing.get("type"), 99)
+        new_priority = _CANDIDATE_TYPE_PRIORITY.get(candidate.get("type"), 99)
+
+        if new_priority < existing_priority:
+            kept_by_key[key] = candidate
+
+    return [kept_by_key[key] for key in ordered_keys]
+
+
 def validate_candidate(candidate: dict):
 
     # 1. Candidate exists

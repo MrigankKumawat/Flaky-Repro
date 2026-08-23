@@ -2,6 +2,7 @@ from flaky_repro.runner import run_sequential_test
 from flaky_repro.experiment_engine import run_initial_investigation
 from flaky_repro.candidate_engine import (
     normalize_investigation,
+    deduplicate_candidates,
     validate_candidate,
     build_rankable_candidates,
     rank_candidates,
@@ -63,10 +64,17 @@ def run_pipeline(
         investigation_workers[0]
     )
 
+    # ---- CANDIDATE CANONICALIZATION / DEDUPLICATION ---------------------
+    # Equivalent execution configurations produced by different experiment
+    # types (e.g. Worker(4 workers) and Mode(Parallel, 4 workers)) are
+    # collapsed to a single candidate here, before validation/ranking, so
+    # they are not counted as independent evidence.
+    deduplicated_candidates = deduplicate_candidates(raw_candidates)
+
     # ---- CANDIDATE VALIDATION -------------------------------------------
     validation_report = []
     valid_candidates = []
-    for candidate in raw_candidates:
+    for candidate in deduplicated_candidates:
         validation = validate_candidate(candidate)
         validation_report.append({"candidate": candidate, "validation": validation})
         if validation["valid"]:
@@ -141,6 +149,7 @@ def run_pipeline(
         "investigation": investigation_result,
         "candidates": {
             "raw": raw_candidates,
+            "deduplicated": deduplicated_candidates,
             "validation": validation_report,
             "valid": valid_candidates,
             "prepared": prepared_candidates,
