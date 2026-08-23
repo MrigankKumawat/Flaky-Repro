@@ -1,21 +1,19 @@
 from flaky_repro.runner import run_parallel_test
 from flaky_repro.runner import run_sequential_test
-from flaky_repro.runner import json_experiments
 
 def worker_experiment(target_test:str, runs:int, workers_count:list):
     all_worker_results = []
-    
+
     for worker in workers_count:
         result = run_parallel_test(target_test, runs, worker)
-        json_experiments(result, runs, "Parallel",target_test, worker)
-        
+
         all_worker_results.append({
             "worker":worker,
             "result":result
         })
-        
+
     return all_worker_results
-        
+
 def timing_experiment(
     target_test: str,
     runs: int,
@@ -54,7 +52,7 @@ def timing_experiment(
         })
 
     return all_timing_results
-        
+
 def mode_experiment(
     target_test: str,
     runs: int,
@@ -92,7 +90,7 @@ def mode_experiment(
     })
 
     return results
-        
+
 def run_initial_investigation(
     target_test: str,
     runs: int,
@@ -138,7 +136,7 @@ def run_initial_investigation(
         "timing_experiment": timing_delay_investigation,
         "mode_experiment": mode_investigation
     }
-    
+
 if __name__ == "__main__":
 
     target_test = "examples/test_timing_flaky.py::test_timing_behavior"
@@ -147,7 +145,7 @@ if __name__ == "__main__":
     workers_count = [2, 4, 8]
     timing_delay = [10, 20, 50]
     mode = "Parallel"
-    
+
     result = run_initial_investigation(
         target_test=target_test,
         runs=runs,

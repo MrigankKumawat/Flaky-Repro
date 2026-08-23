@@ -1,4 +1,3 @@
-import json
 import os
 import re
 import sys
@@ -31,23 +30,7 @@ def draw_progress_bar(completed, total, prefix=""):
         sys.stdout.flush()
 
 
-def find_next_investigation_number(
-    folder: str, prefix: str = "investigation"
-) -> str:
-    """Finds the highest existing file number in folder and returns the next filename."""
-    if not os.path.exists(folder):
-        return f"{prefix}_001.json"
 
-    existing_numbers = []
-    pattern = re.compile(rf"^{re.escape(prefix)}_(\d+)\.json$")
-
-    for filename in os.listdir(folder):
-        match = pattern.match(filename)
-        if match:
-            existing_numbers.append(int(match.group(1)))
-
-    next_num = max(existing_numbers) + 1 if existing_numbers else 1
-    return f"{prefix}_{next_num:03d}.json"
 
 
 def run_single_test(
@@ -206,111 +189,7 @@ def run_sequential_test(target_test: str, runs: int, timing_delay):
     }
 
 
-def json_experiments(result, runs, mode, target_test, workers):
-    folder = "results"
-    os.makedirs(folder, exist_ok=True)
 
-    if mode == "Sequential":
-        summary_sequential = result
-        extracted_numbers = []
-        for ev in summary_sequential["evidence"]:
-            nums = re.findall(r"[-+]?\d*\.\d+|\d+", ev["assertion"])
-            if nums:
-                extracted_numbers.append(float(nums[0]))
-
-        min_val_sequential = (
-            min(extracted_numbers) if extracted_numbers else None
-        )
-        max_val_sequential = (
-            max(extracted_numbers) if extracted_numbers else None
-        )
-
-        sequential = {
-            "test": {
-                "path": target_test,
-                # "name":name
-            },
-            "configuration": {
-                "runs": runs,
-                "mode": mode,
-                "workers": workers,
-            },
-            "summary": {
-                "total_runs": summary_sequential["total_runs"],
-                "passed": summary_sequential["passed"],
-                "failed": summary_sequential["failed"],
-                "failure_rate": summary_sequential["failure_rate"],
-                "classification": summary_sequential["rate_classification"],
-            },
-            "failure_evidence": {
-                "failing_line": (
-                    summary_sequential["evidence"][0]["line"]
-                    if summary_sequential["evidence"]
-                    else None
-                ),
-                "assertion": (
-                    summary_sequential["evidence"][0]["assertion"]
-                    if summary_sequential["evidence"]
-                    else None
-                ),
-                "observed_min": round(min_val_sequential, 2) if min_val_sequential is not None else None,
-                "observed_max": round(max_val_sequential, 2) if max_val_sequential is not None else None,
-            },  
-        }
-
-        next_file = find_next_investigation_number(folder, "investigation")
-        filepath = os.path.join(folder, next_file)
-        with open(filepath, "w", encoding="utf-8") as f:
-            json.dump(sequential, f, indent=4)
-
-    if mode == "Parallel":
-        summary_parallel = result
-        extracted_numbers = []
-        for ev in summary_parallel["evidence"]:
-            nums = re.findall(r"[-+]?\d*\.\d+|\d+", ev["assertion"])
-            if nums:
-                extracted_numbers.append(float(nums[0]))
-
-        min_val_parallel = min(extracted_numbers) if extracted_numbers else None
-        max_val_parallel = max(extracted_numbers) if extracted_numbers else None
-
-        parallel = {
-            "test": {
-                "path": target_test,
-                # "name":name
-            },
-            "configuration": {
-                "runs": runs,
-                "mode": mode,
-                "workers": workers,
-            },
-            "summary": {
-                "total_runs": summary_parallel["total_runs"],
-                "passed": summary_parallel["passed"],
-                "failed": summary_parallel["failed"],
-                "failure_rate": summary_parallel["failure_rate"],
-                "classification": summary_parallel["rate_classification"],
-            },
-            "failure_evidence": {
-                "failing_line": (
-                    summary_parallel["evidence"][0]["line"]
-                    if summary_parallel["evidence"]
-                    else None
-                ),
-                "assertion": (
-                    summary_parallel["evidence"][0]["assertion"]
-                    if summary_parallel["evidence"]
-                    else None
-                ),
-                "observed_min": round(min_val_parallel, 2) if min_val_parallel is not None else None,
-                "observed_max": round(max_val_parallel, 2) if max_val_parallel is not None else None,
-            },
-        }
-
-        next_file = find_next_investigation_number(folder, "investigation")
-        filepath = os.path.join(folder, next_file)
-        with open(filepath, "w", encoding="utf-8") as f:
-            json.dump(parallel, f, indent=4)
 
 
 def run_parallel_test(target_test: str, runs: int, max_workers: int = 4, timing_delay: float = 0.0):

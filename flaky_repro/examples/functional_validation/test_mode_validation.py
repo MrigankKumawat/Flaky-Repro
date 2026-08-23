@@ -2,18 +2,16 @@ import os
 import time
 
 # Intended Ground Truth:
-# workers=1 -> passes (concurrency = 1)
-# workers=2 -> fails sometimes (concurrency > 1)
-# workers=4 -> fails more
-# workers=8 -> fails most
+# Sequential -> passes stably (concurrency = 1)
+# Parallel -> flaky/failing (concurrency > 1)
 
-def test_worker_sensitive():
-    filepath = "worker_concurrency.txt"
+def test_mode_sensitive():
+    filepath = "mode_concurrency.txt"
     try:
         if not os.path.exists(filepath):
             with open(filepath, "w") as f:
                 f.write("0")
-                
+
         for _ in range(5):
             try:
                 with open(filepath, "r") as f:
@@ -26,9 +24,9 @@ def test_worker_sensitive():
                 time.sleep(0.005)
         else:
             assert False
-            
+
         time.sleep(0.04)
-        
+
         for _ in range(5):
             try:
                 with open(filepath, "r") as f:
@@ -39,7 +37,7 @@ def test_worker_sensitive():
                 time.sleep(0.005)
         else:
             final_count = count + 1
-            
+
         for _ in range(5):
             try:
                 with open(filepath, "w") as f:
@@ -47,7 +45,7 @@ def test_worker_sensitive():
                 break
             except Exception:
                 time.sleep(0.005)
-                
+
         concurrency = final_count - count
         assert concurrency <= 1
     except Exception:

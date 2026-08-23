@@ -11,7 +11,7 @@ def test_timing_worker_interaction():
     filepath = "multifactor_concurrency.txt"
     now = time.time()
     delta = 999.0
-    
+
     if os.path.exists(filepath):
         for _ in range(5):
             try:
@@ -22,7 +22,7 @@ def test_timing_worker_interaction():
                 break
             except Exception:
                 time.sleep(0.005)
-                
+
     for _ in range(5):
         try:
             with open(filepath, "w") as f:
@@ -30,7 +30,7 @@ def test_timing_worker_interaction():
             break
         except Exception:
             time.sleep(0.005)
-            
+
     # Sequential execution (delta is large because starting a new pytest subprocess takes time)
     if delta >= 0.20:
         assert True
