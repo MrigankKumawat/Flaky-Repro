@@ -47,7 +47,7 @@ flaky-repro --version
 Expected:
 
 ```text
-flaky-repro 0.1.0
+flaky-repro 0.1.1
 ```
 
 ---
