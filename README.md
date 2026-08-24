@@ -338,9 +338,9 @@ A strong signal means that a condition was associated with an increased failure 
 
 ##  Project Status
 
-**Current version: `0.1.0`**
+**Current version: `0.1.1`**
 
-The `0.1.0` release provides:
+The `0.1.1` release provides:
 
 - PyPI packaging
 - Command-line interface
