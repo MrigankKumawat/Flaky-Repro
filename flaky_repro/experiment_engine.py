@@ -1,13 +1,11 @@
 from flaky_repro.runner import run_parallel_test
 from flaky_repro.runner import run_sequential_test
-from flaky_repro.runner import json_experiments
 
 def worker_experiment(target_test:str, runs:int, workers_count:list):
     all_worker_results = []
     
     for worker in workers_count:
         result = run_parallel_test(target_test, runs, worker)
-        json_experiments(result, runs, "Parallel",target_test, worker)
         
         all_worker_results.append({
             "worker":worker,
