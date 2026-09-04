@@ -1,4 +1,3 @@
-import os
 import re
 import sys
 import subprocess
@@ -29,16 +28,20 @@ def draw_progress_bar(completed, total, prefix=""):
         sys.stdout.write("\n")
         sys.stdout.flush()
 
-
-
-
-
 def run_single_test(
-    target_test: str,
-    run_index: int,
-    timing_delay=0,
-    timeout: int = 60
+    execution_config: dict,
+    run_index: int
 ) -> dict:
+    """
+    Execute one test once using an ExecutionConfig.
+
+    This layer handles only actual test execution and individual
+    run-result/evidence extraction.
+    """
+
+    target_test = execution_config["target_test"]
+    timing_delay = execution_config.get("timing_delay", 0)
+    timeout = execution_config.get("timeout", 60)
 
     if timing_delay > 0:
         time.sleep(timing_delay)
@@ -81,9 +84,6 @@ def run_single_test(
     assertion_text = "No assertion isolated."
     error_type = "TestFailure"
 
-    # ------------------------------------------------------------
-    # Extract exception type from pytest output
-    # ------------------------------------------------------------
     exception_patterns = [
         r"E\s+([A-Za-z_][A-Za-z0-9_]*(?:Error|Exception))(?::|$)",
         r"([A-Za-z_][A-Za-z0-9_]*(?:Error|Exception)):"
@@ -96,29 +96,18 @@ def run_single_test(
             error_type = match.group(1)
             break
 
-    # ------------------------------------------------------------
-    # Extract source line
-    # ------------------------------------------------------------
     for line in stdout.splitlines():
-
         clean_line = line.strip()
 
-        match = re.search(
-            r"\.py:(\d+):",
-            clean_line
-        )
+        match = re.search(r"\.py:(\d+):", clean_line)
 
         if match:
             line_num = match.group(1)
             break
 
-    # ------------------------------------------------------------
-    # Extract assertion / error message
-    # ------------------------------------------------------------
     evidence_lines = []
 
     for line in stdout.splitlines():
-
         clean_line = line.strip()
 
         if clean_line.startswith("E "):
@@ -129,19 +118,12 @@ def run_single_test(
     if evidence_lines:
         assertion_text = "\n".join(evidence_lines)
 
-    # ------------------------------------------------------------
-    # If stdout did not contain useful evidence,
-    # preserve stderr instead.
-    # ------------------------------------------------------------
     if (
         assertion_text == "No assertion isolated."
         and stderr.strip()
     ):
         assertion_text = stderr.strip()
 
-    # ------------------------------------------------------------
-    # Final structured failure result
-    # ------------------------------------------------------------
     return {
         "run_index": run_index,
         "passed": False,
@@ -155,87 +137,167 @@ def run_single_test(
     }
 
 
-def run_sequential_test(target_test: str, runs: int, timing_delay):
-    passed = 0
-    failed = 0
-    failure_evidence = []
+def _build_execution_result(
+    run_results: list[dict],
+    total_runs: int
+) -> dict:
+    """Aggregate individual run results."""
 
-    if timing_delay > 0:
-        prefix = f"Seq Delay {int(timing_delay * 1000)}ms"
-    else:
-        prefix = "Seq Baseline"
+    passed = sum(
+        1 for result in run_results
+        if result["passed"]
+    )
+    failed = total_runs - passed
 
-    for i in range(1, runs + 1):
-        res = run_single_test(target_test, i, timing_delay)
-        if res["passed"]:
-            passed += 1
-        else:
-            failed += 1
-            failure_evidence.append(res["evidence"])
-        draw_progress_bar(i, runs, prefix)
+    failure_evidence = [
+        result["evidence"]
+        for result in run_results
+        if not result["passed"]
+    ]
 
-    for count, item in enumerate(failure_evidence, start=1):
+    failure_evidence.sort(
+        key=lambda item: item["run_index"]
+    )
+
+    for count, item in enumerate(
+        failure_evidence,
+        start=1
+    ):
         item["failure_count"] = count
 
-    failure_rate = (failed / runs) * 100 if runs > 0 else 0.0
+    failure_rate = (
+        (failed / total_runs) * 100
+        if total_runs > 0
+        else 0.0
+    )
 
     return {
-        "total_runs": runs,
+        "total_runs": total_runs,
         "passed": passed,
         "failed": failed,
         "failure_rate": round(failure_rate, 2),
-        "rate_classification": classify_flakiness(failure_rate),
+        "rate_classification": classify_flakiness(
+            failure_rate
+        ),
         "evidence": failure_evidence,
     }
 
 
+def run_sequential_test(execution_config: dict) -> dict:
+    """Execute a test repeatedly in sequential mode."""
 
-
-
-def run_parallel_test(target_test: str, runs: int, max_workers: int = 4, timing_delay: float = 0.0):
-    passed = 0
-    failed = 0
-    failure_evidence = []
+    runs = execution_config["runs"]
+    timing_delay = execution_config.get(
+        "timing_delay",
+        0
+    )
 
     if timing_delay > 0:
-        prefix = f"Par Delay {int(timing_delay * 1000)}ms ({max_workers}w)"
+        prefix = (
+            f"Seq Delay "
+            f"{int(timing_delay * 1000)}ms"
+        )
     else:
-        prefix = f"Parallel ({max_workers} workers)"
+        prefix = "Seq Baseline"
 
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+    run_results = []
+
+    for i in range(1, runs + 1):
+        result = run_single_test(
+            execution_config,
+            i
+        )
+        run_results.append(result)
+
+        draw_progress_bar(
+            i,
+            runs,
+            prefix
+        )
+
+    return _build_execution_result(
+        run_results,
+        runs
+    )
+
+
+def run_parallel_test(execution_config: dict) -> dict:
+    """Execute a test repeatedly in parallel mode."""
+
+    runs = execution_config["runs"]
+    workers = execution_config["workers"]
+    timing_delay = execution_config.get(
+        "timing_delay",
+        0
+    )
+
+    if timing_delay > 0:
+        prefix = (
+            f"Par Delay "
+            f"{int(timing_delay * 1000)}ms "
+            f"({workers}w)"
+        )
+    else:
+        prefix = (
+            f"Parallel "
+            f"({workers} workers)"
+        )
+
+    run_results = []
+
+    with ThreadPoolExecutor(
+        max_workers=workers
+    ) as executor:
 
         futures = [
-            executor.submit(run_single_test, target_test, i, timing_delay)
+            executor.submit(
+                run_single_test,
+                execution_config,
+                i
+            )
             for i in range(1, runs + 1)
         ]
 
         completed = 0
+
         for future in as_completed(futures):
-
-            res = future.result()
-
-            if res["passed"]:
-                passed += 1
-
-            else:
-                failed += 1
-                failure_evidence.append(res["evidence"])
+            result = future.result()
+            run_results.append(result)
 
             completed += 1
-            draw_progress_bar(completed, runs, prefix)
 
-    failure_evidence.sort(key=lambda x: x["run_index"])
+            draw_progress_bar(
+                completed,
+                runs,
+                prefix
+            )
 
-    for count, item in enumerate(failure_evidence, start=1):
-        item["failure_count"] = count
+    return _build_execution_result(
+        run_results,
+        runs
+    )
 
-    failure_rate = (failed / runs) * 100 if runs > 0 else 0.0
 
-    return {
-        "total_runs": runs,
-        "passed": passed,
-        "failed": failed,
-        "failure_rate": round(failure_rate, 2),
-        "rate_classification": classify_flakiness(failure_rate),
-        "evidence": failure_evidence,
-    }
+def run_test(execution_config: dict) -> dict:
+    """
+    Main runner entry point.
+
+    Dispatch execution based on execution_config["mode"].
+    """
+
+    mode = execution_config["mode"]
+
+    if mode == "Sequential":
+        return run_sequential_test(
+            execution_config
+        )
+
+    if mode == "Parallel":
+        return run_parallel_test(
+            execution_config
+        )
+
+    raise ValueError(
+        f"Unsupported execution mode: {mode}"
+    )
+
