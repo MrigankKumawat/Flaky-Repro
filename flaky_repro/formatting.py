@@ -41,6 +41,56 @@ def format_confirmation_classification(classification):
     label = (classification or "Rejected").upper()
     return CONFIRMATION_DISPLAY_LABELS.get(label, label)
 
+def determine_observed_pattern(result):
+    baseline = result.get("baseline", {})
+    baseline_rate = baseline.get("failure_rate", 0.0)
+
+    investigation = result.get("investigation", {})
+    worker_exp = investigation.get("worker_experiment", [])
+    timing_exp = investigation.get("timing_experiment", [])
+    mode_exp = investigation.get("mode_experiment", [])
+
+    confirmed = result.get("confirmed_candidates", [])
+    if not confirmed:
+        return "Mixed / No Clear Pattern"
+
+    # Get sequential rate
+    seq_rate = 0.0
+    for item in mode_exp:
+        if item.get("mode") == "Sequential":
+            seq_rate = item.get("result", {}).get("failure_rate", 0.0)
+            break
+    else:
+        seq_rate = baseline_rate
+
+    worker_rates = [item.get("result", {}).get("failure_rate", 0.0) for item in worker_exp]
+    timing_rates = [item.get("result", {}).get("failure_rate", 0.0) for item in timing_exp]
+
+    max_worker_rate = max(worker_rates) if worker_rates else 0.0
+
+    # 1. Parallel Execution
+    if seq_rate == 0.0 and max_worker_rate > 0.0:
+        return "Parallel Execution"
+
+    # 2. Timing / Delay
+    for item in timing_exp:
+        rate = item.get("result", {}).get("failure_rate", 0.0)
+        if abs(rate - baseline_rate) >= 15.0:
+            return "Timing / Delay"
+
+    # 3. Worker Count
+    if len(worker_rates) >= 2:
+        sorted_workers = sorted(worker_exp, key=lambda x: x.get("worker", 0))
+        rates = [w.get("result", {}).get("failure_rate", 0.0) for w in sorted_workers]
+        if rates[-1] > rates[0]:
+            return "Worker Count"
+
+    # 4. Sequential Execution
+    if seq_rate > 0.0 and all(abs(rate - seq_rate) < 10.0 for rate in worker_rates):
+        return "Sequential Execution"
+
+    return "Mixed / No Clear Pattern"
+
 def print_pipeline_result(result):
     print("============================================================")
     print("                        FLAKY-REPRO")
@@ -100,18 +150,21 @@ def print_pipeline_result(result):
     else:
         repro_status = "NOT_REPRODUCED" if (confirmed or baseline_rate > 0.0) else "N/A"
 
+    observed_pattern = determine_observed_pattern(result)
+
     # 2. RESULT SECTION
     print("\nRESULT")
     print("------------------------------------------------------------")
-    print(f"Status               : {status}")
-    print(f"Strongest Condition  : {cause}")
-    print(f"Condition            : {condition_str}")
-    print(f"Reproduction         : {repro_status}")
+    print(f"{'Status':<20} : {status}")
+    print(f"{'Observed Pattern':<20} : {observed_pattern}")
+    print(f"{'Strongest Signal':<20} : {cause}")
+    print(f"{'Condition':<20} : {condition_str}")
+    print(f"{'Reproduction':<20} : {repro_status}")
 
     # 3. EVIDENCE SECTION
     print("\nEVIDENCE")
     print("------------------------------------------------------------")
-    
+
     # Baseline evidence
     print("Baseline")
     print(f"  Runs         : {baseline.get('total_runs', 0)}")
@@ -123,7 +176,7 @@ def print_pipeline_result(result):
     # Top Candidate / Confirmed Candidate evidence
     candidates_data = result.get("candidates", {})
     ranked_candidates = candidates_data.get("ranked", [])
-    
+
     top_candidate = None
     if confirmed:
         top_candidate = confirmed[0]["candidate"]
@@ -134,16 +187,16 @@ def print_pipeline_result(result):
         cand_res = top_candidate.get("result", {})
         cand_effect = top_candidate.get("effect", {})
         comp = cand_effect.get("comparison", {})
-        
+
         cand_cond_str = format_candidate_condition(top_candidate)
         cand_runs = cand_res.get("total_runs", 0)
         cand_passed = cand_res.get("passed", 0)
         cand_failed = cand_res.get("failed", 0)
         cand_rate = format_rate(cand_res.get("failure_rate", 0.0))
-        
+
         delta = comp.get("failure_rate_delta", 0.0)
         direction = comp.get("direction", "Unchanged")
-        
+
         print("Candidate")
         print(f"  Condition    : {cand_cond_str}")
         print(f"  Runs         : {cand_runs}")
@@ -171,21 +224,21 @@ def print_pipeline_result(result):
     print("------------------------------------------------------------")
     print(f"{'Type':<14} {'Condition':<25} {'Failure Rate':<12}")
     print("------------------------------------------------------------")
-    
+
     investigation = result.get("investigation", {})
-    
+
     # Worker runs
     for item in investigation.get("worker_experiment", []):
         worker = item.get("worker")
         rate = format_rate(item.get("result", {}).get("failure_rate", 0.0))
         print(f"{'Worker':<14} {f'{worker} workers':<25} {rate:<12}")
-        
+
     # Timing runs
     for item in investigation.get("timing_experiment", []):
         delay = item.get("timing_delay")
         rate = format_rate(item.get("result", {}).get("failure_rate", 0.0))
         print(f"{'Timing':<14} {f'{delay} ms':<25} {rate:<12}")
-        
+
     # Mode runs
     for item in investigation.get("mode_experiment", []):
         mode_val = item.get("mode")
@@ -219,12 +272,12 @@ def print_pipeline_result(result):
         cand = record.get("candidate")
         cand_str = format_candidate_condition(cand)
         cand_desc = f"#{i} {cand_str}"
-        
+
         confirm = record.get("confirmation", {})
         classification = format_confirmation_classification(confirm.get("classification", "Rejected"))
         consistency = f"{confirm.get('consistency_rate', 0.0)}%"
         effect = format_pp(confirm.get("average_effect", 0.0))
-        
+
         print(f"{cand_desc:<30} {classification:<21} {consistency:<14} {effect:<12}")
     if not confirmations:
         print(f"{'N/A':<30} {'N/A':<21} {'N/A':<14} {'N/A':<12}")
@@ -237,13 +290,13 @@ def print_pipeline_result(result):
     if reproductions:
         for i, cand in enumerate(top_candidates, 1):
             cand_str = format_candidate_condition(cand)
-            
+
             repro = None
             for r in reproductions:
                 if r.get("candidate") == cand:
                     repro = r
                     break
-            
+
             if repro:
                 repro_class = repro.get("reproduction_classification", {})
                 repro_runs = repro_class.get("total_repetitions", 0)
@@ -262,7 +315,7 @@ def print_pipeline_result(result):
                 consistency = "N/A"
                 effect = "N/A"
                 status = "NOT_RUN" if is_confirmed else "REJECTED"
-                
+
             print(f"{f'#{i}':<6} {cand_str:<26} {repro_runs:<13} {consistency:<14} {effect:<13} {status:<12}")
     else:
         print(f"{'N/A':<6} {'N/A':<26} {'N/A':<13} {'N/A':<14} {'N/A':<13} {'N/A':<12}")

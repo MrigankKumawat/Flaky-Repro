@@ -160,10 +160,39 @@ def run_pipeline(
         "confirmed_candidates": confirmed_candidates,
         "candidate_reproductions": candidate_reproductions,
     }
-    
-def main():
 
-    target_test = "examples/functional_validation/test_worker_validation.py::test_worker_sensitive"
+def main():
+    import sys
+
+    version_str = "flaky-repro 0.1.0"
+    help_text = """Usage: flaky-repro [OPTIONS] <pytest-target>
+
+An empirical, frequency-based flaky test diagnosis and reproduction tool.
+
+Options:
+  -h, --help      Show this usage message and exit.
+  -V, --version   Show the version and exit.
+
+Arguments:
+  <pytest-target> The pytest target test to run (e.g. tests/test_concurrency.py::test_sensitive).
+"""
+
+    if len(sys.argv) < 2:
+        print("Error: Missing target test.", file=sys.stderr)
+        print(help_text, file=sys.stderr)
+        sys.exit(1)
+
+    arg = sys.argv[1]
+
+    if arg in ("-h", "--help"):
+        print(help_text)
+        sys.exit(0)
+
+    if arg in ("-V", "--version"):
+        print(version_str)
+        sys.exit(0)
+
+    target_test = arg
 
     result = run_pipeline(
         target_test=target_test,
