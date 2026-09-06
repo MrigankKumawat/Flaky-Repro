@@ -1,6 +1,7 @@
 from flaky_repro.runner import run_parallel_test
 from flaky_repro.runner import run_sequential_test
 from flaky_repro.runner import run_test
+from flaky_repro.runner import run_sequence_test
 
 def worker_experiment(
     target_test:str, 
@@ -23,12 +24,8 @@ def worker_experiment(
     all_worker_results = []
 
     for worker in workers_count:
-
-        result = run_parallel_test(target_test, runs, worker)
-        
         config['workers'] = worker
         result = run_test(config)
-
 
         all_worker_results.append({
             "worker":worker,
@@ -171,11 +168,54 @@ def timeout_experiment(
 
     return results
 
+
+def order_experiment(
+    target_test: str,
+    runs: int,
+    sequences: list,
+    timeout: int = 60
+):
+    """
+    Investigate whether the target test's failure rate changes
+    depending on what ran immediately before it.
+
+    `sequences` is a list of pytest node-id lists, each ending in
+    the target test, e.g. [[target], [setup_test, target]].
+
+    This reports an observed difference in failure rate between
+    sequences. It does NOT claim the preceding test caused any
+    failure -- only that it was associated with one.
+    """
+
+    all_sequence_results = []
+
+    for sequence in sequences:
+        if sequence[-1] != target_test:
+            raise ValueError(
+                f"Sequence {sequence} does not end with target_test '{target_test}'"
+            )
+
+        config = {
+            "sequence": sequence,
+            "runs": runs,
+            "timeout": timeout,
+        }
+        result = run_sequence_test(config)
+
+        all_sequence_results.append({
+            "sequence": sequence,
+            "result": result
+        })
+
+    return all_sequence_results
+
+
 EXPERIMENT_REGISTRY = {
     "worker": worker_experiment,
     "timing": timing_experiment,
     "mode": mode_experiment,
-    "timeout": timeout_experiment
+    "timeout": timeout_experiment,
+    "order": order_experiment
 }
 
 
@@ -226,7 +266,6 @@ def run_selected_experiments(
         )
 
     return results
-
 
 def run_initial_investigation(
     target_test: str,
