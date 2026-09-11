@@ -3,6 +3,8 @@ import sys
 import subprocess
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import time
+from datetime import datetime
+from .models import Run
 
 def classify_flakiness(failure_rate: float) -> str:
     if failure_rate == 0.0:
@@ -31,7 +33,7 @@ def draw_progress_bar(completed, total, prefix=""):
 def run_single_test(
     execution_config: dict,
     run_index: int
-) -> dict:
+) -> Run:
     """
     Execute one test once using an ExecutionConfig.
 
@@ -46,6 +48,9 @@ def run_single_test(
     if timing_delay > 0:
         time.sleep(timing_delay)
 
+    start_time = time.perf_counter()
+    timestamp_str = datetime.now().isoformat()
+
     try:
         res = subprocess.run(
             [sys.executable, "-m", "pytest", target_test],
@@ -53,32 +58,41 @@ def run_single_test(
             text=True,
             timeout=timeout
         )
-
+        duration = time.perf_counter() - start_time
+        stdout = res.stdout or ""
+        stderr = res.stderr or ""
     except subprocess.TimeoutExpired:
-        return {
-            "run_index": run_index,
-            "status": "UNKNOWN",  
-            "evidence": {
+        duration = time.perf_counter() - start_time
+        return Run(
+            run_index=run_index,
+            status="UNKNOWN",
+            duration=duration,
+            timestamp=timestamp_str,
+            conditions=execution_config,
+            stdout="",
+            stderr=f"Test execution timed out after {timeout} seconds.",
+            exception_info="Timeout",
+            evidence={
                 "run_index": run_index,
                 "line": "Unknown",
-                "assertion": (
-                    f"Test execution timed out after "
-                    f"{timeout} seconds."
-                ),
+                "assertion": f"Test execution timed out after {timeout} seconds.",
                 "error_type": "Timeout",
                 "stderr": None
             }
-        }
+        )
 
     if res.returncode == 0:
-        return {
-            "run_index": run_index,
-            "status": "PASSED",
-            "evidence": None
-        }
-
-    stdout = res.stdout or ""
-    stderr = res.stderr or ""
+        return Run(
+            run_index=run_index,
+            status="PASSED",
+            duration=duration,
+            timestamp=timestamp_str,
+            conditions=execution_config,
+            stdout=stdout,
+            stderr=stderr,
+            exception_info=None,
+            evidence=None
+        )
 
     line_num = "Unknown"
     assertion_text = "No assertion isolated."
@@ -124,21 +138,26 @@ def run_single_test(
     ):
         assertion_text = stderr.strip()
 
-    return {
-        "run_index": run_index,
-        "status": "FAILED",
-        "evidence": {
+    return Run(
+        run_index=run_index,
+        status="FAILED",
+        duration=duration,
+        timestamp=timestamp_str,
+        conditions=execution_config,
+        stdout=stdout,
+        stderr=stderr,
+        exception_info=error_type,
+        evidence={
             "run_index": run_index,
             "line": line_num,
             "assertion": assertion_text,
             "error_type": error_type,
             "stderr": stderr if stderr.strip() else None
         }
-    }
-
+    )
 
 def _build_execution_result(
-    run_results: list[dict],
+    run_results: list[Run],
     total_runs: int
 ) -> dict:
     """Aggregate individual run results."""
@@ -149,12 +168,12 @@ def _build_execution_result(
     failure_evidence = []
 
     for result in run_results:
-        if result['status'] == "PASSED":
+        if result.status == "PASSED":
             passed += 1
-        elif result['status'] == "FAILED":
+        elif result.status == "FAILED":
             failed += 1
-            failure_evidence.append(result['evidence'])
-        elif result['status'] == "UNKNOWN":
+            failure_evidence.append(result.evidence)
+        elif result.status == "UNKNOWN":
             unknown += 1
 
     known_runs = passed + failed
@@ -380,7 +399,7 @@ def _extract_target_failure_block(stdout: str, target_test: str) -> str:
 def run_single_sequence_test(
     execution_config: dict,
     run_index: int
-) -> dict:
+) -> Run:
     """
     Run a sequence of pytest node IDs in one subprocess and extract
     the outcome of just the target test (the last node in the
@@ -403,6 +422,9 @@ def run_single_sequence_test(
     target_test = sequence[-1]
     timeout = execution_config.get("timeout", 60)
 
+    start_time = time.perf_counter()
+    timestamp_str = datetime.now().isoformat()
+
     try:
         res = subprocess.run(
             [sys.executable, "-m", "pytest", "-v"] + sequence,
@@ -410,27 +432,28 @@ def run_single_sequence_test(
             text=True,
             timeout=timeout
         )
+        duration = time.perf_counter() - start_time
+        stdout = res.stdout or ""
+        stderr = res.stderr or ""
     except subprocess.TimeoutExpired:
-        # The target's own outcome can't be established when the
-        # sequence itself never finished, so status stays UNKNOWN.
-        # This evidence describes the sequence timing out -- it is
-        # NOT target failure evidence.
-        return {
-            "run_index": run_index,
-            "status": "UNKNOWN",
-            "evidence": {
+        duration = time.perf_counter() - start_time
+        return Run(
+            run_index=run_index,
+            status="UNKNOWN",
+            duration=duration,
+            timestamp=timestamp_str,
+            conditions=execution_config,
+            stdout="",
+            stderr=f"Test execution timed out after {timeout} seconds.",
+            exception_info="Timeout",
+            evidence={
                 "run_index": run_index,
-                "line": "UNKNOWN",
-                "assertion": (
-                    f"Sequence execution timed out after "
-                    f"{timeout} seconds before the target test's "
-                    f"outcome could be determined."
-                ),
+                "line": "Unknown",
+                "assertion": f"Test execution timed out after {timeout} seconds.",
                 "error_type": "Timeout",
                 "stderr": None
             }
-        }
-
+        )
     target_status = _extract_target_status(res.stdout, target_test)
 
     if target_status == "UNKNOWN":
@@ -438,24 +461,35 @@ def run_single_sequence_test(
         # e.g. an earlier test in the sequence aborted the run before
         # the target executed. Do not attribute any evidence from the
         # sequence to the target in this case.
-        return {
-            "run_index": run_index,
-            "status": "UNKNOWN",
-            "evidence": None
-        }
+        return Run(
+            run_index=run_index,
+            status="UNKNOWN",
+            duration=duration,
+            timestamp=timestamp_str,
+            conditions=execution_config,
+            stdout=stdout,
+            stderr=stderr,
+            exception_info=None,
+            evidence=None
+        )
 
     if target_status == "PASSED":
-        return {
-            "run_index": run_index,
-            "status": "PASSED",
-            "evidence": None
-        }
+        return Run(
+            run_index=run_index,
+            status="PASSED",
+            duration=duration,
+            timestamp=timestamp_str,
+            conditions=execution_config,
+            stdout=stdout,
+            stderr=stderr,
+            exception_info=None,
+            evidence=None
+        )
+
 
     # target_status == "FAILED": isolate evidence to the target test's
     # own failure block, not the first failure found anywhere in the
     # sequence's output.
-    stdout = res.stdout or ""
-    stderr = res.stderr or ""
 
     failure_block = _extract_target_failure_block(stdout, target_test)
 
@@ -495,17 +529,24 @@ def run_single_sequence_test(
         # blindly with "the first thing in stdout".
         assertion_text = stderr.strip()
 
-    return {
-        "run_index": run_index,
-        "status": "FAILED",
-        "evidence": {
-            "run_index": run_index,
-            "line": line_num,
-            "assertion": assertion_text,
-            "error_type": error_type,
-            "stderr": stderr if stderr.strip() else None
-        }
-    }
+    return Run(
+            run_index=run_index,
+            status="FAILED",
+            duration=duration,
+            timestamp=timestamp_str,
+            conditions=execution_config,
+            stdout=stdout,
+            stderr=stderr,
+            exception_info=error_type,
+            evidence={
+                "run_index": run_index,
+                "line": line_num,
+                "assertion": assertion_text,
+                "error_type": error_type,
+                "stderr": stderr
+            }
+        )
+
 
 
 def run_sequence_test(execution_config: dict) -> dict:
